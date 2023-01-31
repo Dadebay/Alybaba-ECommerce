@@ -27,7 +27,10 @@ class _FavButtonState extends State<FavButton> {
   }
 
   dynamic work() {
+    print(favoritesController.favList);
     for (var element in favoritesController.favList) {
+      print(element['id']);
+      print(widget.id);
       if (element['id'] == widget.id) {
         value = true;
       }
@@ -39,11 +42,14 @@ class _FavButtonState extends State<FavButton> {
     return Obx(() {
       work();
       return GestureDetector(
-        onTap: () async {
-          setState(() {
-            value = !value;
-            favoritesController.toggleFav(widget.id);
-          });
+        onTap: () {
+          value = !value;
+          favoritesController.toggleFav(widget.id);
+          if (favoritesController.favList2ToShow.isNotEmpty) {
+            favoritesController.favList2ToShow.removeWhere((element) => element['id'] == widget.id);
+            favoritesController.favList2ToShow.refresh();
+          }
+          setState(() {});
         },
         child: Container(
           padding: const EdgeInsets.all(6),

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "356389098157",
+    "project_id": "alybaba-a3ccb",
+    "storage_bucket": "alybaba-a3ccb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356389098157:android:e6af87857c717281062c24",
+        "android_client_info": {
+          "package_name": "com.gurbanow.alybaba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356389098157-ue7o9inagh36ihedovhkqgscs675d8ea.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gurbanow.alybaba",
+            "certificate_hash": "6d0d738f468c3d6cfa97ad5d010940a63ac36575"
+          }
+        },
+        {
+          "client_id": "356389098157-hh9bib6k1iuvuiu4ect03715pbpo9ln9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfzBIvElHvwHcsv5hhw-d5B-g9L6tSS10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356389098157-hh9bib6k1iuvuiu4ect03715pbpo9ln9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

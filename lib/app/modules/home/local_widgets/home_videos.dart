@@ -27,7 +27,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
               future: VideosService().getVideos(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: spinKit());
                 } else if (snapshot.data == null) {
                   return Text("Empty");
                 } else if (snapshot.hasError) {

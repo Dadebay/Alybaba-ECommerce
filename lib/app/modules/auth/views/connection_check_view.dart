@@ -147,7 +147,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                   future: BannerService().getBanners(1),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return Center(child: spinKit());;
                     } else if (snapshot.hasError) {
                       return Text("Error");
                     } else if (snapshot.data!.isEmpty) {

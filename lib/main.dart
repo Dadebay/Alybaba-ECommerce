@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,9 +9,11 @@ import 'package:nabelli_ecommerce/app/modules/auth/views/connection_check_view.d
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
 import 'app/constants/utils.dart';
+import 'main_dart_helper.dart';
 
 Future<void> main() async {
-  // mainDartImports();
+  mainDartImports();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -23,6 +27,8 @@ class _MyAppState extends State<MyApp> {
   HomeController controller = Get.put(HomeController());
   @override
   void initState() {
+    FirebaseMessaging.instance.getToken().then((value) {});
+    myAppOnInit();
     super.initState();
   }
 
@@ -30,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Nabelli',
+      title: 'Alybaba',
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: gilroyRegular,

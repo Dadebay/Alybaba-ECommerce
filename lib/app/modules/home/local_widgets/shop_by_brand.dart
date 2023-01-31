@@ -34,7 +34,7 @@ class ShopByBrand extends StatelessWidget {
                     future: producers,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
+                        return Center(child: spinKit());
                       } else if (snapshot.hasError) {
                         return Text("Error");
                       } else if (snapshot.data!.isEmpty) {
@@ -58,7 +58,7 @@ class ShopByBrand extends StatelessWidget {
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 color: backgroundColor,
-                                borderRadius: borderRadius20,
+                                borderRadius: borderRadius10,
                               ),
                               child: Center(
                                 child: CachedNetworkImage(

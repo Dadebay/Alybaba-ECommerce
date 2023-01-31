@@ -22,6 +22,8 @@ class MiniBannerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        showSnackBar('Basylanda', "Kategoriya yada Haryda yada Title we desc sahypa gitmeli Dowrandan gelenok son ucin garasdym", Colors.red);
+
         // Get.to(() => BannerProfileView(title, image, description));
       },
       child: Container(

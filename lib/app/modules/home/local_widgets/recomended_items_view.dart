@@ -28,7 +28,7 @@ class RecomendedItems extends GetView {
               future: recomendedFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: spinKit());
                 } else if (snapshot.data == null) {
                   return Text("Empty");
                 } else if (snapshot.hasError) {
@@ -41,9 +41,7 @@ class RecomendedItems extends GetView {
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
                       id: snapshot.data![index].id!,
-                      sizeList: snapshot.data![index].sizes!,
-                      colorList: snapshot.data![index].colors!,
-                      airPlane: snapshot.data![index].airplane!,
+                 
                       createdAt: snapshot.data![index].createdAt!,
                       image: "$serverURL/${snapshot.data![index].image!}-big.webp",
                       name: snapshot.data![index].name!,

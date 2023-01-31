@@ -8,6 +8,7 @@ import 'package:nabelli_ecommerce/app/data/models/aboust_us_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/abous_us_service.dart';
 
 import '../../../constants/constants.dart';
+import '../../../constants/widgets.dart';
 import 'local_widgets.dart';
 
 class AboutUs extends StatefulWidget {
@@ -27,9 +28,7 @@ class _AboutUsState extends State<AboutUs> {
           future: AboutUsService().getAboutUs(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: spinKit());
             } else if (snapshot.hasError) {
               return Text('Error');
             } else if (snapshot.data == null) {

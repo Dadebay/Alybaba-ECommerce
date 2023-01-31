@@ -28,7 +28,7 @@ class InOurHands extends GetView {
               future: productsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: spinKit());
                 } else if (snapshot.data == null) {
                   return Text("Empty");
                 } else if (snapshot.hasError) {
@@ -40,9 +40,7 @@ class InOurHands extends GetView {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
-                      sizeList: snapshot.data![index].sizes!,
-                      colorList: snapshot.data![index].colors!,
-                      airPlane: snapshot.data![index].airplane!,
+                    
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
                       image: "$serverURL/${snapshot.data![index].image!}-big.webp",

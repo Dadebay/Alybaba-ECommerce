@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 
+import '../../../constants/widgets.dart';
 import '../../../data/services/abous_us_service.dart';
 
 class TermsAndConditions extends StatelessWidget {
@@ -13,9 +14,7 @@ class TermsAndConditions extends StatelessWidget {
           future: AboutUsService().getRules(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: spinKit());
             } else if (snapshot.hasError) {
               return Text('Error');
             } else if (snapshot.data == null) {

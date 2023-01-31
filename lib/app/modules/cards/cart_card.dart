@@ -8,7 +8,6 @@ import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_co
 import 'package:nabelli_ecommerce/app/modules/other_pages/product_profil_view.dart';
 
 import '../../constants/widgets.dart';
-import '../../data/services/create_order.dart';
 
 class CardCart extends StatelessWidget {
   const CardCart({
@@ -97,7 +96,7 @@ class CardCart extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Get.find<CartPageController>().removeCardXButton(id);
-                            CreateOrderService().getCartItems();
+                            // CreateOrderService().getCartItems();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),

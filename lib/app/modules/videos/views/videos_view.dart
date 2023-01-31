@@ -4,6 +4,7 @@ import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../constants/constants.dart';
+import '../../../constants/widgets.dart';
 import '../../../data/models/video_model.dart';
 import '../../../data/services/video_services.dart';
 
@@ -42,7 +43,7 @@ class _VideosViewState extends State<VideosView> {
           future: VideosService().getVideos(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: spinKit());
             } else if (snapshot.data == null) {
               return Text("Empty");
             } else if (snapshot.hasError) {
@@ -64,9 +65,7 @@ class _VideosViewState extends State<VideosView> {
                                 AspectRatio(aspectRatio: _controller.value.aspectRatio, child: VideoPlayer(_controller)),
                               ],
                             )
-                          : CircularProgressIndicator(
-                              color: kPrimaryColor,
-                            ),
+                          : Center(child: spinKit()),
                     ),
                     Positioned(
                       bottom: 15,

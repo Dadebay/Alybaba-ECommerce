@@ -1,4 +1,4 @@
-package com.dadebay.nabelli_ecommerce
+package com.gurbanow.alybaba
 
 import io.flutter.embedding.android.FlutterActivity
 

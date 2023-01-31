@@ -7,6 +7,7 @@ import 'package:nabelli_ecommerce/app/data/services/producers_service.dart';
 import 'package:nabelli_ecommerce/app/modules/cards/brand_card.dart';
 import 'package:nabelli_ecommerce/app/modules/cards/category_card.dart';
 
+import '../../../constants/widgets.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/services/category_service.dart';
 
@@ -64,7 +65,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                       future: CategoryService().getCategories(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: spinKit());
                         } else if (snapshot.hasError) {
                           return Center(child: Text("Error"));
                         } else if (snapshot.data!.isEmpty) {
@@ -88,7 +89,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                       future: ProducersService().getProducers(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
+                          return Center(child: spinKit());
                         } else if (snapshot.hasError) {
                           return Text('Error');
                         } else if (snapshot.data!.isEmpty) {

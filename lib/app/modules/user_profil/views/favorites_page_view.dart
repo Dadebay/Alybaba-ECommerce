@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
@@ -8,13 +7,28 @@ import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/modules/cards/product_card.dart';
 
 import '../../../constants/widgets.dart';
+import '../../../data/models/product_model.dart';
+import '../../../data/services/create_order.dart';
 import '../controllers/favorites_page_controller.dart';
 import '../controllers/user_profil_controller.dart';
 
-class FavoritesPageView extends GetView<FavoritesPageController> {
-  final UserProfilController userProfilController = Get.put(UserProfilController());
+class FavoritesPageView extends StatefulWidget {
+  @override
+  State<FavoritesPageView> createState() => _FavoritesPageViewState();
+}
 
+class _FavoritesPageViewState extends State<FavoritesPageView> {
   final FavoritesPageController favoritesController = Get.put(FavoritesPageController());
+
+  final UserProfilController userProfilController = Get.put(UserProfilController());
+  late Future<List<ProductModel>> products;
+
+  @override
+  void initState() {
+    products = CreateOrderService().getCartItems(false);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +46,8 @@ class FavoritesPageView extends GetView<FavoritesPageController> {
                 changeColor: false,
                 onAgree: () {
                   Get.back();
-                  Get.find<FavoritesPageController>().clearFavList();
+                  favoritesController.clearFavList();
+                  favoritesController.favList2ToShow.clear();
                   showSnackBar('orderDeleted', 'Halanlarym bosaldyldy', Colors.red);
                 },
               );
@@ -42,29 +57,48 @@ class FavoritesPageView extends GetView<FavoritesPageController> {
               color: Colors.white,
             )),
       ),
-      body: Obx(() {
-        return favoritesController.favList.length == 0
-            ? Center(
-                child: Text("Empty Page Add Animation"),
-              )
-            : StaggeredGridView.countBuilder(
-                crossAxisCount: 2,
-                itemCount: favoritesController.favList.length,
-                itemBuilder: (context, index) {
+      body: FutureBuilder<List<ProductModel>>(
+          future: products,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: spinKit());
+            } else if (snapshot.data.toString() == '[]') {
+              return emptyPageImage(lottie: heartLottie, text1: 'emptyFavT', text2: 'emptyFavS');
+            } else if (snapshot.hasError) {
+              return Text("Error");
+            }
+
+            return Obx(() {
+              favoritesController.favList2ToShow.clear();
+              if (favoritesController.favList2ToShow.isEmpty) {
+                snapshot.data!.forEach((element) {
+                  favoritesController.favList2ToShow.add({
+                    'id': element.id,
+                    'name': element.name,
+                    'image': element.image,
+                    'price': element.price,
+                    'creatAt': element.createdAt,
+                  });
+                });
+              }
+              return GridView.builder(
+                itemCount: favoritesController.favList2ToShow.length,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
                   return ProductCard(
-                    sizeList: [],
-                    colorList: [],
-                    airPlane: true,
-                    id: int.parse(favoritesController.favList[index]['id'].toString()),
-                    createdAt: favoritesController.favList[index]['createdAt'].toString(),
-                    image: favoritesController.favList[index]['image'],
-                    name: favoritesController.favList[index]['name'],
-                    price: favoritesController.favList[index]['price'].toString(),
+                    id: favoritesController.favList2ToShow[index]['id'],
+                    createdAt: favoritesController.favList2ToShow[index]['creatAt'],
+                    image: "$serverURL/${favoritesController.favList2ToShow[index]['image']}-big.webp",
+                    name: favoritesController.favList2ToShow[index]['name'],
+                    price: favoritesController.favList2ToShow[index]['price'],
                   );
                 },
-                staggeredTileBuilder: (index) => StaggeredTile.count(1, index % 2 == 0 ? 1.5 : 1.6),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3.2 / 5),
               );
-      }),
+            });
+          }),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/data/models/aboust_us_model.dart';
 import 'package:nabelli_ecommerce/app/data/models/producer_model.dart';
 import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
@@ -9,6 +10,7 @@ import 'package:nabelli_ecommerce/app/modules/home/local_widgets/mini_banner_vie
 import 'package:nabelli_ecommerce/app/modules/home/local_widgets/new_items_view.dart';
 import 'package:nabelli_ecommerce/app/modules/other_pages/search_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
@@ -37,20 +39,24 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    _onRefresh();
+    getData();
   }
 
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
   void _onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
-    bannersFuture = BannerService().getBanners(2);
+    getData();
+    setState(() {});
+  }
+
+  getData() {
     minibannerFuture = BannerService().getBanners(3);
+    bannersFuture = BannerService().getBanners(2);
     productsFuture = ProductsService().getProducts(parametrs: {'new_in_come': 'true'});
     productsFutureInOurHands = ProductsService().getProducts(parametrs: {'on_hand': 'true'});
     productsFutureRecomended = ProductsService().getProducts(parametrs: {'recomended': 'true'});
     producersFuture = ProducersService().getProducers();
-    setState(() {});
   }
 
   @override
@@ -97,11 +103,11 @@ class _HomeViewState extends State<HomeView> {
       leading: IconButton(
           onPressed: () {
             defaultBottomSheet(
-                child: FutureBuilder(
+                child: FutureBuilder<AboutUsModel>(
                     future: AboutUsService().getAboutUs(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(child: spinKit());
                       } else if (snapshot.data == null) {
                         return Text("Empty");
                       } else if (snapshot.hasError) {
@@ -110,8 +116,11 @@ class _HomeViewState extends State<HomeView> {
                       return Wrap(
                         children: [
                           ListTile(
+                            onTap: () {
+                              launchUrlString("tel://+993-${snapshot.data!.phone1!}");
+                            },
                             title: Text(
-                              "+993-62-99-03-44",
+                              '+993-${snapshot.data!.phone1!}',
                               style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
                             ),
                             trailing: Icon(
@@ -120,8 +129,11 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ),
                           ListTile(
+                            onTap: () {
+                              launchUrlString("tel://+993-${snapshot.data!.phone2!}");
+                            },
                             title: Text(
-                              "+993-62-99-03-43",
+                              '+993-${snapshot.data!.phone2!}',
                               style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
                             ),
                             trailing: Icon(

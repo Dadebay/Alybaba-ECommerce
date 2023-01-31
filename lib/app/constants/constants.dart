@@ -33,7 +33,17 @@ const String appShareLink = 'https://play.google.com/store/apps/developer?id=Bil
 const String loremImpsum =
     'Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir,Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir,Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir,Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir';
 /////////////////////////////////////////////////
+const String emptyCartLottie = 'assets/lottie/emptyCART.json';
+const String noDataLottie = 'assets/lottie/noData.json';
+const String playButtonLottie = 'assets/lottie/playButton.json';
+const String noNameLottie = 'assets/lottie/77856-select-your-location.json';
+const String pingLottie = 'assets/lottie/ping.json';
+const String heartLottie = 'assets/lottie/heart.json';
+const String loading1Lottie = 'assets/lottie/loading1.json';
+const String loading2Lottie = 'assets/lottie/loading2.json';
+const String loading3Lottie = 'assets/lottie/loading3.json';
 
+////////////////////////////////////////////////
 const List sortData = [
   {
     'id': 1,

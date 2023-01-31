@@ -43,7 +43,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             future: productProfil,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(color: Colors.white, child: Center(child: CircularProgressIndicator()));
+                return Container(color: Colors.white, child: Center(child: spinKit()));
               } else if (snapshot.data == null) {
                 return Text("Empty");
               } else if (snapshot.hasError) {

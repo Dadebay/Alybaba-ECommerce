@@ -6,7 +6,6 @@ import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.d
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
-import '../../../data/services/banner_service.dart';
 import '../../cards/banner_card.dart';
 
 class Banners extends StatelessWidget {
@@ -20,7 +19,7 @@ class Banners extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return FutureBuilder<List<BannerModel>>(
-      future: BannerService().getBanners(2),
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
@@ -36,12 +35,8 @@ class Banners extends StatelessWidget {
               itemBuilder: (context, index, count) {
                 String lang = Get.locale!.languageCode;
                 if (lang == "tr" || lang == 'en') lang = "tm";
-
                 return BannerCard(
-                  image: "$serverURL/${snapshot.data![index].destination!}-big.webp",
-                  title: lang == 'tm' ? snapshot.data![index].titleTM! : snapshot.data![index].titleRU!,
-                  description: lang == 'tm' ? snapshot.data![index].descriptionTM! : snapshot.data![index].descriptionRU!,
-                  name: lang == 'tm' ? snapshot.data![index].titleTM! : snapshot.data![index].titleRU!,
+                  model: snapshot.data![index],
                 );
               },
               options: CarouselOptions(

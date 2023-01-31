@@ -14,13 +14,16 @@ class ProductCard extends StatelessWidget {
   final String image;
   final String name;
   final String price;
-  final List colorList;
-  final List sizeList;
-  final bool airPlane;
   final String createdAt;
   final int id;
 
-  const ProductCard({required this.image, required this.id, required this.createdAt, required this.colorList, required this.sizeList, required this.name, required this.price, required this.airPlane});
+  const ProductCard({
+    required this.image,
+    required this.id,
+    required this.createdAt,
+    required this.name,
+    required this.price,
+  });
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;

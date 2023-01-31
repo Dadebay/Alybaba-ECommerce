@@ -3,6 +3,7 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/services/history_order_service.dart';
 
+import '../../../constants/widgets.dart';
 import '../../../data/models/history_orders_model.dart';
 
 class OrderStatusWait extends StatelessWidget {
@@ -17,9 +18,7 @@ class OrderStatusWait extends StatelessWidget {
           future: HistoryOrdersService().getHistoryOrders(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Center(child: spinKit());
             } else if (snapshot.hasError) {
               return Text('Error');
             } else if (snapshot.data!.isEmpty) {

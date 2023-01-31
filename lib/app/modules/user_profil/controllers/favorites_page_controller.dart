@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 class FavoritesPageController extends GetxController {
   final RxList favList = [].obs;
+  final RxList favList2ToShow = [].obs;
   final storage = GetStorage();
   dynamic toggleFav(int id) async {
     if (favList.isEmpty) {
@@ -18,11 +19,13 @@ class FavoritesPageController extends GetxController {
       }
       if (value == true) {
         favList.removeWhere((element) => element["id"] == id);
+        print('remoive etdim mana geldi');
       } else if (value == false) {
         favList.add({
           "id": id,
         });
       }
+      print(favList);
       favList.refresh();
       final String jsonString = jsonEncode(favList);
       storage.write("favList", jsonString);

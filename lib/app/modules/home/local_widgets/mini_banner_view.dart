@@ -6,6 +6,7 @@ import 'package:nabelli_ecommerce/app/data/models/banner_model.dart';
 import 'package:nabelli_ecommerce/app/modules/cards/mini_category_card.dart';
 
 import '../../../constants/constants.dart';
+import '../../../constants/widgets.dart';
 
 class MiniBannersView extends GetView {
   @override
@@ -17,9 +18,7 @@ class MiniBannersView extends GetView {
         future: miniBannerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return Center(child: spinKit());
           } else if (snapshot.hasError) {
             return Text('Error');
           } else if (snapshot.data!.isEmpty) {

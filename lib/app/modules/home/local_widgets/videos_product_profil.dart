@@ -6,6 +6,8 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../constants/widgets.dart';
+
 class VideoPLayerMine extends StatefulWidget {
   final String? videoURL;
 
@@ -59,9 +61,7 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                       AspectRatio(aspectRatio: _controller.value.aspectRatio, child: VideoPlayer(_controller)),
                     ],
                   )
-                : CircularProgressIndicator(
-                    color: kPrimaryColor,
-                  ),
+                : Center(child: spinKit()),
           ),
           Positioned(
             top: 50,

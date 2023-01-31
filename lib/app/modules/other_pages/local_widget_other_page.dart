@@ -241,7 +241,7 @@ Container productProfilSameProducts(Size size, Future<List<ProductModel>> produc
               future: products,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: spinKit());
                 } else if (snapshot.data == null) {
                   return Text("Empty");
                 } else if (snapshot.hasError) {
@@ -254,9 +254,7 @@ Container productProfilSameProducts(Size size, Future<List<ProductModel>> produc
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
                       id: snapshot.data![index].id!,
-                      sizeList: snapshot.data![index].sizes!,
-                      airPlane: snapshot.data![index].airplane!,
-                      colorList: snapshot.data![index].colors!,
+                      
                       createdAt: snapshot.data![index].createdAt!,
                       image: "$serverURL/${snapshot.data![index].image!}-big.webp",
                       name: snapshot.data![index].name!,

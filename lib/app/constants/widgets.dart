@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -371,40 +372,35 @@ Widget dividerr() {
 //   );
 // }
 
-// dynamic emptyPageImage({required Function() onTap}) {
-//   return Center(
-//     child: Column(
-//       mainAxisSize: MainAxisSize.min,
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         Lottie.asset(noData, width: 350, height: 350),
-//         Text(
-//           'noData1'.tr,
-//           textAlign: TextAlign.center,
-//           style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-//         ),
-//         SizedBox(
-//           height: 50,
-//         )
-//         // Padding(
-//         //   padding: const EdgeInsets.only(top: 8),
-//         //   child: ElevatedButton(
-//         //     onPressed: onTap,
-//         //     style: ElevatedButton.styleFrom(
-//         //       shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-//         //       primary: kPrimaryColor,
-//         //     ),
-//         //     child: Text(
-//         //       'noConnection3'.tr,
-//         //       style: TextStyle(color: Colors.white, fontSize: 18),
-//         //     ),
-//         //   ),
-//         // )
-//       ],
-//     ),
-//   );
-// }
+dynamic emptyPageImage({
+  required String lottie,
+  required String text1,
+  required String text2,
+}) {
+  return Center(
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(lottie, width: 350, height: 350),
+        Text(
+          text1.tr,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text(
+          text2.tr,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+        ),
+      ],
+    ),
+  );
+}
 
 // dynamic emptryPageText() {
 //   return Center(

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/modules/buttons/agree_button_view.dart';
@@ -138,12 +139,12 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         title: Text(
           widget.pageName.tr,
           maxLines: 1,
-          style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
+          style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 22),
         ),
         leading: IconButton(
           icon: Icon(
             IconlyBroken.arrowLeftCircle,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {
             Get.back();
@@ -168,9 +169,9 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
             future: widget.getData,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              } else if (snapshot.data == null) {
-                return Center(child: Text("Empty no Product"));
+                return Center(child: spinKit());
+              } else if (snapshot.data.toString() == '[]') {
+                return Center(child: Lottie.asset(noData));
               } else if (snapshot.hasError) {
                 return Center(child: Text("Error"));
               }
@@ -181,9 +182,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                 physics: BouncingScrollPhysics(),
                 itemBuilder: (context, index) => ProductCard(
                   id: snapshot.data![index].id!,
-                  sizeList: snapshot.data![index].sizes!,
-                  colorList: snapshot.data![index].colors!,
-                  airPlane: snapshot.data![index].airplane!,
                   createdAt: snapshot.data![index].createdAt!,
                   image: "$serverURL/${snapshot.data![index].image!}-big.webp",
                   name: snapshot.data![index].name!,

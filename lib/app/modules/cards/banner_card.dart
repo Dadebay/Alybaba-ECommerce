@@ -1,26 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:nabelli_ecommerce/app/data/models/banner_model.dart';
 
 import '../../constants/constants.dart';
 import '../../constants/widgets.dart';
 
 class BannerCard extends StatelessWidget {
-  final String image;
-  final String name;
-  final String description;
-
+  final BannerModel model;
   const BannerCard({
-    required this.image,
-    required this.name,
-    required this.description,
+    required this.model,
     Key? key,
-    required title,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
+        showSnackBar('Basylanda', "Kategoriya yada Haryda yada Title we desc sahypa gitmeli Dowrandan gelenok son ucin garasdym", Colors.red);
+        // if(model)
+        // "$serverURL/${snapshot.data![index].destination!}-big.webp",
+        // lang == 'tm' ? snapshot.data![index].titleTM! : snapshot.data![index].titleRU!,
+        //  lang == 'tm' ? snapshot.data![index].descriptionTM! : snapshot.data![index].descriptionRU!
         // Get.to(() => BannerProfileView(name, image, description));
       },
       child: Container(
@@ -33,7 +33,7 @@ class BannerCard extends StatelessWidget {
           borderRadius: borderRadius10,
           child: CachedNetworkImage(
             fadeInCurve: Curves.ease,
-            imageUrl: image,
+            imageUrl: "$serverURL/${model.destination!}-big.webp",
             imageBuilder: (context, imageProvider) => Container(
               width: size.width,
               decoration: BoxDecoration(

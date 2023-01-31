@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 
 class CartPageController extends GetxController {
   RxList list = [].obs;
+  RxList cartListToCompare = [].obs;
   final storage = GetStorage();
   void addToCard({required int id, required String price, required String image, required String name, required String createdAt, required bool airplane, required int sizeID, required int colorID}) {
     if (list.isEmpty) {
