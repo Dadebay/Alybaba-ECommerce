@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 import 'package:nabelli_ecommerce/app/modules/home/local_widgets/shop_by_brand.dart';
 import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart';
 
@@ -60,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
           return null;
         },
         onEditingComplete: () {
-          Get.to(() => ShowAllProducts(pageName: 'Gozleg', getData: ProductsService().getProducts(parametrs: {'search': controller.text})));
+          Get.to(() => ShowAllProducts(pageName: 'Gozleg', parametrs: {'search': controller.text}));
         },
         keyboardType: TextInputType.text,
         decoration: InputDecoration(

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 
 import '../../constants/constants.dart';
 import '../../constants/widgets.dart';
@@ -18,7 +17,7 @@ class BrandCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.to(() => ShowAllProducts(
-              getData: ProductsService().getProducts(parametrs: {'producer_id': '$id'}),
+              parametrs: {'producer_id': '$id'},
               pageName: name,
             ));
       },

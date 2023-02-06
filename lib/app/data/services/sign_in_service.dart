@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 import '../../constants/constants.dart';
@@ -55,6 +57,8 @@ class SignInService {
       await Auth().setToken(responseJson['access_token']);
       await Auth().setRefreshToken(responseJson['refresh_token']);
       await Auth().login((responseJson['data'].toString()));
+      showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
+
       userProfilController.saveData(phoneNumber1: phoneNumber, userName1: responseJson['data']['full_name'], userMoney1: '0', referalCode1: responseJson['data']['referral_code']);
       return response.statusCode;
     } else {
@@ -73,9 +77,13 @@ class SignInService {
       }),
     );
     print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
+      print(responseJson);
       await Auth().setToken(responseJson['access_token']);
+
+      showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
       return response.statusCode;
     } else {
       return response.statusCode;

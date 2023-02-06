@@ -3,32 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
-import 'package:nabelli_ecommerce/app/data/services/auth_service.dart';
+import 'package:nabelli_ecommerce/app/data/services/referal_service.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 import '../../../constants/widgets.dart';
+import '../../../data/models/referal_model.dart';
 
 class ReferalPage extends StatelessWidget {
   final UserProfilController userProfilController = Get.put(UserProfilController());
+  double sum = 0.0;
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        backArrow: true,
-        actionIcon: true,
-        icon: IconButton(
-          onPressed: () {
-            showSnackBar('referalKod', 'referalDesc', Colors.green);
-          },
-          icon: const Icon(
-            Icons.info_outline,
-            color: Colors.white,
-          ),
-        ),
-        name: 'referalKod',
-      ),
+      appBar: _appbar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -40,29 +29,7 @@ class ReferalPage extends StatelessWidget {
               style: TextStyle(color: Colors.grey, fontSize: size.width >= 800 ? 30 : 22, fontFamily: gilroySemiBold),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10, top: 8),
-            child: Row(
-              children: [
-                Text(
-                  userProfilController.userReferalCode.toString(),
-                  style: TextStyle(fontFamily: gilroySemiBold, fontSize: 24),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: userProfilController.userReferalCode.toString())).then((value) {
-                      showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
-                    });
-                  },
-                  icon: Icon(
-                    Icons.copy,
-                    color: kPrimaryColor,
-                    size: 20,
-                  ),
-                )
-              ],
-            ),
-          ),
+          _userOwnReferel(),
           dividder(),
           Container(
             width: Get.size.width,
@@ -73,31 +40,43 @@ class ReferalPage extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 00,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () async {
-                    final token = await Auth().getToken();
-                  },
-                  child: ListTile(
-                    leading: Text(
-                      '${index + 1}',
-                      style: TextStyle(color: Colors.black, fontFamily: gilroyBold),
-                    ),
-                    title: Text("Referal gelen user name"),
-                    subtitle: Text(
-                      DateTime.now().toString().substring(0, 11),
-                      style: TextStyle(color: Colors.grey, fontFamily: gilroyRegular),
-                    ),
-                    trailing: Text(
-                      "0.2 TMT",
-                      style: TextStyle(color: Colors.black, fontFamily: gilroyBold),
-                    ),
-                  ),
-                );
-              },
-            ),
+            child: FutureBuilder<List<ReferalModel>>(
+                future: ReferalService().getReferrals(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: spinKit());
+                  } else if (snapshot.hasError) {
+                    return Text("Error");
+                  } else if (snapshot.data.toString() == '[]') {
+                    return Text('Empty');
+                  }
+                  sum = 0;
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      sum += double.parse(snapshot.data![index].sum.toString());
+                      return ListTile(
+                        minLeadingWidth: 10,
+                        leading: Text(
+                          '${index + 1}.',
+                          style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyBold),
+                        ),
+                        title: Text(
+                          snapshot.data![index].fullName!,
+                          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular),
+                        ),
+                        subtitle: Text(
+                          snapshot.data![index].date!.substring(0, 10),
+                          style: TextStyle(color: Colors.grey, fontFamily: gilroyRegular),
+                        ),
+                        trailing: Text(
+                          "${snapshot.data![index].sum} TMT",
+                          style: TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                        ),
+                      );
+                    },
+                  );
+                }),
           ),
           dividder(),
           Padding(
@@ -113,9 +92,9 @@ class ReferalPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '0 TMT',
+                    '$sum TMT',
                     textAlign: TextAlign.end,
-                    style: TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 24),
+                    style: TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 22),
                   ),
                 ),
               ],
@@ -123,6 +102,49 @@ class ReferalPage extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Padding _userOwnReferel() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, top: 8),
+      child: Row(
+        children: [
+          Text(
+            userProfilController.userReferalCode.toString(),
+            style: TextStyle(fontFamily: gilroySemiBold, fontSize: 24),
+          ),
+          IconButton(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: userProfilController.userReferalCode.toString())).then((value) {
+                showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
+              });
+            },
+            icon: Icon(
+              Icons.copy,
+              color: kPrimaryColor,
+              size: 20,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  CustomAppBar _appbar() {
+    return CustomAppBar(
+      backArrow: true,
+      actionIcon: true,
+      icon: IconButton(
+        onPressed: () {
+          showSnackBar('referalKod', 'referalDesc', Colors.green);
+        },
+        icon: const Icon(
+          Icons.info_outline,
+          color: Colors.white,
+        ),
+      ),
+      name: 'referalKod',
     );
   }
 

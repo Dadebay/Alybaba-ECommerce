@@ -49,7 +49,6 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               } else if (snapshot.hasError) {
                 return Text("Error");
               }
-
               return Column(
                 children: [
                   Expanded(
@@ -138,7 +137,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     );
   }
 
-  Column chooseSize(Size size, List sizes) {
+  Column chooseSize(Size size, List<SizeModel> sizes) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -166,7 +165,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   decoration: BoxDecoration(borderRadius: borderRadius15, border: Border.all(color: selectedSize == index ? kPrimaryColor : Colors.grey.withOpacity(0.8), width: selectedSize == index ? 3 : 1)),
                   child: Center(
                     child: Text(
-                      sizes[index],
+                      sizes[index].name.toString(),
                       style: TextStyle(color: Colors.black, fontFamily: selectedSize == index ? gilroySemiBold : gilroyRegular, fontSize: 18),
                     ),
                   ),
@@ -233,7 +232,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             child: SizedBox.shrink(),
           ),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: AddCartButton(
               id: widget.id,
               productProfil: true,

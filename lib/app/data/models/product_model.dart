@@ -10,6 +10,7 @@ class ProductModel {
   final bool? airplane;
   final bool? recomended;
   final bool? onHand;
+  final bool? kargoIncluded;
   final String? image;
   final int? discountId;
   final int? discountValue;
@@ -18,7 +19,7 @@ class ProductModel {
 
   final List<ColorModel>? colors;
 
-  ProductModel({this.id, this.airplane, this.name, this.price, this.createdAt, this.mainCategoryName, this.subCategoryName, this.producerName, this.newInCome, this.recomended, this.onHand, this.image, this.discountId, this.discountValue, this.discountValueType, this.sizes, this.colors});
+  ProductModel({this.id, this.airplane, this.name, this.price, this.kargoIncluded, this.createdAt, this.mainCategoryName, this.subCategoryName, this.producerName, this.newInCome, this.recomended, this.onHand, this.image, this.discountId, this.discountValue, this.discountValueType, this.sizes, this.colors});
 
   factory ProductModel.fromJson(Map<dynamic, dynamic> json) {
     return ProductModel(
@@ -33,12 +34,13 @@ class ProductModel {
       newInCome: json['new_in_come'] ?? false,
       recomended: json['recomended'] ?? false,
       onHand: json['on_hand'] ?? false,
+      kargoIncluded: json['kargo_included'] ?? false,
       image: json['image'] ?? '',
       discountId: json['discount_id'] ?? 0,
       discountValue: json['discount_value'] ?? 0,
       discountValueType: json['discount_value_type'] ?? 0,
       sizes: json['sizes'] != null ? (json['sizes'] as List).map((json) => SizeModel.fromJson(json)).toList() : [],
-      colors: json['sizes'] != null ? (json['colors'] as List).map((json) => ColorModel.fromJson(json)).toList() : [],
+      colors: json['colors'] != null ? (json['colors'] as List).map((json) => ColorModel.fromJson(json)).toList() : [],
     );
   }
 }
@@ -59,12 +61,14 @@ class ProductByIDModel {
   final int? producerId;
   final bool? onHand;
   final String? barcode;
+  final bool? kargoIncluded;
+
   final int? viewCount;
   final String? createdAt;
   final List? images;
   final List<SizeModel>? sizes;
   final List<ColorModel>? colors;
-  ProductByIDModel({this.id, this.sizes, this.name, this.price, this.viewCount, this.createdAt, this.barcode, this.mainCategoryName, this.subCategoryName, this.producerName, this.newInCome, this.recomended, this.onHand, this.images, this.airPlane, this.description, this.colors, this.mainCategoryId, this.producerId, this.subCategoryId});
+  ProductByIDModel({this.id, this.sizes, this.name, this.kargoIncluded, this.price, this.viewCount, this.createdAt, this.barcode, this.mainCategoryName, this.subCategoryName, this.producerName, this.newInCome, this.recomended, this.onHand, this.images, this.airPlane, this.description, this.colors, this.mainCategoryId, this.producerId, this.subCategoryId});
 
   factory ProductByIDModel.fromJson(Map<dynamic, dynamic> json) {
     final List image = json['images'] as List;
@@ -80,6 +84,7 @@ class ProductByIDModel {
       name: json['name'],
       description: json['description'] ?? '',
       price: json['price'] ?? '',
+      kargoIncluded: json['kargo_included'] ?? false,
       mainCategoryName: json['main_category_name'] ?? '',
       subCategoryName: json['sub_category_name'] ?? ' ',
       producerName: json['producer_name'] ?? '',
@@ -94,7 +99,7 @@ class ProductByIDModel {
       createdAt: json['created_at'] ?? '#000000',
       images: images,
       sizes: json['sizes'] != null ? (json['sizes'] as List).map((json) => SizeModel.fromJson(json)).toList() : [],
-      colors: json['sizes'] != null ? (json['colors'] as List).map((json) => ColorModel.fromJson(json)).toList() : [],
+      colors: json['colors'] != null ? (json['colors'] as List).map((json) => ColorModel.fromJson(json)).toList() : [],
     );
   }
 }
@@ -123,7 +128,7 @@ class SizeModel {
 
   factory SizeModel.fromJson(Map<String, dynamic> json) {
     return SizeModel(
-      name: json['name'],
+      name: json['size'],
       id: json['id'],
     );
   }

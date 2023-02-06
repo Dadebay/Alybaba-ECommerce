@@ -49,12 +49,9 @@ class LogInView extends GetView {
               if (login.currentState!.validate()) {
                 if (homeController.agreeButton.value == true) {
                   SignInService().login(phone: phoneNumberController.text).then((value) {
+                    print(value);
                     if (value == 200) {
-                      Get.to(() => OtpCheck(
-                            phoneNumber: phoneNumberController.text,
-                            register: false,
-                            userName: '',
-                          ));
+                      Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text.toString(), register: false, userName: '', referalKod: ''));
                       homeController.agreeButton.value = !homeController.agreeButton.value;
                     } else if (value == 409) {
                       showSnackBar('noConnection3', 'alreadyExist', Colors.red);

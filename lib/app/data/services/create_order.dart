@@ -35,9 +35,9 @@ class CreateOrderService {
 
   Future<List<ProductModel>> getCartItems(bool cart) async {
     List list = [];
+    final CartPageController cartPageController = Get.put(CartPageController());
 
     if (cart == true) {
-      final CartPageController cartPageController = Get.put(CartPageController());
       cartPageController.list.forEach((element) {
         list.add(element['id']);
       });
@@ -45,12 +45,10 @@ class CreateOrderService {
       final FavoritesPageController favoritesPageController = Get.put(FavoritesPageController());
       favoritesPageController.favList.forEach((element) {
         list.add(element['id']);
-
       });
     }
 
     final List<ProductModel> productsList = [];
-
     final response = await http.get(
       Uri.parse('$serverURL/api/ru/get-selected-products').replace(queryParameters: {
         'products': jsonEncode(list),
@@ -64,6 +62,17 @@ class CreateOrderService {
       for (final Map product in responseJson) {
         productsList.add(ProductModel.fromJson(product));
       }
+      cartPageController.cartListToCompare.clear();
+      productsList.forEach((element) {
+        cartPageController.cartListToCompare.add({
+          'id': element.id,
+          'name': element.name,
+          'image': "$serverURL/${element.image!}-big.webp",
+          'price': element.price,
+          'creatAt': element.createdAt,
+          "airPlane": element.airplane!,
+        });
+      });
       return productsList;
     } else {
       return [];

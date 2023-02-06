@@ -11,7 +11,11 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
 import '../../../data/services/banner_service.dart';
+import '../../../data/services/product_service.dart';
+import '../../home/views/banner_profil_view.dart';
 import '../../home/views/bottom_nav_bar.dart';
+import '../../other_pages/product_profil_view.dart';
+import '../../other_pages/show_all_products.dart';
 
 class ConnectionCheckView extends StatefulWidget {
   @override
@@ -147,7 +151,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                   future: BannerService().getBanners(1),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: spinKit());;
+                      return Center(child: spinKit());
                     } else if (snapshot.hasError) {
                       return Text("Error");
                     } else if (snapshot.data!.isEmpty) {
@@ -155,22 +159,42 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                     }
                     Random rand = Random();
                     int random = rand.nextInt(snapshot.data!.length);
-                    return CachedNetworkImage(
-                      fadeInCurve: Curves.ease,
-                      imageUrl: "$serverURL/${snapshot.data![random].destination!}-big.webp",
-                      imageBuilder: (context, imageProvider) => Container(
-                        width: size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: borderRadius10,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.fill,
+                    return GestureDetector(
+                      onTap: () async {
+                        String lang = await Get.locale!.languageCode.toString();
+                        if (snapshot.data![random].pathId! == 1) {
+                          Get.to(() => BannerProfileView(
+                                description: lang == 'tm' ? snapshot.data![random].descriptionTM! : snapshot.data![random].descriptionRU!,
+                                image: "$serverURL/${snapshot.data![random].destination!}-big.webp",
+                                pageName: lang == 'tm' ? snapshot.data![random].titleTM! : snapshot.data![random].titleRU!,
+                              ));
+                        } else if (snapshot.data![random].pathId == 2) {
+                          Get.to(() => ShowAllProducts(pageName: 'banner', parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
+                        } else if (snapshot.data![random].pathId == 3) {
+                          ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
+                            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));
+                          });
+                        } else {
+                          showSnackBar('errorTitle', 'error', Colors.red);
+                        }
+                      },
+                      child: CachedNetworkImage(
+                        fadeInCurve: Curves.ease,
+                        imageUrl: "$serverURL/${snapshot.data![random].destination!}-big.webp",
+                        imageBuilder: (context, imageProvider) => Container(
+                          width: size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: borderRadius10,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
-                      ),
-                      placeholder: (context, url) => Center(child: spinKit()),
-                      errorWidget: (context, url, error) => Center(
-                        child: noBannerImage(),
+                        placeholder: (context, url) => Center(child: spinKit()),
+                        errorWidget: (context, url, error) => Center(
+                          child: noBannerImage(),
+                        ),
                       ),
                     );
                   })),

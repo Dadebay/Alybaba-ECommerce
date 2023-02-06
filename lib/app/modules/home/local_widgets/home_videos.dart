@@ -20,7 +20,13 @@ class _HomePageVideosState extends State<HomePageVideos> {
     final Size size = MediaQuery.of(context).size;
     return Wrap(
       children: [
-        listViewName("videos", true, size, () {}),
+        Padding(
+          padding: EdgeInsets.only(left: 15, right: 15, top: 35, bottom: 10),
+          child: Text(
+            'videos'.tr,
+            style: TextStyle(color: Colors.black, fontSize: size.width >= 800 ? 30 : 22, fontFamily: gilroyBold),
+          ),
+        ),
         SizedBox(
           height: 280,
           child: FutureBuilder<List<VideosModel>>(
@@ -42,6 +48,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                       onTap: () {
                         Get.to(() => VideoPLayerMine(
                               videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
+                              page: true,
                             ));
                       },
                       child: Container(

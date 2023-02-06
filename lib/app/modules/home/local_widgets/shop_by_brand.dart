@@ -6,7 +6,6 @@ import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart
 
 import '../../../constants/widgets.dart';
 import '../../../data/models/producer_model.dart';
-import '../../../data/services/product_service.dart';
 
 class ShopByBrand extends StatelessWidget {
   const ShopByBrand({Key? key, required this.producers}) : super(key: key);
@@ -47,10 +46,7 @@ class ShopByBrand extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => ShowAllProducts(
-                                    pageName: snapshot.data![index].name!,
-                                    getData: ProductsService().getProducts(parametrs: {'producer_id': snapshot.data![index].id!.toString()}),
-                                  ));
+                              Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
                             },
                             child: Container(
                               width: 140,

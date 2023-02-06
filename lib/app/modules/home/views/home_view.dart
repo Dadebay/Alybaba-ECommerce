@@ -77,16 +77,16 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Banners(future: bannersFuture),
               MiniBannersView(minibannerFuture),
-              NewItemsView(productsFuture),
+              NewItemsView( {'new_in_come': 'true'}),
               HomePageVideos(),
-              RecomendedItems(productsFutureRecomended),
+              RecomendedItems( {'recomended': 'true'}),
               SizedBox(
                 height: 30,
               ),
               ShopByBrand(
                 producers: producersFuture,
               ),
-              InOurHands(productsFutureInOurHands),
+              InOurHands( {'on_hand': 'true'}),
             ],
           ),
         ));

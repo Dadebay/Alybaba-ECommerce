@@ -106,8 +106,13 @@ class _OrderPageState extends State<OrderPage> {
                 if (_orderPage.currentState!.validate()) {
                   CreateOrderService().createOrder(userName: userNameController.text, userPhoneNumber: phoneController.text, address: '${name} + ${addressController.text}', note: noteController.text, transport: orderTypeNum).then((value) {
                     if (value == 200) {
+                      Get.back();
+                      cartController.cartListToCompare.clear();
+                      cartController.removeAllCartElements();
                       showSnackBar('gecdi sargyt', "Waw", Colors.green);
-                    } else {}
+                    } else {
+                      showSnackBar('Sargyt gecmedi', 'Yalnys bir zat bar', Colors.red);
+                    }
                   });
                 } else {
                   showSnackBar('noConnection3', 'errorEmpty', Colors.red);
@@ -202,7 +207,7 @@ class _OrderPageState extends State<OrderPage> {
             style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
           ),
           subtitle: Text(
-            'Zakaz eden harylarynyz ${model.transports![0].minWeek}-${model.transports![0].maxWeek} aralygynda gelyar',
+            'orderComesThatDayTitle'.tr + ' ${model.transports![0].minWeek}-${model.transports![0].maxWeek}' + 'orderComesThatDaySubtitle',
             style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
           ),
         ),
@@ -224,7 +229,7 @@ class _OrderPageState extends State<OrderPage> {
               style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
             ),
             subtitle: Text(
-              'Zakaz eden harylarynyz ${model.transports![1].minWeek}-${model.transports![1].maxWeek} aralygynda gelyar',
+              'orderComesThatDayTitle'.tr + ' ${model.transports![1].minWeek}-${model.transports![1].maxWeek}' + 'orderComesThatDaySubtitle',
               style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
             ),
           ),
@@ -241,11 +246,11 @@ class _OrderPageState extends State<OrderPage> {
           },
           activeColor: kPrimaryColor,
           title: Text(
-            "Container".tr,
+            "container".tr,
             style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
           ),
           subtitle: Text(
-            'Zakaz eden harylarynyz ${model.transports![2].minWeek}-${model.transports![2].maxWeek} aralygynda gelyar',
+            'orderComesThatDayTitle'.tr + ' ${model.transports![2].minWeek}-${model.transports![2].maxWeek}' + 'orderComesThatDaySubtitle',
             style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
           ),
         ),

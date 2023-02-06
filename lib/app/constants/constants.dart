@@ -47,33 +47,38 @@ const String loading3Lottie = 'assets/lottie/loading3.json';
 const List sortData = [
   {
     'id': 1,
-    'name': 'sortDefault',
-    'sort_column': '',
+    'sort_direction': 'sortDefault',
+    'sort_column': 'sortDefault',
   },
   {
     'id': 2,
-    'name': 'sortPriceLowToHigh',
-    'sort_column': 'expensive',
+    'sort_column': 'price',
+    'sort_direction': 'ASC',
   },
   {
     'id': 3,
-    'name': 'sortPriceHighToLow',
-    'sort_column': 'cheap',
+    'sort_column': 'price',
+    'sort_direction': 'DESC',
   },
   {
     'id': 4,
-    'name': 'sortCreatedAtHighToLow',
-    'sort_column': 'latest',
+    'sort_column': 'created_at',
+    'sort_direction': 'ASC',
   },
   {
     'id': 5,
-    'name': 'sortCreatedAtLowToHigh',
-    'sort_column': 'oldest',
+    'sort_column': 'created_at',
+    'sort_direction': 'DESC',
   },
   {
     'id': 6,
-    'name': 'sortViews',
-    'sort_column': 'views',
+    'sort_column': 'view_count',
+    'sort_direction': 'ASC',
+  },
+  {
+    'id': 7,
+    'sort_column': 'view_count',
+    'sort_direction': 'DESC',
   },
 ];
 const List cities = [

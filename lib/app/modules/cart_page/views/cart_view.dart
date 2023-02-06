@@ -41,30 +41,22 @@ class _CartViewState extends State<CartView> {
                       return Text("Error");
                     }
                     return Obx(() {
-                      cartController.cartListToCompare.clear();
-                      snapshot.data!.forEach((element) {
-                        cartController.cartListToCompare.add({
-                          'id': element.id,
-                          'name': element.name,
-                          'image': element.image,
-                          'price': element.price,
-                          'creatAt': element.createdAt,
-                          "airPlane": element.airplane!,
-                        });
-                      });
                       return ListView.builder(
                         itemCount: cartController.cartListToCompare.length,
                         physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          return CardCart(
-                            airPlane: cartController.cartListToCompare[index]['airPlane']!,
-                            name: cartController.cartListToCompare[index]['name']!,
-                            createdAt: cartController.cartListToCompare[index]['id']!,
-                            id: cartController.cartListToCompare[index]['airPlane']!,
-                            price: cartController.cartListToCompare[index]['price in']!,
-                            image: cartController.cartListToCompare[index]['image']!,
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: cartController.cartListToCompare.length - 1 == index ? 80 : 0),
+                            child: CardCart(
+                              airPlane: cartController.cartListToCompare[index]['airPlane'] ?? false,
+                              name: cartController.cartListToCompare[index]['name'] ?? "",
+                              createdAt: cartController.cartListToCompare[index]['creatAt'] ?? '',
+                              id: cartController.cartListToCompare[index]['id']!,
+                              price: cartController.cartListToCompare[index]['price']!,
+                              image: cartController.cartListToCompare[index]['image']!,
+                            ),
                           );
                         },
                       );

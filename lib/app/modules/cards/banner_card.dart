@@ -1,9 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/data/models/banner_model.dart';
+import 'package:nabelli_ecommerce/app/modules/other_pages/product_profil_view.dart';
+import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart';
 
 import '../../constants/constants.dart';
 import '../../constants/widgets.dart';
+import '../../data/services/product_service.dart';
+import '../home/views/banner_profil_view.dart';
 
 class BannerCard extends StatelessWidget {
   final BannerModel model;
@@ -15,13 +20,23 @@ class BannerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {
-        showSnackBar('Basylanda', "Kategoriya yada Haryda yada Title we desc sahypa gitmeli Dowrandan gelenok son ucin garasdym", Colors.red);
-        // if(model)
-        // "$serverURL/${snapshot.data![index].destination!}-big.webp",
-        // lang == 'tm' ? snapshot.data![index].titleTM! : snapshot.data![index].titleRU!,
-        //  lang == 'tm' ? snapshot.data![index].descriptionTM! : snapshot.data![index].descriptionRU!
-        // Get.to(() => BannerProfileView(name, image, description));
+      onTap: () async {
+        String lang = await Get.locale!.languageCode.toString();
+        if (model.pathId == 1) {
+          Get.to(() => BannerProfileView(
+                description: lang == 'tm' ? model.descriptionTM! : model.descriptionRU!,
+                image: "$serverURL/${model.destination!}-big.webp",
+                pageName: lang == 'tm' ? model.titleTM! : model.titleRU!,
+              ));
+        } else if (model.pathId == 2) {
+          Get.to(() => ShowAllProducts(pageName: 'banner', parametrs: {'main_category_id': '${model.itemId}'}));
+        } else if (model.pathId == 3) {
+          ProductsService().getProductByID(model.itemId!).then((value) {
+            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));
+          });
+        } else {
+          showSnackBar('errorTitle', 'error', Colors.red);
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(8),

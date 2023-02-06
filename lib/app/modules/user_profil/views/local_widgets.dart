@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/data/services/auth_service.dart';
 import 'package:nabelli_ecommerce/app/modules/auth/views/auth_view.dart';
+import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/history_order_status_wait.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/favorites_page_view.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/locations.dart';
@@ -135,6 +136,7 @@ Container fourthPart(bool userLogin) {
               icon: userLogin ? IconlyBroken.logout : IconlyBroken.login,
               name: userLogin ? 'log_out' : "login",
               onTap: () {
+                Get.find<HomeController>().agreeButton.value = false;
                 userLogin ? logOut() : Get.to(() => AuthView());
               },
             ),

@@ -19,13 +19,11 @@ class FavoritesPageController extends GetxController {
       }
       if (value == true) {
         favList.removeWhere((element) => element["id"] == id);
-        print('remoive etdim mana geldi');
       } else if (value == false) {
         favList.add({
           "id": id,
         });
       }
-      print(favList);
       favList.refresh();
       final String jsonString = jsonEncode(favList);
       storage.write("favList", jsonString);

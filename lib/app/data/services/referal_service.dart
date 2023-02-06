@@ -1,31 +1,35 @@
+// api/user/ru/get-referrals
 import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:nabelli_ecommerce/app/data/models/video_model.dart';
 
 import '../../constants/constants.dart';
+import '../models/referal_model.dart';
+import 'auth_service.dart';
 
-class VideosService {
-  Future<List<VideosModel>> getVideos() async {
-    final List<VideosModel> videosList = [];
+class ReferalService {
+  Future<List<ReferalModel>> getReferrals() async {
+    final List<ReferalModel> referalList = [];
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == "en") lang = "tm";
+    if (lang == "tr" || lang == 'en') lang = "tm";
+    final token = await Auth().getToken();
+
     final response = await http.get(
       Uri.parse(
-        '$serverURL/api/$lang/get-videos',
+        '$serverURL/api/user/$lang/get-referrals',
       ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    // print(response.body);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)["rows"] as List;
       for (final Map product in responseJson) {
-        videosList.add(VideosModel.fromJson(product));
+        referalList.add(ReferalModel.fromJson(product));
       }
-      return videosList;
+      return referalList;
     } else {
       return [];
     }

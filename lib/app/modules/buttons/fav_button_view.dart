@@ -27,10 +27,7 @@ class _FavButtonState extends State<FavButton> {
   }
 
   dynamic work() {
-    print(favoritesController.favList);
     for (var element in favoritesController.favList) {
-      print(element['id']);
-      print(widget.id);
       if (element['id'] == widget.id) {
         value = true;
       }

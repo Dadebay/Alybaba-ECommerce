@@ -29,8 +29,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   await flutterLocalNotificationsPlugin.show(
     message.data.hashCode,
-    message.notification!.title,
-    message.notification!.body,
+    message.data['body'],
+    message.data['title'],
     NotificationDetails(
       android: AndroidNotificationDetails(
         channel.id,
@@ -46,19 +46,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 dynamic mainDartImports() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /////////////
   await GetStorage.init();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
-  /////////////
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  /////////////////////
   HttpOverrides.global = MyHttpOverrides();
-  ///////////////
-
   await FirebaseMessaging.instance.requestPermission();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
@@ -67,9 +62,7 @@ dynamic mainDartImports() async {
     badge: true,
     sound: true,
   );
-
   const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-
   final InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: null,
@@ -81,12 +74,12 @@ dynamic mainDartImports() async {
 }
 
 dynamic myAppOnInit() {
-  FirebaseMessaging.instance.subscribeToTopic('EVENT');
+  FirebaseMessaging.instance.subscribeToTopic('Event');
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     flutterLocalNotificationsPlugin.show(
       message.data.hashCode,
-      message.notification!.title,
-      message.notification!.body,
+      message.data['body'],
+      message.data['title'],
       NotificationDetails(
         android: AndroidNotificationDetails(
           channel.id,
@@ -99,7 +92,6 @@ dynamic myAppOnInit() {
       ),
     );
   });
-
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     Get.to(() => ConnectionCheckView());
   });

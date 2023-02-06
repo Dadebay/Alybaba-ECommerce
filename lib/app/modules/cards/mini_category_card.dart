@@ -4,27 +4,39 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 
 import '../../constants/widgets.dart';
+import '../../data/models/banner_model.dart';
+import '../../data/services/product_service.dart';
+import '../home/views/banner_profil_view.dart';
+import '../other_pages/product_profil_view.dart';
+import '../other_pages/show_all_products.dart';
 
 class MiniBannerView extends StatelessWidget {
   const MiniBannerView({
-    required this.id,
-    required this.image,
-    required this.title,
-    required this.description,
+    required this.model,
     Key? key,
   }) : super(key: key);
+  final BannerModel model;
 
-  final int id;
-  final String image;
-  final String title;
-  final String description;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showSnackBar('Basylanda', "Kategoriya yada Haryda yada Title we desc sahypa gitmeli Dowrandan gelenok son ucin garasdym", Colors.red);
-
-        // Get.to(() => BannerProfileView(title, image, description));
+      onTap: () async {
+        String lang = await Get.locale!.languageCode.toString();
+        if (model.pathId == 1) {
+          Get.to(() => BannerProfileView(
+                description: lang == 'tm' ? model.descriptionTM! : model.descriptionRU!,
+                image: "$serverURL/${model.destination!}-big.webp",
+                pageName: lang == 'tm' ? model.titleTM! : model.titleRU!,
+              ));
+        } else if (model.pathId == 2) {
+          Get.to(() => ShowAllProducts(pageName: 'banner', parametrs: {'main_category_id': '${model.itemId}'}));
+        } else if (model.pathId == 3) {
+          ProductsService().getProductByID(model.itemId!).then((value) {
+            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));
+          });
+        } else {
+          showSnackBar('errorTitle', 'error', Colors.red);
+        }
       },
       child: Container(
         width: Get.size.width,
@@ -34,7 +46,7 @@ class MiniBannerView extends StatelessWidget {
           borderRadius: borderRadius20,
           child: CachedNetworkImage(
             fadeInCurve: Curves.ease,
-            imageUrl: image,
+            imageUrl: "$serverURL/${model.destination!}-big.webp",
             imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
                 borderRadius: borderRadius10,

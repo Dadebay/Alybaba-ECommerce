@@ -96,7 +96,6 @@ class CardCart extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             Get.find<CartPageController>().removeCardXButton(id);
-                            // CreateOrderService().getCartItems();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8),

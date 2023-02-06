@@ -5,13 +5,14 @@ import 'package:get/get.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
+import '../../../data/services/product_service.dart';
 import '../../cards/product_card.dart';
 import '../../other_pages/show_all_products.dart';
 
 class InOurHands extends GetView {
-  final Future<List<ProductModel>> productsFuture;
+  final Map<String, String> parametrs;
 
-  InOurHands(this.productsFuture);
+  InOurHands(this.parametrs);
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,12 @@ class InOurHands extends GetView {
     return Wrap(
       children: [
         listViewName("inOurHands", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "inOurHands", getData: productsFuture));
+          Get.to(() => ShowAllProducts(pageName: "inOurHands", parametrs: parametrs));
         }),
         SizedBox(
           height: 300,
           child: FutureBuilder<List<ProductModel>>(
-              future: productsFuture,
+              future: ProductsService().getProducts(parametrs: parametrs),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
@@ -40,7 +41,6 @@ class InOurHands extends GetView {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
-                    
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
                       image: "$serverURL/${snapshot.data![index].image!}-big.webp",

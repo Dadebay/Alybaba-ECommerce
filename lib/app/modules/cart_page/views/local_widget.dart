@@ -107,9 +107,7 @@ Widget bottomSheetOrderPrice(BuildContext context) {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                // Get.find<CartPageController>().list.isEmpty ? showSnackBar("cartEmpty", "cartEmptySubtitle", Colors.red) : orderDialog(context);
-                // Get.find<CartPageController>().list.isEmpty ? showSnackBar("cartEmpty", "cartEmptySubtitle", Colors.red) :
-                orderDialog(context);
+                Get.find<CartPageController>().list.isEmpty ? showSnackBar("cartEmpty", "cartEmptySubtitle", Colors.red) : orderDialog(context);
               },
               child: Container(
                 color: kPrimaryColor,
@@ -158,6 +156,7 @@ AppBar cartViewAppbar(bool value) {
                     subtitle: 'doYouWantToDeleteCartSubtitle',
                     onAgree: () {
                       Get.back();
+
                       showSnackBar('orderDeleted', 'orderDeletedSubtitle', Colors.red);
                       Get.find<CartPageController>().removeAllCartElements();
                     },

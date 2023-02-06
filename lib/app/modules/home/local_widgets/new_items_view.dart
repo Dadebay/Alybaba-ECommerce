@@ -6,24 +6,25 @@ import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart
 
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
+import '../../../data/services/product_service.dart';
 import '../../cards/product_card.dart';
 
 class NewItemsView extends GetView {
-  final Future<List<ProductModel>> productsFuture;
+  final Map<String, String> parametrs;
 
-  NewItemsView(this.productsFuture);
+  NewItemsView(this.parametrs);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Wrap(
       children: [
         listViewName("newItems", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "newItems", getData: productsFuture));
+          Get.to(() => ShowAllProducts(pageName: "newItems", parametrs: parametrs));
         }),
         SizedBox(
           height: 300,
           child: FutureBuilder<List<ProductModel>>(
-              future: productsFuture,
+              future: ProductsService().getProducts(parametrs: parametrs),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
@@ -40,7 +41,6 @@ class NewItemsView extends GetView {
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
                       id: snapshot.data![index].id!,
-                    
                       createdAt: snapshot.data![index].createdAt!,
                       image: "$serverURL/${snapshot.data![index].image!}-big.webp",
                       name: snapshot.data![index].name!,

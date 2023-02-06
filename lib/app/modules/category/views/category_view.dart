@@ -78,6 +78,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) {
                             return CategoryCard(
+                              subCategoryList: snapshot.data![index].subCategory!,
                               id: snapshot.data![index].id!,
                               image: "$serverURL/${snapshot.data![index].image!}-big.webp",
                               name: snapshot.data![index].name!,

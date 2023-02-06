@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
 
@@ -60,9 +61,16 @@ class _AddCartButtonState extends State<AddCartButton> {
             cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
           } else {
-            Get.defaultDialog(content: Column(children: List.generate(value.sizes!.length, (index) => Text(value.sizes![index].name!))));
+            int sizeId = 0;
+            int colorId = 0;
+            if (value.sizes!.isEmpty) {
+              colorEmptyOnlySize(value, colorId, sizeId);
+            } else if (value.sizes!.isEmpty) {
+              sizeEmptyOnlyColor(value, sizeId, colorId);
+            } else {
+              sizeColorNotEmpty(value, sizeId, colorId);
+            }
           }
-
           setState(() {});
         });
       },
@@ -96,6 +104,69 @@ class _AddCartButtonState extends State<AddCartButton> {
             : Text('addCart'.tr, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 16)),
       ),
     );
+  }
+
+  void colorEmptyOnlySize(ProductByIDModel value, int colorId, int sizeId) {
+    Get.defaultDialog(
+        title: 'selectSize'.tr,
+        titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        content: Column(
+            children: List.generate(
+                value.colors!.length,
+                (index) => ElevatedButton(
+                    onPressed: () {
+                      colorId = value.colors![index].id!;
+                      cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                      showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+                      Get.back();
+                    },
+                    child: Text(value.colors![index].name!)))));
+  }
+
+  void sizeEmptyOnlyColor(ProductByIDModel value, int sizeId, int colorId) {
+    Get.defaultDialog(
+        title: 'selectColor'.tr,
+        titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        content: Column(
+            children: List.generate(
+                value.sizes!.length,
+                (index) => ElevatedButton(
+                    onPressed: () {
+                      sizeId = value.sizes![index].id!;
+                      cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                      showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+                      Get.back();
+                    },
+                    child: Text(value.sizes![index].name!)))));
+  }
+
+  void sizeColorNotEmpty(ProductByIDModel value, int sizeId, int colorId) {
+    Get.defaultDialog(
+        title: 'selectSize'.tr,
+        titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        content: Column(
+            children: List.generate(
+                value.sizes!.length,
+                (index) => ElevatedButton(
+                    onPressed: () {
+                      sizeId = value.sizes![index].id!;
+                      Get.back();
+                      Get.defaultDialog(
+                          title: 'selectColor'.tr,
+                          titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                          content: Column(
+                              children: List.generate(
+                                  value.colors!.length,
+                                  (index) => ElevatedButton(
+                                      onPressed: () {
+                                        colorId = value.colors![index].id!;
+                                        cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                                        showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+                                        Get.back();
+                                      },
+                                      child: Text(value.colors![index].name!)))));
+                    },
+                    child: Text(value.sizes![index].name!))))).then((value2) {});
   }
 
   Container numberPart() {

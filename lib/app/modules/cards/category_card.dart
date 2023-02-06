@@ -3,29 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
+import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 
-import '../../data/services/product_service.dart';
-import '../other_pages/show_all_products.dart';
+import '../category/views/sub_category_view.dart';
 
 class CategoryCard extends StatelessWidget {
-  CategoryCard({
-    required this.id,
-    required this.image,
-    required this.name,
-  });
+  CategoryCard({required this.id, required this.image, required this.name, required this.subCategoryList});
   final String name;
   final String image;
   final int id;
+  final List<SubCategoryModel> subCategoryList;
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
     return GestureDetector(
       onTap: () {
-        Get.to(() => ShowAllProducts(
-              pageName: name,
-              getData: ProductsService().getProducts(parametrs: {'main_category_id': '$id'}),
+        Get.to(() => SubCategoryView(
+              subCategoryList: subCategoryList,
+              categoryID: id,
             ));
       },
       child: Stack(

@@ -6,6 +6,7 @@ import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.d
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
+import '../../../data/services/banner_service.dart';
 import '../../cards/banner_card.dart';
 
 class Banners extends StatelessWidget {
@@ -19,7 +20,7 @@ class Banners extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return FutureBuilder<List<BannerModel>>(
-      future: future,
+      future:  BannerService().getBanners(2),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));

@@ -6,19 +6,19 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
-import 'package:nabelli_ecommerce/app/modules/buttons/agree_button_view.dart';
 import 'package:nabelli_ecommerce/app/modules/cards/product_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/widgets.dart';
+import '../../data/services/product_service.dart';
 
 class ShowAllProducts extends StatefulWidget {
   ShowAllProducts({
     Key? key,
     required this.pageName,
-    required this.getData,
+    required this.parametrs,
   }) : super(key: key);
-  final Future<List<ProductModel>> getData;
+  final Map<String, String> parametrs;
   final String pageName;
   @override
   State<ShowAllProducts> createState() => _ShowAllProductsState();
@@ -29,10 +29,17 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
 
   int value = 0;
 
+  Map<String, String> getDataMine = {};
+  @override
+  void initState() {
+    super.initState();
+
+    getDataMine = widget.parametrs;
+  }
+
   final TextEditingController _controller = TextEditingController();
 
   final TextEditingController _controller1 = TextEditingController();
-
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   Widget twoTextEditingField({required TextEditingController controller1, required TextEditingController controller2}) {
@@ -166,7 +173,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
           color: kPrimaryColor,
         ),
         child: FutureBuilder<List<ProductModel>>(
-            future: widget.getData,
+            future: ProductsService().getProducts(parametrs: getDataMine),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: spinKit());
@@ -231,10 +238,15 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                           onChanged: (ind) {
                             final int a = int.parse(ind.toString());
                             value = a;
+                            getDataMine.addAll({
+                              'sort_column': sortData[index]["sort_column"],
+                              'sort_direction': sortData[index]["sort_direction"],
+                            });
                             Get.back();
+                            setState(() {});
                           },
                           title: Text(
-                            "${sortData[index]["name"]}".tr,
+                            "${sortData[index]["sort_column"]}".tr,
                             style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
                           ),
                         );
@@ -268,31 +280,32 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  defaultBottomSheet(
-                    name: 'Filter'.tr,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          selectCity(),
-                          Divider(
-                            color: kPrimaryColor.withOpacity(0.4),
-                            thickness: 2,
-                          ),
-                          twoTextEditingField(controller1: _controller, controller2: _controller1),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: AgreeButton(
-                              onTap: () {
-                                Get.back();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  // print(getDataMine['sub_category_id']);
+                  // if(getDataMine['sub_category_id']!=null)
+                  //       defaultBottomSheet(
+                  //         name: 'Filter'.tr,
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(horizontal: 15),
+                  //           child: FutureBuilder<List<ProductModel>>(
+                  // future: SpecServices().getCatSpecs(subCategoryID: ),
+                  // builder: (context, snapshot) {
+                  //   if (snapshot.connectionState == ConnectionState.waiting) {
+                  //     return Center(child: spinKit());
+                  //   } else if (snapshot.data.toString() == '[]') {
+                  //     return Center(child: Lottie.asset(noData));
+                  //   } else if (snapshot.hasError) {
+                  //     return Center(child: Text("Error"));
+                  //   }
+                  //               return Column(
+                  //                 mainAxisSize: MainAxisSize.min,
+                  //                 children: [
+
+                  //                 ],
+                  //               );
+                  //             }
+                  //           ),
+                  //         ),
+                  //       );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

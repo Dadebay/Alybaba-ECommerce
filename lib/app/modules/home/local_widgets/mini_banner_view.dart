@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/data/models/banner_model.dart';
 import 'package:nabelli_ecommerce/app/modules/cards/mini_category_card.dart';
 
-import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 
 class MiniBannersView extends GetView {
@@ -31,10 +30,7 @@ class MiniBannersView extends GetView {
               if (lang == "tr" || lang == 'en') lang = "tm";
 
               return MiniBannerView(
-                id: snapshot.data![index].id!,
-                image: "$serverURL/${snapshot.data![index].destination!}-big.webp",
-                title: lang == 'tm' ? snapshot.data![index].titleTM! : snapshot.data![index].titleRU!,
-                description: lang == 'tm' ? snapshot.data![index].descriptionTM! : snapshot.data![index].descriptionRU!,
+                model: snapshot.data![index],
               );
             },
             options: CarouselOptions(

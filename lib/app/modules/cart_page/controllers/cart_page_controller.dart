@@ -39,26 +39,41 @@ class CartPageController extends GetxController {
   }
 
   void minusCardElement(int id) {
+    print(list);
+    print(cartListToCompare);
     for (final element in list) {
       if (element['id'] == id) {
         element['quantity'] -= 1;
+        if (element['quantity'] == 0) {
+          cartListToCompare.removeWhere((element) => element['id'] == id);
+        }
       }
     }
+
     list.removeWhere((element) => element['quantity'] == 0);
     list.refresh();
+    cartListToCompare.refresh();
+
+    print(list);
+    print(cartListToCompare);
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
   }
 
   void removeCardXButton(int id) {
+    cartListToCompare.removeWhere((element) => element['id'] == id);
     list.removeWhere((element) => element['id'] == id);
     list.refresh();
+    cartListToCompare.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
   }
 
   void removeAllCartElements() {
     list.clear();
+    cartListToCompare.clear();
+    cartListToCompare.refresh();
+
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
   }
