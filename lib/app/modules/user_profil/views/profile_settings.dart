@@ -12,8 +12,8 @@ import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../constants/constants.dart';
-import '../../../constants/custom_text_field.dart';
-import '../../../constants/phone_number.dart';
+import '../../../constants/text_fields/custom_text_field.dart';
+import '../../../constants/text_fields/phone_number.dart';
 import '../controllers/user_profil_controller.dart';
 import 'local_widgets.dart';
 

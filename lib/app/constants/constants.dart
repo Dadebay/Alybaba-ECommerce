@@ -49,36 +49,43 @@ const List sortData = [
     'id': 1,
     'sort_direction': 'sortDefault',
     'sort_column': 'sortDefault',
+    'sort_name': 'sortDefault',
   },
   {
     'id': 2,
     'sort_column': 'price',
     'sort_direction': 'ASC',
+    'sort_name': 'sortPriceHighToLow',
   },
   {
     'id': 3,
     'sort_column': 'price',
     'sort_direction': 'DESC',
+    'sort_name': 'sortPriceLowToHigh',
   },
   {
     'id': 4,
     'sort_column': 'created_at',
     'sort_direction': 'ASC',
+    'sort_name': 'sortCreatedAtHighToLow',
   },
   {
     'id': 5,
     'sort_column': 'created_at',
     'sort_direction': 'DESC',
+    'sort_name': 'sortCreatedAtLowToHigh',
   },
   {
     'id': 6,
     'sort_column': 'view_count',
     'sort_direction': 'ASC',
+    'sort_name': 'sortViewsDESC',
   },
   {
     'id': 7,
     'sort_column': 'view_count',
     'sort_direction': 'DESC',
+    'sort_name': 'sortViewsASC',
   },
 ];
 const List cities = [

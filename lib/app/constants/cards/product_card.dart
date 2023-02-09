@@ -4,11 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/modules/buttons/add_cart_button.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/add_cart_button.dart';
 
-import '../../constants/widgets.dart';
+import '../widgets.dart';
 import '../buttons/fav_button_view.dart';
-import '../other_pages/product_profil_view.dart';
+import '../../modules/other_pages/product_profil_view.dart';
 
 class ProductCard extends StatelessWidget {
   final String image;

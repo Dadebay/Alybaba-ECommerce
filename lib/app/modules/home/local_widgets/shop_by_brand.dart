@@ -46,7 +46,7 @@ class ShopByBrand extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
+                              Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!,filter: false, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
                             },
                             child: Container(
                               width: 140,

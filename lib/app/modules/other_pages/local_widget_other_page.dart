@@ -10,7 +10,7 @@ import 'package:share/share.dart';
 import '../../constants/constants.dart';
 import '../../constants/widgets.dart';
 import '../../data/models/product_model.dart';
-import '../cards/product_card.dart';
+import '../../constants/cards/product_card.dart';
 
 AppBar productProfilAppBar(String name, String image, String price) {
   return AppBar(

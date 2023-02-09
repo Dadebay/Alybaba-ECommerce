@@ -169,7 +169,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                                 pageName: lang == 'tm' ? snapshot.data![random].titleTM! : snapshot.data![random].titleRU!,
                               ));
                         } else if (snapshot.data![random].pathId == 2) {
-                          Get.to(() => ShowAllProducts(pageName: 'banner', parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
+                          Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
                         } else if (snapshot.data![random].pathId == 3) {
                           ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
                             Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));

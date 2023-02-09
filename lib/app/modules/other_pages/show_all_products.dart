@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
-import 'package:nabelli_ecommerce/app/modules/cards/product_card.dart';
+import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/widgets.dart';
@@ -16,10 +16,12 @@ class ShowAllProducts extends StatefulWidget {
   ShowAllProducts({
     Key? key,
     required this.pageName,
+    required this.filter,
     required this.parametrs,
   }) : super(key: key);
   final Map<String, String> parametrs;
   final String pageName;
+  final bool filter;
   @override
   State<ShowAllProducts> createState() => _ShowAllProductsState();
 }
@@ -209,128 +211,138 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
       width: Get.size.width,
       child: Container(
         alignment: Alignment.bottomCenter,
-        height: 60,
+        height: 50,
         margin: EdgeInsets.only(bottom: 15, left: 20, right: 20),
-        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 4),
+        padding: EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(color: kBlackColor, borderRadius: borderRadius15),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  defaultBottomSheet(
-                    name: 'sort'.tr,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: sortData.length,
-                      itemBuilder: (context, index) {
-                        return RadioListTile(
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                          value: index,
-                          tileColor: Colors.black,
-                          selectedTileColor: Colors.black,
-                          activeColor: kPrimaryColor,
-                          groupValue: value,
-                          onChanged: (ind) {
-                            final int a = int.parse(ind.toString());
-                            value = a;
-                            getDataMine.addAll({
-                              'sort_column': sortData[index]["sort_column"],
-                              'sort_direction': sortData[index]["sort_direction"],
-                            });
-                            Get.back();
-                            setState(() {});
-                          },
-                          title: Text(
-                            "${sortData[index]["sort_column"]}".tr,
-                            style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      IconlyBold.swap,
-                      color: Colors.white,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        "sort".tr,
-                        style: TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            VerticalDivider(
+        child: widget.filter
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: sortWidget(),
+                  ),
+                  VerticalDivider(
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: filterWidget(),
+                  ),
+                ],
+              )
+            : Center(child: sortWidget()),
+      ),
+    );
+  }
+
+  GestureDetector filterWidget() {
+    return GestureDetector(
+      onTap: () {
+        // print(getDataMine['sub_category_id']);
+        // if(getDataMine['sub_category_id']!=null)
+        //       defaultBottomSheet(
+        //         name: 'Filter'.tr,
+        //         child: Padding(
+        //           padding: const EdgeInsets.symmetric(horizontal: 15),
+        //           child: FutureBuilder<List<ProductModel>>(
+        // future: SpecServices().getCatSpecs(subCategoryID: ),
+        // builder: (context, snapshot) {
+        //   if (snapshot.connectionState == ConnectionState.waiting) {
+        //     return Center(child: spinKit());
+        //   } else if (snapshot.data.toString() == '[]') {
+        //     return Center(child: Lottie.asset(noData));
+        //   } else if (snapshot.hasError) {
+        //     return Center(child: Text("Error"));
+        //   }
+        //               return Column(
+        //                 mainAxisSize: MainAxisSize.min,
+        //                 children: [
+
+        //                 ],
+        //               );
+        //             }
+        //           ),
+        //         ),
+        //       );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Icon(
+              IconlyBold.filter2,
               color: Colors.white,
             ),
-            Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  // print(getDataMine['sub_category_id']);
-                  // if(getDataMine['sub_category_id']!=null)
-                  //       defaultBottomSheet(
-                  //         name: 'Filter'.tr,
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.symmetric(horizontal: 15),
-                  //           child: FutureBuilder<List<ProductModel>>(
-                  // future: SpecServices().getCatSpecs(subCategoryID: ),
-                  // builder: (context, snapshot) {
-                  //   if (snapshot.connectionState == ConnectionState.waiting) {
-                  //     return Center(child: spinKit());
-                  //   } else if (snapshot.data.toString() == '[]') {
-                  //     return Center(child: Lottie.asset(noData));
-                  //   } else if (snapshot.hasError) {
-                  //     return Center(child: Text("Error"));
-                  //   }
-                  //               return Column(
-                  //                 mainAxisSize: MainAxisSize.min,
-                  //                 children: [
-
-                  //                 ],
-                  //               );
-                  //             }
-                  //           ),
-                  //         ),
-                  //       );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Icon(
-                        IconlyBold.filter2,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
-                        "filter".tr,
-                        style: TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
-                      ),
-                    )
-                  ],
-                ),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              "filter".tr,
+              style: TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
             ),
-          ],
-        ),
+          )
+        ],
+      ),
+    );
+  }
+
+  GestureDetector sortWidget() {
+    return GestureDetector(
+      onTap: () {
+        defaultBottomSheet(
+          name: 'sort'.tr,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: sortData.length,
+            itemBuilder: (context, index) {
+              return RadioListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                value: index,
+                tileColor: Colors.black,
+                selectedTileColor: Colors.black,
+                activeColor: kPrimaryColor,
+                groupValue: value,
+                onChanged: (ind) {
+                  final int a = int.parse(ind.toString());
+                  value = a;
+                  getDataMine.addAll({
+                    'sort_column': sortData[index]["sort_column"],
+                    'sort_direction': sortData[index]["sort_direction"],
+                  });
+                  Get.back();
+                  setState(() {});
+                },
+                title: Text(
+                  "${sortData[index]["sort_column"]}".tr,
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
+                ),
+              );
+            },
+          ),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            IconlyBold.swap,
+            color: Colors.white,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Text(
+              "sort".tr,
+              style: TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
+            ),
+          )
+        ],
       ),
     );
   }

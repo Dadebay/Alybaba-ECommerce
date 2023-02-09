@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class PhoneNumber extends StatelessWidget {
   final TextEditingController controller;

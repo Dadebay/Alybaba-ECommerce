@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/modules/buttons/add_cart_button.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/add_cart_button.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/other_pages/product_profil_view.dart';
 
-import '../../constants/widgets.dart';
+import '../widgets.dart';
 
 class CardCart extends StatelessWidget {
   const CardCart({

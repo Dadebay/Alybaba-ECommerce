@@ -35,6 +35,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
           return GestureDetector(
             onTap: () {
               Get.to(() => ShowAllProducts(
+                    filter: true,
                     pageName: widget.subCategoryList[index].name.toString(),
                     parametrs: {'sub_category_id': '${widget.subCategoryList[index].id}', 'main_category_id': widget.categoryID.toString()},
                   ));

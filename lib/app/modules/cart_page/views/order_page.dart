@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/constants/custom_text_field.dart';
-import 'package:nabelli_ecommerce/app/constants/phone_number.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/data/services/create_order.dart';
-import 'package:nabelli_ecommerce/app/modules/buttons/agree_button_view.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/agree_button_view.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/views/local_widget.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
+import '../../../constants/text_fields/custom_text_field.dart';
+import '../../../constants/text_fields/phone_number.dart';
 import '../../../data/models/get_order_info_model.dart';
 import '../controllers/cart_page_controller.dart';
 

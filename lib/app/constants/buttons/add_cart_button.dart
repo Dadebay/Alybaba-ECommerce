@@ -7,7 +7,7 @@ import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
 
-import '../../constants/widgets.dart';
+import '../widgets.dart';
 
 class AddCartButton extends StatefulWidget {
   const AddCartButton({

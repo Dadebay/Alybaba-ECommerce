@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/constants.dart';
-import '../../constants/widgets.dart';
-import '../other_pages/show_all_products.dart';
+import '../constants.dart';
+import '../widgets.dart';
+import '../../modules/other_pages/show_all_products.dart';
 
 class BrandCard extends StatelessWidget {
   final String name;
@@ -19,6 +19,7 @@ class BrandCard extends StatelessWidget {
         Get.to(() => ShowAllProducts(
               parametrs: {'producer_id': '$id'},
               pageName: name,
+              filter: false,
             ));
       },
       child: Container(

@@ -39,11 +39,11 @@ class _VideosViewState extends State<VideosView> {
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return Text("Asd");
-                // VideoPLayerMine(
-                //   page: false,
-                //   videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
-                // );
+                return
+                VideoPLayerMine(
+                  page: false,
+                  videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
+                );
               },
             );
           }),

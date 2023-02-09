@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
 import '../../../constants/constants.dart';
-import '../../../constants/phone_number.dart';
+import '../../../constants/text_fields/phone_number.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/sign_in_service.dart';
-import '../../buttons/agree_button_view.dart';
+import '../../../constants/buttons/agree_button_view.dart';
 import 'otp_check.dart';
 
 class LogInView extends GetView {

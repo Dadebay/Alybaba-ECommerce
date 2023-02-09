@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/data/models/producer_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/producers_service.dart';
-import 'package:nabelli_ecommerce/app/modules/cards/brand_card.dart';
-import 'package:nabelli_ecommerce/app/modules/cards/category_card.dart';
+import 'package:nabelli_ecommerce/app/constants/cards/brand_card.dart';
+import 'package:nabelli_ecommerce/app/constants/cards/category_card.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/models/category_model.dart';

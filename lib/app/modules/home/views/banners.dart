@@ -1,17 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
+import '../../../constants/cards/banner_card.dart';
 import '../../../constants/constants.dart';
-import '../../../constants/widgets.dart';
+import '../../../constants/errors/empty_widgets.dart';
+import '../../../constants/errors/error_widgets.dart';
 import '../../../data/models/banner_model.dart';
 import '../../../data/services/banner_service.dart';
-import '../../cards/banner_card.dart';
 
 class Banners extends StatelessWidget {
   final Future<List<BannerModel>> future;
-
   const Banners({
     required this.future,
     Key? key,
@@ -20,22 +21,20 @@ class Banners extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return FutureBuilder<List<BannerModel>>(
-      future:  BannerService().getBanners(2),
+      future: BannerService().getBanners(2),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.4)), child: Center(child: spinKit()));
+          return bannerLoader();
         } else if (snapshot.hasError) {
-          return Text("Error");
+          return bannerErrorWidget();
         } else if (snapshot.data.toString() == '[]') {
-          return Text('Empty');
+          return bannerEmptyWidget();
         }
         return Column(
           children: [
             CarouselSlider.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index, count) {
-                String lang = Get.locale!.languageCode;
-                if (lang == "tr" || lang == 'en') lang = "tm";
                 return BannerCard(
                   model: snapshot.data![index],
                 );

@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
-import '../../buttons/settings_button.dart';
+import '../../../constants/buttons/settings_button.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);

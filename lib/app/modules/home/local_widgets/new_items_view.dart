@@ -7,11 +7,10 @@ import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/product_service.dart';
-import '../../cards/product_card.dart';
+import '../../../constants/cards/product_card.dart';
 
 class NewItemsView extends GetView {
   final Map<String, String> parametrs;
-
   NewItemsView(this.parametrs);
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class NewItemsView extends GetView {
     return Wrap(
       children: [
         listViewName("newItems", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "newItems", parametrs: parametrs));
+          Get.to(() => ShowAllProducts(pageName: "newItems",filter: false, parametrs: parametrs));
         }),
         SizedBox(
           height: 300,

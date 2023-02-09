@@ -5,7 +5,7 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 
-import '../category/views/sub_category_view.dart';
+import '../../modules/category/views/sub_category_view.dart';
 
 class CategoryCard extends StatelessWidget {
   CategoryCard({required this.id, required this.image, required this.name, required this.subCategoryList});

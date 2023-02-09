@@ -4,7 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
-import 'package:nabelli_ecommerce/app/modules/cards/product_card.dart';
+import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';

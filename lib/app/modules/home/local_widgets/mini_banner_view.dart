@@ -2,10 +2,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/empty_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/data/models/banner_model.dart';
-import 'package:nabelli_ecommerce/app/modules/cards/mini_category_card.dart';
 
-import '../../../constants/widgets.dart';
+import '../../../constants/cards/mini_banner_card.dart';
 
 class MiniBannersView extends GetView {
   @override
@@ -17,19 +19,16 @@ class MiniBannersView extends GetView {
         future: miniBannerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return miniBannerLoader();
           } else if (snapshot.hasError) {
-            return Text('Error');
+            return miniBannerErrorWidget();
           } else if (snapshot.data!.isEmpty) {
-            return Text('Empty');
+            return miniBannerEmptyWidget();
           }
           return CarouselSlider.builder(
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index, count) {
-              String lang = Get.locale!.languageCode;
-              if (lang == "tr" || lang == 'en') lang = "tm";
-
-              return MiniBannerView(
+              return MiniBannerCard(
                 model: snapshot.data![index],
               );
             },

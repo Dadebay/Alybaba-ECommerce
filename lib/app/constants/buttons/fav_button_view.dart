@@ -3,7 +3,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 
-import '../user_profil/controllers/favorites_page_controller.dart';
+import '../../modules/user_profil/controllers/favorites_page_controller.dart';
 
 class FavButton extends StatefulWidget {
   const FavButton({required this.whiteColor, required this.id, required this.createdAt, required this.name, required this.price, required this.image});

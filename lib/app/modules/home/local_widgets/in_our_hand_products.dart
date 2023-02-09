@@ -6,7 +6,7 @@ import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
 import '../../../data/services/product_service.dart';
-import '../../cards/product_card.dart';
+import '../../../constants/cards/product_card.dart';
 import '../../other_pages/show_all_products.dart';
 
 class InOurHands extends GetView {
@@ -21,7 +21,7 @@ class InOurHands extends GetView {
     return Wrap(
       children: [
         listViewName("inOurHands", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "inOurHands", parametrs: parametrs));
+          Get.to(() => ShowAllProducts(pageName: "inOurHands", filter: false, parametrs: parametrs));
         }),
         SizedBox(
           height: 300,

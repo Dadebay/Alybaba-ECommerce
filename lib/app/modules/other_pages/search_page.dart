@@ -59,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
           return null;
         },
         onEditingComplete: () {
-          Get.to(() => ShowAllProducts(pageName: 'Gozleg', parametrs: {'search': controller.text}));
+          Get.to(() => ShowAllProducts(pageName: 'search', filter: false, parametrs: {'search': controller.text}));
         },
         keyboardType: TextInputType.text,
         decoration: InputDecoration(

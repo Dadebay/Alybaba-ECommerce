@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/custom_text_field.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/custom_app_bar.dart';
+import '../../../constants/text_fields/custom_text_field.dart';
 
 class Locations extends StatefulWidget {
   Locations({Key? key}) : super(key: key);

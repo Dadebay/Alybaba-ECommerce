@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/constants.dart';
+import '../constants.dart';
 
 class UserProfilIconButton extends StatelessWidget {
   UserProfilIconButton({Key? key, required this.icon, required this.name, required this.onTap}) : super(key: key);

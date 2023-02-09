@@ -77,16 +77,16 @@ class _HomeViewState extends State<HomeView> {
             children: [
               Banners(future: bannersFuture),
               MiniBannersView(minibannerFuture),
-              NewItemsView( {'new_in_come': 'true'}),
+              NewItemsView({'new_in_come': 'true'}),
               HomePageVideos(),
-              RecomendedItems( {'recomended': 'true'}),
+              RecomendedItems({'recomended': 'true'}),
               SizedBox(
                 height: 30,
               ),
               ShopByBrand(
                 producers: producersFuture,
               ),
-              InOurHands( {'on_hand': 'true'}),
+              InOurHands({'on_hand': 'true'}),
             ],
           ),
         ));
@@ -107,7 +107,10 @@ class _HomeViewState extends State<HomeView> {
                     future: AboutUsService().getAboutUs(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: spinKit());
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15  ),
+                          child: Center(child: spinKit()),
+                        );
                       } else if (snapshot.data == null) {
                         return Text("Empty");
                       } else if (snapshot.hasError) {

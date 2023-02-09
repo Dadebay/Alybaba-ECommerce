@@ -1,24 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/data/models/banner_model.dart';
+import 'package:nabelli_ecommerce/app/modules/other_pages/product_profil_view.dart';
+import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart';
 
-import '../../constants/widgets.dart';
-import '../../data/models/banner_model.dart';
+import '../constants.dart';
+import '../widgets.dart';
 import '../../data/services/product_service.dart';
-import '../home/views/banner_profil_view.dart';
-import '../other_pages/product_profil_view.dart';
-import '../other_pages/show_all_products.dart';
+import '../../modules/home/views/banner_profil_view.dart';
 
-class MiniBannerView extends StatelessWidget {
-  const MiniBannerView({
+class BannerCard extends StatelessWidget {
+  final BannerModel model;
+  const BannerCard({
     required this.model,
     Key? key,
   }) : super(key: key);
-  final BannerModel model;
-
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () async {
         String lang = await Get.locale!.languageCode.toString();
@@ -29,7 +29,7 @@ class MiniBannerView extends StatelessWidget {
                 pageName: lang == 'tm' ? model.titleTM! : model.titleRU!,
               ));
         } else if (model.pathId == 2) {
-          Get.to(() => ShowAllProducts(pageName: 'banner', parametrs: {'main_category_id': '${model.itemId}'}));
+          Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${model.itemId}'}));
         } else if (model.pathId == 3) {
           ProductsService().getProductByID(model.itemId!).then((value) {
             Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));
@@ -39,15 +39,18 @@ class MiniBannerView extends StatelessWidget {
         }
       },
       child: Container(
-        width: Get.size.width,
-        margin: const EdgeInsets.only(left: 14, top: 25),
-        decoration: BoxDecoration(borderRadius: borderRadius20, color: Colors.grey.withOpacity(0.1)),
+        margin: const EdgeInsets.all(8),
+        width: size.width,
+        decoration: const BoxDecoration(
+          borderRadius: borderRadius10,
+        ),
         child: ClipRRect(
-          borderRadius: borderRadius20,
+          borderRadius: borderRadius10,
           child: CachedNetworkImage(
             fadeInCurve: Curves.ease,
             imageUrl: "$serverURL/${model.destination!}-big.webp",
             imageBuilder: (context, imageProvider) => Container(
+              width: size.width,
               decoration: BoxDecoration(
                 borderRadius: borderRadius10,
                 image: DecorationImage(

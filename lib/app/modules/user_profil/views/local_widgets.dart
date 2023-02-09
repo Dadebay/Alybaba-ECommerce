@@ -18,7 +18,7 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/views/wallet_page.dart
 import 'package:vibration/vibration.dart';
 
 import '../../../constants/constants.dart';
-import '../../buttons/user_profil_icon_button.dart';
+import '../../../constants/buttons/user_profil_icon_button.dart';
 import 'about_us.dart';
 import 'settings.dart';
 

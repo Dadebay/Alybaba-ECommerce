@@ -5,7 +5,7 @@ import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 
 import '../../constants/constants.dart';
-import '../buttons/add_cart_button.dart';
+import '../../constants/buttons/add_cart_button.dart';
 import 'local_widget_other_page.dart';
 
 class ProductProfilView extends StatefulWidget {
