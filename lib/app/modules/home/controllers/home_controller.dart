@@ -9,6 +9,9 @@ class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
   RxString balance = '0'.obs;
   RxBool agreeButton = false.obs;
+  RxInt loading = 0.obs;
+  RxInt page = 0.obs;
+  RxList showAllList = [].obs;
 
   late VideoPlayerController controller;
   late FlickManager flickManager;

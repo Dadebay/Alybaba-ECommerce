@@ -4,12 +4,15 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../constants/constants.dart';
+import '../../modules/home/controllers/home_controller.dart';
 import '../models/product_model.dart';
 
 class ProductsService {
   Future<List<ProductModel>> getProducts({required Map<String, String> parametrs}) async {
-    final List<ProductModel> productsList = [];
+    final HomeController homeController = Get.put(HomeController());
+    print(parametrs);
     String lang = Get.locale!.languageCode;
+    List<ProductModel> productsList = [];
     if (lang == "tr" || lang == "en") lang = "tm";
     final response = await http.get(
       Uri.parse(
@@ -19,15 +22,25 @@ class ProductsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    // print(parametrs);
-    // print(response.body);
     if (response.statusCode == 200) {
+      homeController.loading.value = 3;
       final responseJson = jsonDecode(response.body)["products"] as List;
       for (final Map product in responseJson) {
         productsList.add(ProductModel.fromJson(product));
+        homeController.showAllList.add({
+          'id': ProductModel.fromJson(product).id,
+          'name': ProductModel.fromJson(product).name,
+          'price': ProductModel.fromJson(product).price,
+          'createdAt': ProductModel.fromJson(product).createdAt,
+          'image': ProductModel.fromJson(product).image,
+        });
+      }
+      if (homeController.showAllList.isEmpty) {
+        homeController.loading.value = 2;
       }
       return productsList;
     } else {
+      homeController.loading.value = 1;
       return [];
     }
   }

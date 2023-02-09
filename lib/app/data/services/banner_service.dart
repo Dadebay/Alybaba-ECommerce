@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +20,8 @@ class BannerService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
+    print(id);
+    log(response.body);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)["rows"] as List;
       for (final Map product in responseJson) {
@@ -29,23 +31,5 @@ class BannerService {
     } else {
       return [];
     }
-  }
-}
-
-Future<BannerModel> getBannerByID(int id) async {
-  final response = await http.get(
-    Uri.parse(
-      '$serverURL/api/v1/banners/$id',
-    ),
-    headers: <String, String>{
-      HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-    },
-  );
-  if (response.statusCode == 200) {
-    final decoded = utf8.decode(response.bodyBytes);
-    final responseJson = json.decode(decoded);
-    return BannerModel.fromJson(responseJson);
-  } else {
-    return BannerModel();
   }
 }

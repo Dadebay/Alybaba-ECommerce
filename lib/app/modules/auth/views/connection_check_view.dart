@@ -164,9 +164,9 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                         String lang = await Get.locale!.languageCode.toString();
                         if (snapshot.data![random].pathId! == 1) {
                           Get.to(() => BannerProfileView(
-                                description: lang == 'tm' ? snapshot.data![random].descriptionTM! : snapshot.data![random].descriptionRU!,
+                                description: snapshot.data![random].descriptionTM!,
                                 image: "$serverURL/${snapshot.data![random].destination!}-big.webp",
-                                pageName: lang == 'tm' ? snapshot.data![random].titleTM! : snapshot.data![random].titleRU!,
+                                pageName: snapshot.data![random].titleTM!,
                               ));
                         } else if (snapshot.data![random].pathId == 2) {
                           Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));

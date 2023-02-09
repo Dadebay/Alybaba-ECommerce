@@ -21,12 +21,13 @@ class BannerCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () async {
+        print(model.descriptionTM);
         String lang = await Get.locale!.languageCode.toString();
         if (model.pathId == 1) {
           Get.to(() => BannerProfileView(
-                description: lang == 'tm' ? model.descriptionTM! : model.descriptionRU!,
+                description: model.descriptionTM!,
                 image: "$serverURL/${model.destination!}-big.webp",
-                pageName: lang == 'tm' ? model.titleTM! : model.titleRU!,
+                pageName: model.titleTM!,
               ));
         } else if (model.pathId == 2) {
           Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${model.itemId}'}));

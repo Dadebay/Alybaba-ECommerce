@@ -3,14 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/widgets.dart';
 import '../../data/services/product_service.dart';
+import '../home/controllers/home_controller.dart';
 
 class ShowAllProducts extends StatefulWidget {
   ShowAllProducts({
@@ -19,30 +18,37 @@ class ShowAllProducts extends StatefulWidget {
     required this.filter,
     required this.parametrs,
   }) : super(key: key);
-  final Map<String, String> parametrs;
-  final String pageName;
+
   final bool filter;
+  final String pageName;
+  final Map<String, String> parametrs;
+
   @override
   State<ShowAllProducts> createState() => _ShowAllProductsState();
 }
 
 class _ShowAllProductsState extends State<ShowAllProducts> {
+  Map<String, String> getDataMine = {};
   String name = 'Ashgabat';
-
   int value = 0;
 
-  Map<String, String> getDataMine = {};
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
+
   @override
   void initState() {
     super.initState();
-
     getDataMine = widget.parametrs;
+    homeController.showAllList.clear();
+    homeController.page.value = 1;
+    homeController.loading.value = 0;
+    getDataMine.addAll({
+      'limit': '4',
+      'page': '${homeController.page.value}',
+    });
+    // Future.delayed(Duration(milliseconds: 1000), () {
+    getData();
+    // });
   }
-
-  final TextEditingController _controller = TextEditingController();
-
-  final TextEditingController _controller1 = TextEditingController();
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   Widget twoTextEditingField({required TextEditingController controller1, required TextEditingController controller2}) {
     return Padding(
@@ -128,113 +134,58 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     );
   }
 
-  void _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
-    setState(() {});
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      bottomSheet: sortFilter(),
-      appBar: AppBar(
-        title: Text(
-          widget.pageName.tr,
-          maxLines: 1,
-          style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 22),
+  Padding selectCity() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('selectCityTitle'.tr, style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 14)),
+            Text(name.tr, style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18)),
+          ],
         ),
-        leading: IconButton(
-          icon: Icon(
-            IconlyBroken.arrowLeftCircle,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.back();
-          },
+        leading: const Icon(
+          IconlyBroken.location,
+          size: 30,
         ),
-        centerTitle: true,
-        backgroundColor: kPrimaryColor,
-        elevation: 0,
-      ),
-      body: SmartRefresher(
-        footer: footer(),
-        controller: _refreshController,
-        onRefresh: _onRefresh,
-        onLoading: _onLoading,
-        enablePullDown: true,
-        enablePullUp: true,
-        physics: const BouncingScrollPhysics(),
-        header: MaterialClassicHeader(
-          color: kPrimaryColor,
-        ),
-        child: FutureBuilder<List<ProductModel>>(
-            future: ProductsService().getProducts(parametrs: getDataMine),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: spinKit());
-              } else if (snapshot.data.toString() == '[]') {
-                return Center(child: Lottie.asset(noData));
-              } else if (snapshot.hasError) {
-                return Center(child: Text("Error"));
-              }
-              return StaggeredGridView.countBuilder(
-                crossAxisCount: 2,
-                itemCount: snapshot.data!.length,
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemBuilder: (context, index) => ProductCard(
-                  id: snapshot.data![index].id!,
-                  createdAt: snapshot.data![index].createdAt!,
-                  image: "$serverURL/${snapshot.data![index].image!}-big.webp",
-                  name: snapshot.data![index].name!,
-                  price: snapshot.data![index].price!,
+        trailing: const Icon(IconlyBroken.arrowRightCircle),
+        onTap: () {
+          Get.defaultDialog(
+            title: 'selectCityTitle'.tr,
+            titleStyle: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+            radius: 5,
+            backgroundColor: Colors.white,
+            titlePadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            contentPadding: const EdgeInsets.only(),
+            content: Column(
+              children: List.generate(
+                5,
+                (index) => Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    dividerr(),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          name = cities[index];
+                        });
+                        Get.back();
+                      },
+                      child: Text(
+                        cities[index],
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 16),
+                      ),
+                    ),
+                  ],
                 ),
-                staggeredTileBuilder: (index) => StaggeredTile.count(
-                  1,
-                  index % 2 == 0 ? 1.5 : 1.6,
-                ),
-              );
-            }),
-      ),
-    );
-  }
-
-  Widget sortFilter() {
-    return Container(
-      width: Get.size.width,
-      child: Container(
-        alignment: Alignment.bottomCenter,
-        height: 50,
-        margin: EdgeInsets.only(bottom: 15, left: 20, right: 20),
-        padding: EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(color: kBlackColor, borderRadius: borderRadius15),
-        child: widget.filter
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: sortWidget(),
-                  ),
-                  VerticalDivider(
-                    color: Colors.white,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: filterWidget(),
-                  ),
-                ],
-              )
-            : Center(child: sortWidget()),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -295,6 +246,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   GestureDetector sortWidget() {
     return GestureDetector(
       onTap: () {
+        print(homeController.showAllList.length);
         defaultBottomSheet(
           name: 'sort'.tr,
           child: ListView.builder(
@@ -315,12 +267,12 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     'sort_column': sortData[index]["sort_column"],
                     'sort_direction': sortData[index]["sort_direction"],
                   });
+                  getData();
                   Get.back();
-                  setState(() {});
                 },
                 title: Text(
-                  "${sortData[index]["sort_column"]}".tr,
-                  style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
+                  "${sortData[index]["sort_name"]}".tr,
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
                 ),
               );
             },
@@ -347,58 +299,129 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     );
   }
 
-  Padding selectCity() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('selectCityTitle'.tr, style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 14)),
-            Text(name.tr, style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18)),
-          ],
+  Widget sortFilter() {
+    return Container(
+      width: Get.size.width,
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        height: 50,
+        margin: EdgeInsets.only(bottom: 15, left: 20, right: 20),
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(color: kBlackColor, borderRadius: borderRadius15),
+        child: widget.filter
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: sortWidget(),
+                  ),
+                  VerticalDivider(
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: filterWidget(),
+                  ),
+                ],
+              )
+            : Center(child: sortWidget()),
+      ),
+    );
+  }
+
+  final HomeController homeController = Get.put(HomeController());
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+    homeController.showAllList.clear();
+    homeController.page.value = 1;
+    getData();
+
+    setState(() {});
+  }
+
+  dynamic getData() async {
+    homeController.loading.value = 0;
+
+    await ProductsService().getProducts(parametrs: getDataMine);
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+    homeController.page.value += 1;
+    print(homeController.page.value);
+    getData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      bottomSheet: sortFilter(),
+      appBar: AppBar(
+        title: Text(
+          widget.pageName.tr,
+          maxLines: 1,
+          style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 22),
         ),
-        leading: const Icon(
-          IconlyBroken.location,
-          size: 30,
+        leading: IconButton(
+          icon: Icon(
+            IconlyBroken.arrowLeftCircle,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Get.back();
+          },
         ),
-        trailing: const Icon(IconlyBroken.arrowRightCircle),
-        onTap: () {
-          Get.defaultDialog(
-            title: 'selectCityTitle'.tr,
-            titleStyle: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
-            radius: 5,
-            backgroundColor: Colors.white,
-            titlePadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            contentPadding: const EdgeInsets.only(),
-            content: Column(
-              children: List.generate(
-                5,
-                (index) => Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    dividerr(),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          name = cities[index];
-                        });
-                        Get.back();
-                      },
-                      child: Text(
-                        cities[index],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+        centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        elevation: 0,
+      ),
+      body: SmartRefresher(
+        footer: footer(),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        enablePullDown: true,
+        enablePullUp: true,
+        physics: const BouncingScrollPhysics(),
+        header: MaterialClassicHeader(
+          color: kPrimaryColor,
+        ),
+        child: Obx(() {
+          if (homeController.loading.value == 0) {
+            return Center(child: spinKit());
+          } else if (homeController.loading.value == 1) {
+            return Center(child: Text('Error'));
+          } else if (homeController.loading.value == 2) {
+            return Center(
+              child: Text('Empty'),
+            );
+          }
+          return homeController.showAllList.isEmpty
+              ? Center(child: Text('No Product'))
+              : StaggeredGridView.countBuilder(
+                  crossAxisCount: 2,
+                  itemCount: homeController.showAllList.length,
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => ProductCard(
+                    id: homeController.showAllList[index]['id'],
+                    createdAt: homeController.showAllList[index]['createdAt'],
+                    image: "$serverURL/${homeController.showAllList[index]['image']}-big.webp",
+                    name: homeController.showAllList[index]['name'],
+                    price: homeController.showAllList[index]['price'],
+                  ),
+                  staggeredTileBuilder: (index) => StaggeredTile.count(
+                    1,
+                    index % 2 == 0 ? 1.5 : 1.6,
+                  ),
+                );
+        }),
       ),
     );
   }

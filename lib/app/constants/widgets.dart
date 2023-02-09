@@ -304,14 +304,14 @@ void defaultBottomSheet({required String name, required Widget child}) {
       child: Wrap(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox.shrink(),
                 Text(
                   name.tr,
-                  style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 20),
                 ),
                 GestureDetector(
                   onTap: () {
