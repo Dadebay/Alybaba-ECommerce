@@ -13,6 +13,7 @@ class UserProfilController extends GetxController {
   final RxString userReferalCode = "0".obs;
   final RxString userMoney = "".obs;
   final RxString userPhoneNumber = "".obs;
+  final RxDouble referalCodeSum = 0.0.obs;
   final RxList userAddressesList = [].obs;
 
   final storage = GetStorage();

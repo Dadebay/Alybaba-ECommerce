@@ -108,7 +108,7 @@ class _HomeViewState extends State<HomeView> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15  ),
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Center(child: spinKit()),
                         );
                       } else if (snapshot.data == null) {

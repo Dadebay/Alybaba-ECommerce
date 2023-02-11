@@ -21,7 +21,6 @@ class MiniBannerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        String lang = await Get.locale!.languageCode.toString();
         if (model.pathId == 1) {
           Get.to(() => BannerProfileView(
                 description: model.descriptionTM!,

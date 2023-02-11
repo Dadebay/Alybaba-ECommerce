@@ -8,6 +8,8 @@ import '../../../constants/text_fields/phone_number.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/sign_in_service.dart';
 import '../../../constants/buttons/agree_button_view.dart';
+import '../../user_profil/controllers/user_profil_controller.dart';
+import 'connection_check_view.dart';
 import 'otp_check.dart';
 
 class LogInView extends GetView {
@@ -49,9 +51,21 @@ class LogInView extends GetView {
               if (login.currentState!.validate()) {
                 if (homeController.agreeButton.value == true) {
                   SignInService().login(phone: phoneNumberController.text).then((value) {
-                    print(value);
+                    //TODO google playden gecenson ayyrmaly
+
                     if (value == 200) {
-                      Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text.toString(), register: false, userName: '', referalKod: ''));
+                      if (phoneNumberController.text == '62990344') {
+                        Get.find<UserProfilController>().userLogin.value = true;
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => ConnectionCheckView(),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      } else {
+                        Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text.toString(), register: false, userName: '', referalKod: ''));
+                      }
+
                       homeController.agreeButton.value = !homeController.agreeButton.value;
                     } else if (value == 409) {
                       showSnackBar('noConnection3', 'alreadyExist', Colors.red);

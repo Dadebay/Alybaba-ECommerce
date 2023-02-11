@@ -21,8 +21,6 @@ class BannerCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () async {
-        print(model.descriptionTM);
-        String lang = await Get.locale!.languageCode.toString();
         if (model.pathId == 1) {
           Get.to(() => BannerProfileView(
                 description: model.descriptionTM!,

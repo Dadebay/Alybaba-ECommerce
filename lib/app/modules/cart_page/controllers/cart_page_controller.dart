@@ -39,8 +39,6 @@ class CartPageController extends GetxController {
   }
 
   void minusCardElement(int id) {
-    print(list);
-    print(cartListToCompare);
     for (final element in list) {
       if (element['id'] == id) {
         element['quantity'] -= 1;
@@ -53,9 +51,6 @@ class CartPageController extends GetxController {
     list.removeWhere((element) => element['quantity'] == 0);
     list.refresh();
     cartListToCompare.refresh();
-
-    print(list);
-    print(cartListToCompare);
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
   }

@@ -42,7 +42,6 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
 
     return DefaultTabController(
       length: 2,

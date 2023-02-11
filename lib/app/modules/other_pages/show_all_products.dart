@@ -37,17 +37,16 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   @override
   void initState() {
     super.initState();
+    getDataMine = {};
     getDataMine = widget.parametrs;
     homeController.showAllList.clear();
-    homeController.page.value = 1;
+    homeController.page.value = 0;
     homeController.loading.value = 0;
     getDataMine.addAll({
       'limit': '4',
       'page': '${homeController.page.value}',
     });
-    // Future.delayed(Duration(milliseconds: 1000), () {
     getData();
-    // });
   }
 
   Widget twoTextEditingField({required TextEditingController controller1, required TextEditingController controller2}) {
@@ -193,7 +192,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   GestureDetector filterWidget() {
     return GestureDetector(
       onTap: () {
-        // print(getDataMine['sub_category_id']);
         // if(getDataMine['sub_category_id']!=null)
         //       defaultBottomSheet(
         //         name: 'Filter'.tr,
@@ -246,7 +244,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   GestureDetector sortWidget() {
     return GestureDetector(
       onTap: () {
-        print(homeController.showAllList.length);
         defaultBottomSheet(
           name: 'sort'.tr,
           child: ListView.builder(
@@ -263,6 +260,12 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                 onChanged: (ind) {
                   final int a = int.parse(ind.toString());
                   value = a;
+                  homeController.showAllList.clear();
+                  homeController.page.value = 0;
+                  getDataMine.update("page", ((value) {
+                    value = homeController.page.value.toString();
+                    return value;
+                  }));
                   getDataMine.addAll({
                     'sort_column': sortData[index]["sort_column"],
                     'sort_direction': sortData[index]["sort_direction"],
@@ -337,23 +340,26 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
     homeController.showAllList.clear();
-    homeController.page.value = 1;
+    getDataMine.update("page", ((value) {
+      value = '0';
+      return value;
+    }));
+    homeController.loading.value = 0;
     getData();
-
-    setState(() {});
   }
 
   dynamic getData() async {
-    homeController.loading.value = 0;
-
-    await ProductsService().getProducts(parametrs: getDataMine);
+    await ProductsService().getShowAllProducts(parametrs: getDataMine);
   }
 
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
     homeController.page.value += 1;
-    print(homeController.page.value);
+    getDataMine.update("page", ((value) {
+      value = homeController.page.value.toString();
+      return value;
+    }));
     getData();
   }
 

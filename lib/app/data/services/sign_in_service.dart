@@ -10,8 +10,9 @@ import '../../constants/constants.dart';
 import 'auth_service.dart';
 
 class SignInService {
+  final UserProfilController userProfilController = Get.put(UserProfilController());
+
   Future otpCheck({String? otp, required String phoneNumber}) async {
-    final UserProfilController userProfilController = Get.put(UserProfilController());
     final token = await Auth().getToken();
     final response = await http.post(
       Uri.parse('$serverURL/api/user/ru/verify-login'),
@@ -36,7 +37,6 @@ class SignInService {
   }
 
   Future register({required String otp, required String phoneNumber, required String fullName, required String referalKod}) async {
-    final UserProfilController userProfilController = Get.put(UserProfilController());
     final token = await Auth().getToken();
     final response = await http.post(
       Uri.parse('$serverURL/api/user/ru/register'),
@@ -76,13 +76,14 @@ class SignInService {
         'phone': phone,
       }),
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
-      print(responseJson);
+      if (phone == '62990344') {
+        await Auth().setRefreshToken(responseJson['refresh_token']);
+        userProfilController.saveData(phoneNumber1: phone, userName1: responseJson['data']['full_name'], userMoney1: '0', referalCode1: responseJson['data']['referral_code']);
+        await Auth().login((responseJson['data'].toString()));
+      }
       await Auth().setToken(responseJson['access_token']);
-
       showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
       return response.statusCode;
     } else {

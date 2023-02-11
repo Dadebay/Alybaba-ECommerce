@@ -16,7 +16,6 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         Get.to(() => SubCategoryView(

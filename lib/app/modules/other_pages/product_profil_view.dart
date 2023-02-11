@@ -6,6 +6,8 @@ import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 
 import '../../constants/constants.dart';
 import '../../constants/buttons/add_cart_button.dart';
+import '../../constants/errors/empty_widgets.dart';
+import '../../constants/errors/error_widgets.dart';
 import 'local_widget_other_page.dart';
 
 class ProductProfilView extends StatefulWidget {
@@ -45,9 +47,9 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Container(color: Colors.white, child: Center(child: spinKit()));
               } else if (snapshot.data == null) {
-                return Text("Empty");
+                return Container(color: Colors.white, child: Center(child: referalPageEmptyData()));
               } else if (snapshot.hasError) {
-                return Text("Error");
+                return Container(color: Colors.white, child: Center(child: referalPageError()));
               }
               return Column(
                 children: [
@@ -62,7 +64,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                         child: ListView(
                           children: [
                             productProfilImagePart(snapshot.data!.images!),
-                            productProfilNamePricePart(name: snapshot.data!.name!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
+                            productProfilNamePricePart(name: snapshot.data!.name!, kargoIncluded: snapshot.data!.kargoIncluded!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
                             productProfildescriptionPart(brand: snapshot.data!.producerName!, category: snapshot.data!.mainCategoryName!, createdAt: snapshot.data!.createdAt!.substring(0, 10), description: snapshot.data!.description!, viewCount: snapshot.data!.viewCount!.toString()),
                             Container(
                               color: Colors.white,

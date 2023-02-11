@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../constants.dart';
 
@@ -29,4 +30,43 @@ dynamic miniBannerEmptyWidget() {
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
       )));
+}
+
+dynamic referalPageEmptyData() {
+  return Center(
+      child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Lottie.asset(noData),
+      Text(
+        'noData'.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      )
+    ],
+  ));
+}
+dynamic emptyCart(){
+  return  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset(emptyCartLottie, width: 350, height: 350),
+                          Text(
+                            'cartEmpty'.tr,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                          ),
+                          Text(
+                            'cartEmptySubtitle'.tr,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    );
 }

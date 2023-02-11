@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
@@ -26,7 +25,6 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
   @override
   void initState() {
     products = CreateOrderService().getCartItems(false);
-
     super.initState();
   }
 
@@ -36,26 +34,8 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         backArrow: true,
-        actionIcon: userProfilController.userLogin.value,
+        actionIcon: false,
         name: 'favorites',
-        icon: IconButton(
-            onPressed: () {
-              customDialogToUse(
-                title: "deleteFavProduct",
-                subtitle: 'deleteFavProductSubtitle',
-                changeColor: false,
-                onAgree: () {
-                  Get.back();
-                  favoritesController.clearFavList();
-                  favoritesController.favList2ToShow.clear();
-                  showSnackBar('orderDeleted', 'Halanlarym bosaldyldy', Colors.red);
-                },
-              );
-            },
-            icon: Icon(
-              IconlyLight.delete,
-              color: Colors.white,
-            )),
       ),
       body: FutureBuilder<List<ProductModel>>(
           future: products,
@@ -67,7 +47,6 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
             } else if (snapshot.hasError) {
               return Text("Error");
             }
-
             return Obx(() {
               favoritesController.favList2ToShow.clear();
               if (favoritesController.favList2ToShow.isEmpty) {

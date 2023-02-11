@@ -13,7 +13,9 @@ import '../../../data/models/get_order_info_model.dart';
 import '../controllers/cart_page_controller.dart';
 
 class OrderPage extends StatefulWidget {
-  OrderPage({Key? key}) : super(key: key);
+  OrderPage({Key? key, required this.airPlane}) : super(key: key);
+
+  final bool airPlane;
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -24,105 +26,29 @@ enum PaymentMethod { cash, creditCard }
 enum OrderType { train, plain, container }
 
 class _OrderPageState extends State<OrderPage> {
-  final CartPageController cartController = Get.put(CartPageController());
-  final TextEditingController userNameController = TextEditingController();
-  final TextEditingController noteController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final CartPageController cartController = Get.put(CartPageController());
   final TextEditingController cityController = TextEditingController();
+  String name = 'Asgabat';
+  final TextEditingController noteController = TextEditingController();
   final FocusNode orderAdressFocusNode = FocusNode();
-  final FocusNode orderUserName = FocusNode();
-  final FocusNode orderPhoneNumber = FocusNode();
+  late final Future<GetOrderInfoModel> orderModel;
   final FocusNode orderNote = FocusNode();
+  final FocusNode orderPhoneNumber = FocusNode();
+  OrderType orderType = OrderType.train;
+  int orderTypeNum = -1;
+  final FocusNode orderUserName = FocusNode();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+
   final _orderPage = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
     userNameController.text = Get.find<UserProfilController>().userName.toString();
     phoneController.text = Get.find<UserProfilController>().userPhoneNumber.toString();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: orderPgaeAppBar(),
-      body: Form(
-        key: _orderPage,
-        child: ListView(
-          padding: const EdgeInsets.all(15.0),
-          children: [
-            userInfo(),
-            FutureBuilder<GetOrderInfoModel>(
-                future: CreateOrderService().getOrderInfo(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: spinKit());
-                  } else if (snapshot.data == null) {
-                    return Text("Empty");
-                  } else if (snapshot.hasError) {
-                    return Text("Error");
-                  }
-                  return Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
-                        child: orderTypeWidget(snapshot.data!),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 8,
-                              width: 8,
-                              margin: EdgeInsets.all(10),
-                              decoration: new BoxDecoration(
-                                color: Colors.grey,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                snapshot.data!.info!.toString(),
-                                maxLines: 3,
-                                style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                }),
-            SizedBox(
-              height: 40,
-            ),
-            AgreeButton(
-              onTap: () {
-                if (_orderPage.currentState!.validate()) {
-                  CreateOrderService().createOrder(userName: userNameController.text, userPhoneNumber: phoneController.text, address: '${name} + ${addressController.text}', note: noteController.text, transport: orderTypeNum).then((value) {
-                    if (value == 200) {
-                      Get.back();
-                      cartController.cartListToCompare.clear();
-                      cartController.removeAllCartElements();
-                      showSnackBar('gecdi sargyt', "Waw", Colors.green);
-                    } else {
-                      showSnackBar('Sargyt gecmedi', 'Yalnys bir zat bar', Colors.red);
-                    }
-                  });
-                } else {
-                  showSnackBar('noConnection3', 'errorEmpty', Colors.red);
-                }
-              },
-            )
-          ],
-        ),
-      ),
-    );
+    orderModel = CreateOrderService().getOrderInfo();
   }
 
   Container userInfo() {
@@ -177,9 +103,6 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
-  OrderType orderType = OrderType.train;
-  int orderTypeNum = -1;
-
   Widget orderTypeWidget(GetOrderInfoModel model) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,26 +114,28 @@ class _OrderPageState extends State<OrderPage> {
             style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
           ),
         ),
-        RadioListTile<OrderType>(
-          contentPadding: EdgeInsets.zero,
-          value: OrderType.train,
-          groupValue: orderType,
-          onChanged: (OrderType? value) {
-            setState(() {
-              orderType = value!;
-              orderTypeNum = 1;
-            });
-          },
-          activeColor: kPrimaryColor,
-          title: Text(
-            "plain".tr,
-            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-          ),
-          subtitle: Text(
-            'orderComesThatDayTitle'.tr + ' ${model.transports![0].minWeek}-${model.transports![0].maxWeek}' + 'orderComesThatDaySubtitle',
-            style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
-          ),
-        ),
+        widget.airPlane
+            ? RadioListTile<OrderType>(
+                contentPadding: EdgeInsets.zero,
+                value: OrderType.train,
+                groupValue: orderType,
+                onChanged: (OrderType? value) {
+                  setState(() {
+                    orderType = value!;
+                    orderTypeNum = 1;
+                  });
+                },
+                activeColor: kPrimaryColor,
+                title: Text(
+                  "plain".tr,
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+                ),
+                subtitle: Text(
+                  'orderComesThatDayTitle'.tr + ' ${model.transports![0].minWeek}-${model.transports![0].maxWeek}' + 'orderComesThatDaySubtitle',
+                  style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
+                ),
+              )
+            : SizedBox.shrink(),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: RadioListTile<OrderType>(
@@ -258,8 +183,6 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
-  String name = 'Asgabat';
-
   Widget selectCity() {
     return Container(
       margin: EdgeInsets.only(top: 2, bottom: 2),
@@ -304,6 +227,89 @@ class _OrderPageState extends State<OrderPage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: orderPgaeAppBar(),
+      body: Form(
+        key: _orderPage,
+        child: ListView(
+          padding: const EdgeInsets.all(15.0),
+          children: [
+            userInfo(),
+            FutureBuilder<GetOrderInfoModel>(
+                future: orderModel,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: spinKit());
+                  } else if (snapshot.data == null) {
+                    return Text("Empty");
+                  } else if (snapshot.hasError) {
+                    return Text("Error");
+                  }
+                  return Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
+                        child: orderTypeWidget(snapshot.data!),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25, bottom: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 8,
+                              width: 8,
+                              margin: EdgeInsets.all(10),
+                              decoration: new BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                snapshot.data!.info!.toString(),
+                                maxLines: 3,
+                                style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+            SizedBox(
+              height: 40,
+            ),
+            AgreeButton(
+              onTap: () {
+                if (_orderPage.currentState!.validate()) {
+                  CreateOrderService().createOrder(userName: userNameController.text, userPhoneNumber: phoneController.text, address: '${name} + ${addressController.text}', note: noteController.text, transport: orderTypeNum).then((value) {
+                    if (value == 200) {
+                      Get.back();
+                      cartController.cartListToCompare.clear();
+                      cartController.removeAllCartElements();
+                      showSnackBar('orderComplete', "orderCompletedTrue", Colors.green);
+                    } else {
+                      showSnackBar('errorTitle', 'error', Colors.red);
+                    }
+                  });
+                } else {
+                  showSnackBar('noConnection3', 'errorEmpty', Colors.red);
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }

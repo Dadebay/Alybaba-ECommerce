@@ -11,7 +11,6 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/views/user_profil_view
 import 'package:nabelli_ecommerce/app/modules/videos/views/videos_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import '../controllers/home_controller.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -21,7 +20,6 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
   TabController? tabController;
   PersistentTabController? _controller;
-  final HomeController _homeController = Get.put(HomeController());
 
   @override
   void initState() {

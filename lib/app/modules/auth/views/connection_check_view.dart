@@ -161,7 +161,6 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                     int random = rand.nextInt(snapshot.data!.length);
                     return GestureDetector(
                       onTap: () async {
-                        String lang = await Get.locale!.languageCode.toString();
                         if (snapshot.data![random].pathId! == 1) {
                           Get.to(() => BannerProfileView(
                                 description: snapshot.data![random].descriptionTM!,

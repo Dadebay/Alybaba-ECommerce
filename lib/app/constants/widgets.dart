@@ -14,9 +14,7 @@ dynamic noBannerImage() {
 }
 
 dynamic spinKit() {
-  return CircularProgressIndicator(
-    color: kPrimaryColor,
-  );
+  return Lottie.asset(loading1Lottie, animate: true, width: 150, height: 150);
 }
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
@@ -265,7 +263,7 @@ CustomFooter footer() {
     builder: (BuildContext context, LoadStatus? mode) {
       Widget body;
       if (mode == LoadStatus.idle) {
-        body = const Text('');
+        body = const Text('Garasyn...');
       } else if (mode == LoadStatus.loading) {
         body = CircularProgressIndicator(
           color: kPrimaryColor,

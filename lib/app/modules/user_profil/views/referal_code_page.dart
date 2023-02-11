@@ -6,12 +6,14 @@ import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/services/referal_service.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
+import '../../../constants/errors/empty_widgets.dart';
+import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/referal_model.dart';
 
 class ReferalPage extends StatelessWidget {
   final UserProfilController userProfilController = Get.put(UserProfilController());
-  double sum = 0.0;
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -46,15 +48,13 @@ class ReferalPage extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: spinKit());
                   } else if (snapshot.hasError) {
-                    return Text("Error");
+                    return referalPageError();
                   } else if (snapshot.data.toString() == '[]') {
-                    return Text('Empty');
+                    return referalPageEmptyData();
                   }
-                  sum = 0;
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
-                      sum += double.parse(snapshot.data![index].sum.toString());
                       return ListTile(
                         minLeadingWidth: 10,
                         leading: Text(
@@ -91,11 +91,13 @@ class ReferalPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Text(
-                    '$sum TMT',
-                    textAlign: TextAlign.end,
-                    style: TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 22),
-                  ),
+                  child: Obx(() {
+                    return Text(
+                      '${userProfilController.referalCodeSum.value} TMT',
+                      textAlign: TextAlign.end,
+                      style: TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 22),
+                    );
+                  }),
                 ),
               ],
             ),

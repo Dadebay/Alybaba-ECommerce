@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../constants.dart';
 
@@ -29,4 +30,20 @@ dynamic miniBannerErrorWidget() {
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
       )));
+}
+
+dynamic referalPageError() {
+  return Center(
+      child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Lottie.asset(noData),
+      Text(
+        'noData'.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+      )
+    ],
+  ));
 }

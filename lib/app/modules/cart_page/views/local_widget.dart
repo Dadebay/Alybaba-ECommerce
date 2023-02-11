@@ -4,11 +4,12 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
+import 'package:nabelli_ecommerce/app/data/services/auth_service.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/views/order_page.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
 
-dynamic orderDialog(BuildContext context) {
+dynamic orderDialog(BuildContext context, bool airPlane) {
   return Get.defaultDialog(
     title: "terms_and_conditions".tr,
     titlePadding: EdgeInsets.only(top: 15, left: 6, right: 6),
@@ -34,7 +35,9 @@ dynamic orderDialog(BuildContext context) {
                 child: ElevatedButton(
                     onPressed: () {
                       Get.back();
-                      Get.to(() => OrderPage());
+                      Get.to(() => OrderPage(
+                            airPlane: airPlane,
+                          ));
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.white, elevation: 0, padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15), shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
                     child: Text(
@@ -62,11 +65,16 @@ dynamic orderDialog(BuildContext context) {
 }
 
 Widget bottomSheetOrderPrice(BuildContext context) {
+  final CartPageController cartController = Get.put(CartPageController());
+  bool airplane = true;
   return Obx(() {
     double sum = 0;
-    Get.find<CartPageController>().list.forEach((element) {
+    cartController.list.forEach((element) {
       double a = double.parse(element['price']);
       sum += a * element['quantity'];
+      if (element['airplane'] == false) {
+        airplane = false;
+      }
     });
     return Container(
       height: 50,
@@ -106,8 +114,17 @@ Widget bottomSheetOrderPrice(BuildContext context) {
                   ))),
           Expanded(
             child: GestureDetector(
-              onTap: () {
-                Get.find<CartPageController>().list.isEmpty ? showSnackBar("cartEmpty", "cartEmptySubtitle", Colors.red) : orderDialog(context);
+              onTap: () async {
+                String? token = await Auth().getToken();
+                if (token == null || token == '') {
+                  showSnackBar('loginError', 'loginError1', Colors.red);
+                } else {
+                  if (cartController.list.isEmpty) {
+                    showSnackBar("cartEmpty", "cartEmptySubtitle", Colors.red);
+                  } else {
+                    orderDialog(context, airplane);
+                  }
+                }
               },
               child: Container(
                 color: kPrimaryColor,

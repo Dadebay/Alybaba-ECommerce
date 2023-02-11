@@ -106,6 +106,7 @@ Container productProfilNamePricePart({
   required String name,
   required String price,
   required String barCode,
+  required bool kargoIncluded,
 }) {
   return Container(
     color: Colors.white,
@@ -152,8 +153,14 @@ Container productProfilNamePricePart({
         ),
         Text(
           barCode,
-          style: const TextStyle(color: Colors.grey, fontFamily: gilroyMedium, fontSize: 20),
+          style: const TextStyle(color: Colors.grey, fontFamily: gilroyMedium, fontSize: 18),
         ),
+        kargoIncluded == true
+            ? Text(
+                'kargoIncluded'.tr,
+                style: const TextStyle(color: Colors.red, fontFamily: gilroySemiBold, fontSize: 19),
+              )
+            : SizedBox.shrink(),
       ],
     ),
   );
@@ -254,7 +261,6 @@ Container productProfilSameProducts(Size size, Future<List<ProductModel>> produc
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
                       id: snapshot.data![index].id!,
-                      
                       createdAt: snapshot.data![index].createdAt!,
                       image: "$serverURL/${snapshot.data![index].image!}-big.webp",
                       name: snapshot.data![index].name!,

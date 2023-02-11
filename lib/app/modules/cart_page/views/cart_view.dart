@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/cart_card.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/empty_widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
+import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
 import '../../../data/services/create_order.dart';
@@ -36,9 +37,9 @@ class _CartViewState extends State<CartView> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: spinKit());
                     } else if (snapshot.data.toString() == '[]') {
-                      return Center(child: Lottie.asset(emptyCartLottie));
+                      return emptyCart();
                     } else if (snapshot.hasError) {
-                      return Text("Error");
+                      return referalPageError();
                     }
                     return Obx(() {
                       return ListView.builder(

@@ -68,7 +68,7 @@ class _AddCartButtonState extends State<AddCartButton> {
             } else if (value.sizes!.isEmpty) {
               sizeEmptyOnlyColor(value, sizeId, colorId);
             } else {
-              sizeColorNotEmpty(value, sizeId, colorId);
+              sizeAndColorNotEmpty(value, sizeId, colorId);
             }
           }
           setState(() {});
@@ -86,10 +86,12 @@ class _AddCartButtonState extends State<AddCartButton> {
         ),
         child: widget.productProfil
             ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 2, right: 8, left: 2),
+                    padding: const EdgeInsets.only(bottom: 2, right: 8),
                     child: Icon(
                       IconlyBroken.bag,
                       color: Colors.black,
@@ -108,65 +110,102 @@ class _AddCartButtonState extends State<AddCartButton> {
 
   void colorEmptyOnlySize(ProductByIDModel value, int colorId, int sizeId) {
     Get.defaultDialog(
-        title: 'selectSize'.tr,
+        title: 'selectColor'.tr,
         titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 35),
+        radius: 5,
         content: Column(
             children: List.generate(
                 value.colors!.length,
-                (index) => ElevatedButton(
-                    onPressed: () {
-                      colorId = value.colors![index].id!;
-                      cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
-                      showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-                      Get.back();
-                    },
-                    child: Text(value.colors![index].name!)))));
+                (index) => SizedBox(
+                      width: Get.size.width,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            colorId = value.colors![index].id!;
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            Get.back();
+                            showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+                          },
+                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                          child: Text(
+                            value.colors![index].name!,
+                            style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
+                          )),
+                    ))));
   }
 
   void sizeEmptyOnlyColor(ProductByIDModel value, int sizeId, int colorId) {
     Get.defaultDialog(
-        title: 'selectColor'.tr,
+        title: 'selectSize'.tr,
         titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 35),
+        radius: 5,
         content: Column(
             children: List.generate(
                 value.sizes!.length,
-                (index) => ElevatedButton(
-                    onPressed: () {
-                      sizeId = value.sizes![index].id!;
-                      cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
-                      showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-                      Get.back();
-                    },
-                    child: Text(value.sizes![index].name!)))));
+                (index) => SizedBox(
+                      width: Get.size.width,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            sizeId = value.sizes![index].id!;
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            Get.back();
+
+                            showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+                          },
+                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                          child: Text(
+                            value.sizes![index].name!,
+                            style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
+                          )),
+                    ))));
   }
 
-  void sizeColorNotEmpty(ProductByIDModel value, int sizeId, int colorId) {
+  void sizeAndColorNotEmpty(ProductByIDModel value, int sizeId, int colorId) {
     Get.defaultDialog(
         title: 'selectSize'.tr,
         titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 35),
+        radius: 5,
         content: Column(
             children: List.generate(
                 value.sizes!.length,
-                (index) => ElevatedButton(
-                    onPressed: () {
-                      sizeId = value.sizes![index].id!;
-                      Get.back();
-                      Get.defaultDialog(
-                          title: 'selectColor'.tr,
-                          titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-                          content: Column(
-                              children: List.generate(
-                                  value.colors!.length,
-                                  (index) => ElevatedButton(
-                                      onPressed: () {
-                                        colorId = value.colors![index].id!;
-                                        cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
-                                        showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-                                        Get.back();
-                                      },
-                                      child: Text(value.colors![index].name!)))));
-                    },
-                    child: Text(value.sizes![index].name!))))).then((value2) {});
+                (index) => SizedBox(
+                      width: Get.size.width,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            sizeId = value.sizes![index].id!;
+                            Get.back();
+                            Get.defaultDialog(
+                                title: 'selectColor'.tr,
+                                titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 35),
+                                radius: 5,
+                                content: Column(
+                                    children: List.generate(
+                                        value.colors!.length,
+                                        (index) => SizedBox(
+                                              width: Get.size.width,
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    colorId = value.colors![index].id!;
+                                                    cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                                                    Get.back();
+                                                    showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+                                                  },
+                                                  style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                                                  child: Text(
+                                                    value.colors![index].name!,
+                                                    style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
+                                                  )),
+                                            ))));
+                          },
+                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                          child: Text(
+                            value.sizes![index].name!,
+                            style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
+                          )),
+                    )))).then((value2) {});
   }
 
   Container numberPart() {

@@ -178,6 +178,13 @@ class MyTranslations extends Translations {
           'sortPriceLowToHigh': 'Ilki Gymmatlar',
           'sortViewsASC': 'Köp görülenler',
           'sortViewsDESC': 'Az görülenler',
+          //
+          'noProductTitle':'Gutardy',
+          'noProductSubtitle':'Haryt gutardy',
+          'kargoIncluded':'Eltip bermke Mugt',
+          'orderComplete':'Sargyt tassyklandy',
+          'orderCompletedTrue':'Sargydyňyz tassyklandy Siz bilen jaň arkaly habarlaşarlar'
+
         },
         'ru': {
           'terms_and_conditions_to_order': 'Уважаемый пользователь, примите условия заказа',

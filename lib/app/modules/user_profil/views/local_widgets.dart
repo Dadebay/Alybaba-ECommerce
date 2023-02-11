@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
-import 'package:nabelli_ecommerce/app/data/services/auth_service.dart';
 import 'package:nabelli_ecommerce/app/modules/auth/views/auth_view.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/history_order_status_wait.dart';
@@ -224,7 +223,6 @@ Container secondPart(bool userLogin) {
 Widget topPart({required File userImage, required String userMoney, required String userName, required String userPhoneNumber}) {
   return GestureDetector(
     onTap: () {
-      final token = Auth().getToken();
       Get.to(() => ProfileSettings(
             userName: userName,
             userPhoneNumebr: userPhoneNumber,
