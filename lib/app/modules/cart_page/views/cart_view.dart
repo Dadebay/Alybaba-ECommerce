@@ -48,6 +48,7 @@ class _CartViewState extends State<CartView> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
+
                           return Padding(
                             padding: EdgeInsets.only(bottom: cartController.cartListToCompare.length - 1 == index ? 80 : 0),
                             child: CardCart(
@@ -77,9 +78,9 @@ class _CartViewState extends State<CartView> {
                     ? SizedBox.shrink()
                     : Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.all(14),
+                        margin: EdgeInsets.only(left: 14, right: 14, top: 25),
                         padding: EdgeInsets.all(6),
-                        decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.2), borderRadius: borderRadius5),
+                        decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.1), borderRadius: borderRadius5),
                         child: Text(
                           "minSumCount".tr,
                           maxLines: 2,

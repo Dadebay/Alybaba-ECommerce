@@ -13,7 +13,6 @@ class UserProfilView extends StatefulWidget {
 
 class _UserProfilViewState extends State<UserProfilView> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +28,7 @@ class _UserProfilViewState extends State<UserProfilView> {
           children: [
             userProfilController.userLogin.value ? topPart(userImage: userProfilController.userImage, userMoney: userProfilController.userMoney.value, userName: userProfilController.userName.value, userPhoneNumber: userProfilController.userPhoneNumber.value) : SizedBox.shrink(),
             thirdPart(userName: userProfilController.userName.value, userPhoneNumber: userProfilController.userPhoneNumber.value, userLogin: userProfilController.userLogin.value),
-            SizedBox(
-              height: 15,
-            ),
             secondPart(userProfilController.userLogin.value),
-            SizedBox(
-              height: 15,
-            ),
             fourthPart(userProfilController.userLogin.value),
           ],
         );

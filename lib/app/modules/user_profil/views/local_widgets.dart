@@ -7,13 +7,12 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/auth/views/auth_view.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
-import 'package:nabelli_ecommerce/app/modules/user_profil/views/history_order_status_wait.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/history_order/history_order_status_wait.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/favorites_page_view.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/locations.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/profile_settings.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/referal_code_page.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
-import 'package:nabelli_ecommerce/app/modules/user_profil/views/wallet_page.dart';
 import 'package:vibration/vibration.dart';
 
 import '../../../constants/constants.dart';
@@ -68,13 +67,6 @@ Container thirdPart({required String userName, required String userPhoneNumber, 
                 Get.to(() => AboutUs());
               },
             ),
-            UserProfilIconButton(
-              icon: IconlyBroken.document,
-              name: "terms_and_conditions",
-              onTap: () {
-                Get.to(() => TermsAndConditions());
-              },
-            ),
           ],
         ),
       ],
@@ -90,7 +82,7 @@ Container fourthPart(bool userLogin) {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "balance".tr,
+          "more".tr,
           style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
         ),
         SizedBox(
@@ -100,18 +92,6 @@ Container fourthPart(bool userLogin) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            UserProfilIconButton(
-              icon: IconlyBroken.wallet,
-              name: "balance",
-              onTap: () {
-                if (userLogin) {
-                  Get.to(() => WalletPage());
-                } else {
-                  showSnackBar("loginError", 'loginError1', Colors.red);
-                  Vibration.vibrate();
-                }
-              },
-            ),
             UserProfilIconButton(
               icon: IconlyBroken.ticket,
               name: "referal_Code",
@@ -125,10 +105,10 @@ Container fourthPart(bool userLogin) {
               },
             ),
             UserProfilIconButton(
-              icon: IconlyBroken.heart,
-              name: "favorites",
+              icon: IconlyBroken.document,
+              name: "terms_and_conditions",
               onTap: () {
-                Get.to(() => FavoritesPageView());
+                Get.to(() => TermsAndConditions());
               },
             ),
             UserProfilIconButton(
@@ -149,6 +129,7 @@ Container fourthPart(bool userLogin) {
 Container secondPart(bool userLogin) {
   return Container(
     padding: EdgeInsets.all(15),
+    margin: EdgeInsets.symmetric(vertical: 15),
     decoration: BoxDecoration(color: Colors.white, border: Border.all(color: backgroundColor)),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,8 +146,8 @@ Container secondPart(bool userLogin) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             UserProfilIconButton(
-              icon: IconlyBroken.timeCircle,
-              name: "order_status_wait",
+              icon: CupertinoIcons.cube_box,
+              name: "orders",
               onTap: () {
                 if (userLogin) {
                   Get.to(() => OrderStatusWait(
@@ -179,31 +160,10 @@ Container secondPart(bool userLogin) {
               },
             ),
             UserProfilIconButton(
-              icon: CupertinoIcons.cube_box,
-              name: "order_status_come",
+              icon: IconlyBroken.heart,
+              name: "favorites",
               onTap: () {
-                if (userLogin) {
-                  Get.to(() => OrderStatusWait(
-                        whichStatus: 2,
-                      ));
-                } else {
-                  showSnackBar("loginError", 'loginError1', Colors.red);
-                  Vibration.vibrate();
-                }
-              },
-            ),
-            UserProfilIconButton(
-              icon: Icons.done_all,
-              name: "order_status_submission",
-              onTap: () {
-                if (userLogin) {
-                  Get.to(() => OrderStatusWait(
-                        whichStatus: 3,
-                      ));
-                } else {
-                  showSnackBar("loginError", 'loginError1', Colors.red);
-                  Vibration.vibrate();
-                }
+                Get.to(() => FavoritesPageView());
               },
             ),
             UserProfilIconButton(

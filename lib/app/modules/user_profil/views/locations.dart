@@ -7,6 +7,7 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profi
 
 import '../../../constants/constants.dart';
 import '../../../constants/custom_app_bar.dart';
+import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/text_fields/custom_text_field.dart';
 
 class Locations extends StatefulWidget {
@@ -36,32 +37,32 @@ class _LocationsState extends State<Locations> {
         appBar: CustomAppBar(
           backArrow: true,
           actionIcon: userProfilController.userLogin.value,
-          icon: IconButton(
-              onPressed: () {
-                customDialogToUse(
-                  title: "deleteAddress",
-                  subtitle: 'deleteAddressTitle',
-                  changeColor: false,
-                  onAgree: () {
-                    Get.back();
-                    userProfilController.clearUserAddresses();
-                    showSnackBar('orderDeleted', 'All address delete mtf', Colors.red);
+          icon: userProfilController.userAddressesList.length == 0
+              ? SizedBox.shrink()
+              : IconButton(
+                  onPressed: () {
+                    customDialogToUse(
+                      title: "deleteAddress",
+                      subtitle: 'deleteAddressTitle',
+                      changeColor: false,
+                      onAgree: () {
+                        Get.back();
+                        userProfilController.clearUserAddresses();
+                        showSnackBar('orderDeleted', 'ordersDeleted', Colors.red);
+                      },
+                    );
                   },
-                );
-              },
-              icon: Icon(
-                IconlyLight.delete,
-                color: Colors.white,
-              )),
+                  icon: Icon(
+                    IconlyLight.delete,
+                    color: Colors.white,
+                  )),
           name: 'locations',
         ),
         body: Column(
           children: [
             Expanded(child: Obx(() {
               return userProfilController.userAddressesList.length == 0
-                  ? Center(
-                      child: Text("Empty Locations"),
-                    )
+                  ? locationPageError()
                   : ListView.separated(
                       physics: BouncingScrollPhysics(),
                       itemCount: userProfilController.userAddressesList.length,

@@ -13,15 +13,16 @@ import '../../../data/services/banner_service.dart';
 
 class Banners extends StatelessWidget {
   final Future<List<BannerModel>> future;
-  const Banners({
+  Banners({
     required this.future,
     Key? key,
   }) : super(key: key);
+  final HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return FutureBuilder<List<BannerModel>>(
-      future: BannerService().getBanners(2),
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return bannerLoader();
@@ -41,7 +42,7 @@ class Banners extends StatelessWidget {
               },
               options: CarouselOptions(
                 onPageChanged: (index, CarouselPageChangedReason a) {
-                  Get.find<HomeController>().bannerDotsIndex.value = index;
+                  controller.bannerDotsIndex.value = index;
                 },
                 height: size.width >= 800 ? 320 : 220,
                 viewportFraction: 1.0,
@@ -73,14 +74,14 @@ class Banners extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: size.width >= 800 ? 8 : 4),
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.decelerate,
-                height: Get.find<HomeController>().bannerDotsIndex.value == index
+                height: controller.bannerDotsIndex.value == index
                     ? size.width >= 800
                         ? 22
                         : 16
                     : size.width >= 800
                         ? 16
                         : 10,
-                width: Get.find<HomeController>().bannerDotsIndex.value == index
+                width: controller.bannerDotsIndex.value == index
                     ? size.width >= 800
                         ? 21
                         : 15
@@ -88,9 +89,9 @@ class Banners extends StatelessWidget {
                         ? 16
                         : 10,
                 decoration: BoxDecoration(
-                  color: Get.find<HomeController>().bannerDotsIndex.value == index ? Colors.transparent : Colors.grey,
+                  color: controller.bannerDotsIndex.value == index ? Colors.transparent : Colors.grey,
                   shape: BoxShape.circle,
-                  border: Get.find<HomeController>().bannerDotsIndex.value == index ? Border.all(color: kPrimaryColor, width: 3) : Border.all(color: Colors.white),
+                  border: controller.bannerDotsIndex.value == index ? Border.all(color: kPrimaryColor, width: 3) : Border.all(color: Colors.white),
                 ),
               );
             });

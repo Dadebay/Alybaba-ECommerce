@@ -57,8 +57,9 @@ class _AddCartButtonState extends State<AddCartButton> {
       onTap: () {
         ProductsService().getProductByID(widget.id).then((value) {
           addCartBool = !addCartBool;
+          print(value.airPlane!);
           if (value.sizes!.isEmpty && value.colors!.isEmpty) {
-            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
+            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
           } else {
             int sizeId = 0;
@@ -122,7 +123,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                       child: ElevatedButton(
                           onPressed: () {
                             colorId = value.colors![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                             Get.back();
                             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
                           },
@@ -148,7 +149,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                       child: ElevatedButton(
                           onPressed: () {
                             sizeId = value.sizes![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                             Get.back();
 
                             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
@@ -189,7 +190,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                                               child: ElevatedButton(
                                                   onPressed: () {
                                                     colorId = value.colors![index].id!;
-                                                    cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-big.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                                                    cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                                                     Get.back();
                                                     showSnackBar('added', 'addedSubtitle', kPrimaryColor);
                                                   },

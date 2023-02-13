@@ -7,6 +7,8 @@ import 'package:nabelli_ecommerce/app/data/services/producers_service.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/brand_card.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/category_card.dart';
 
+import '../../../constants/errors/empty_widgets.dart';
+import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/services/category_service.dart';
@@ -42,7 +44,6 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -66,9 +67,9 @@ class _CategoriesViewState extends State<CategoriesView> {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(child: spinKit());
                         } else if (snapshot.hasError) {
-                          return Center(child: Text("Error"));
+                          return referalPageEmptyData();
                         } else if (snapshot.data!.isEmpty) {
-                          return Center(child: Text("Empty"));
+                          return referalPageError();
                         }
                         return ListView.builder(
                           physics: const BouncingScrollPhysics(),
@@ -79,7 +80,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                             return CategoryCard(
                               subCategoryList: snapshot.data![index].subCategory!,
                               id: snapshot.data![index].id!,
-                              image: "$serverURL/${snapshot.data![index].image!}-big.webp",
+                              image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
                               name: snapshot.data![index].name!,
                             );
                           },
@@ -103,7 +104,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                           itemBuilder: (context, index) {
                             return BrandCard(
                               id: snapshot.data![index].id!,
-                              image: "$serverURL/${snapshot.data![index].image!}-big.webp",
+                              image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
                               name: snapshot.data![index].name!,
                             );
                           },

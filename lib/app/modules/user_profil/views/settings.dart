@@ -44,7 +44,11 @@ class _SettingsState extends State<Settings> {
               child: ClipRRect(
                 borderRadius: borderRadius30,
                 child: Image.asset(
-                  Get.locale!.toLanguageTag() == 'tr' ? tmIcon : ruIcon,
+                  Get.locale!.toLanguageTag() == 'tm'
+                      ? tmIcon
+                      : Get.locale!.toLanguageTag() == 'ru'
+                          ? ruIcon
+                          : engIcon,
                   fit: BoxFit.cover,
                 ),
               ),

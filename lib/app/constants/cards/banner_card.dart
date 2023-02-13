@@ -24,14 +24,14 @@ class BannerCard extends StatelessWidget {
         if (model.pathId == 1) {
           Get.to(() => BannerProfileView(
                 description: model.descriptionTM!,
-                image: "$serverURL/${model.destination!}-big.webp",
+                image: "$serverURL/${model.destination!}-mini.webp",
                 pageName: model.titleTM!,
               ));
         } else if (model.pathId == 2) {
           Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${model.itemId}'}));
         } else if (model.pathId == 3) {
           ProductsService().getProductByID(model.itemId!).then((value) {
-            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));
+            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-mini.webp", price: value.price!));
           });
         } else {
           showSnackBar('errorTitle', 'error', Colors.red);
@@ -47,7 +47,7 @@ class BannerCard extends StatelessWidget {
           borderRadius: borderRadius10,
           child: CachedNetworkImage(
             fadeInCurve: Curves.ease,
-            imageUrl: "$serverURL/${model.destination!}-big.webp",
+            imageUrl: "$serverURL/${model.destination!}-mini.webp",
             imageBuilder: (context, imageProvider) => Container(
               width: size.width,
               decoration: BoxDecoration(

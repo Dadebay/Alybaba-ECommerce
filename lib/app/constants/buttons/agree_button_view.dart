@@ -13,7 +13,7 @@ class AgreeButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final HomeController homeController = Get.put(HomeController());
+  var homeController = HomeController();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(onTap: onTap, child: animatedContaner());

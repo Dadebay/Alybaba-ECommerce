@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 
-import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/video_model.dart';
 import '../../../data/services/video_services.dart';
-import '../../home/local_widgets/videos_product_profil.dart';
 
 class VideosView extends StatefulWidget {
   VideosView({Key? key}) : super(key: key);
@@ -39,11 +37,10 @@ class _VideosViewState extends State<VideosView> {
               scrollDirection: Axis.vertical,
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return
-                VideoPLayerMine(
-                  page: false,
-                  videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
-                );
+                return Text("Asd");
+                // VideoPLayerMine(
+                //   videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
+                // );
               },
             );
           }),

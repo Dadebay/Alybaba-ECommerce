@@ -14,7 +14,7 @@ dynamic noBannerImage() {
 }
 
 dynamic spinKit() {
-  return Lottie.asset(loading1Lottie, animate: true, width: 150, height: 150);
+  return Lottie.asset(loading2Lottie, animate: true, width: 150, height: 150);
 }
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
@@ -77,7 +77,7 @@ Padding namePart({required String text, required bool removeIcon, required Funct
 }
 
 void changeLanguage() {
-  final UserProfilController userProfilController = Get.put(UserProfilController());
+  var userProfilController = UserProfilController();
   dividerr() {
     return Container(
       color: Colors.white,

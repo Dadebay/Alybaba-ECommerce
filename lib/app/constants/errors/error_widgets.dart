@@ -47,3 +47,19 @@ dynamic referalPageError() {
     ],
   ));
 }
+
+dynamic locationPageError() {
+  return Center(
+      child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Lottie.asset(pinLottie, width: 300, height: 300),
+      Text(
+        'emptyLocations'.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+      )
+    ],
+  ));
+}

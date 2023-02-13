@@ -46,7 +46,7 @@ class ShopByBrand extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!,filter: false, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
+                              Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!, filter: false, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
                             },
                             child: Container(
                               width: 140,
@@ -61,7 +61,7 @@ class ShopByBrand extends StatelessWidget {
                                   fadeInCurve: Curves.ease,
                                   width: 90,
                                   height: 900,
-                                  imageUrl: "$serverURL/${snapshot.data![index].image!}-big.webp",
+                                  imageUrl: "$serverURL/${snapshot.data![index].image!}-mini.webp",
                                   imageBuilder: (context, imageProvider) => Container(
                                     decoration: BoxDecoration(
                                       borderRadius: borderRadius10,

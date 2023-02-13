@@ -262,7 +262,7 @@ Container productProfilSameProducts(Size size, Future<List<ProductModel>> produc
                     return ProductCard(
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
-                      image: "$serverURL/${snapshot.data![index].image!}-big.webp",
+                      image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
                       name: snapshot.data![index].name!,
                       price: snapshot.data![index].price!,
                     );

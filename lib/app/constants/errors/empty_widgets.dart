@@ -40,33 +40,53 @@ dynamic referalPageEmptyData() {
     children: [
       Lottie.asset(noData),
       Text(
-        'noData'.tr,
+        'noData1'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
       )
     ],
   ));
 }
-dynamic emptyCart(){
-  return  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Lottie.asset(emptyCartLottie, width: 350, height: 350),
-                          Text(
-                            'cartEmpty'.tr,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-                          ),
-                          Text(
-                            'cartEmptySubtitle'.tr,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 20),
-                          ),
-                        ],
-                      ),
-                    );
+
+dynamic orderPageEmpty() {
+  return Center(
+      child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Lottie.asset(noData),
+      Text(
+        'noHistoryOrders'.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+      )
+    ],
+  ));
+}
+
+dynamic emptyCart() {
+  return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(emptyCartLottie, fit: BoxFit.cover, animate: true, width: 400, height: 400),
+        Text(
+          'cartEmpty'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        ),
+        Text(
+          'cartEmptySubtitle'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 20),
+        ),
+        SizedBox(
+          height: 125,
+        )
+      ],
+    ),
+  );
 }

@@ -11,9 +11,10 @@ import '../models/product_model.dart';
 import 'auth_service.dart';
 
 class CreateOrderService {
+  final CartPageController cartController = Get.put(CartPageController());
+
   Future createOrder({required String userName, required String userPhoneNumber, required String address, required String note, required int transport}) async {
     final token = await Auth().getToken();
-    final CartPageController cartController = Get.put(CartPageController());
     List products = [];
     cartController.list.forEach((element) {
       products.add({'id': element['id'], "size_id": element['sizeID'], "color_id": element['colorID'], "count": element['quantity']});
@@ -35,10 +36,8 @@ class CreateOrderService {
 
   Future<List<ProductModel>> getCartItems(bool cart) async {
     List list = [];
-    final CartPageController cartPageController = Get.put(CartPageController());
-
     if (cart == true) {
-      cartPageController.list.forEach((element) {
+      cartController.list.forEach((element) {
         list.add(element['id']);
       });
     } else {
@@ -62,12 +61,12 @@ class CreateOrderService {
       for (final Map product in responseJson) {
         productsList.add(ProductModel.fromJson(product));
       }
-      cartPageController.cartListToCompare.clear();
+      cartController.cartListToCompare.clear();
       productsList.forEach((element) {
-        cartPageController.cartListToCompare.add({
+        cartController.cartListToCompare.add({
           'id': element.id,
           'name': element.name,
-          'image': "$serverURL/${element.image!}-big.webp",
+          'image': "$serverURL/${element.image!}-mini.webp",
           'price': element.price,
           'creatAt': element.createdAt,
           "airPlane": element.airplane!,

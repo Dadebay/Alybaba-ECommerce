@@ -69,7 +69,7 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
                   return ProductCard(
                     id: favoritesController.favList2ToShow[index]['id'],
                     createdAt: favoritesController.favList2ToShow[index]['creatAt'],
-                    image: "$serverURL/${favoritesController.favList2ToShow[index]['image']}-big.webp",
+                    image: "$serverURL/${favoritesController.favList2ToShow[index]['image']}-mini.webp",
                     name: favoritesController.favList2ToShow[index]['name'],
                     price: favoritesController.favList2ToShow[index]['price'],
                   );

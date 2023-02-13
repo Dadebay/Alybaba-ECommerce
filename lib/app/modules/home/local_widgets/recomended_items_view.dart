@@ -5,14 +5,14 @@ import 'package:get/get.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
-import '../../../data/services/product_service.dart';
 import '../../../constants/cards/product_card.dart';
 import '../../other_pages/show_all_products.dart';
 
 class RecomendedItems extends GetView {
   final Map<String, String> parametrs;
 
-  RecomendedItems(this.parametrs);
+  RecomendedItems({required this.parametrs, required this.future});
+  final Future<List<ProductModel>> future;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,12 @@ class RecomendedItems extends GetView {
     return Wrap(
       children: [
         listViewName("recomendedItems", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "recomendedItems", filter: false,parametrs: parametrs));
+          Get.to(() => ShowAllProducts(pageName: "recomendedItems", filter: false, parametrs: parametrs));
         }),
         SizedBox(
           height: 300,
           child: FutureBuilder<List<ProductModel>>(
-              future: ProductsService().getProducts(parametrs: parametrs),
+              future: future,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
@@ -43,7 +43,7 @@ class RecomendedItems extends GetView {
                     return ProductCard(
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
-                      image: "$serverURL/${snapshot.data![index].image!}-big.webp",
+                      image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
                       name: snapshot.data![index].name!,
                       price: snapshot.data![index].price!,
                     );

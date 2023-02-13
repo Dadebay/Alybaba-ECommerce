@@ -21,6 +21,7 @@ class CategoryCard extends StatelessWidget {
         Get.to(() => SubCategoryView(
               subCategoryList: subCategoryList,
               categoryID: id,
+              categoryName: name,
             ));
       },
       child: Stack(

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/data/models/video_model.dart';
-import 'package:nabelli_ecommerce/app/modules/home/local_widgets/videos_product_profil.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/services/video_services.dart';
@@ -46,10 +45,14 @@ class _HomePageVideosState extends State<HomePageVideos> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        Get.to(() => VideoPLayerMine(
-                              videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
-                              page: true,
-                            ));
+                        // print(snapshot.data);
+                        snapshot.data!.forEach((element) {
+                          print(element.products);
+                        });
+                        // Get.to(() => VideoPLayerMine(
+                        //       products: [],
+                        //       videoURL: "$serverURL/${snapshot.data![index].videoURL!}",
+                        //     ));
                       },
                       child: Container(
                           margin: EdgeInsets.only(left: 15, top: 8, right: 8, bottom: 8),
@@ -62,7 +65,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                   borderRadius: borderRadius20,
                                   child: CachedNetworkImage(
                                     fadeInCurve: Curves.ease,
-                                    imageUrl: "$serverURL/${snapshot.data![index].poster!}-big.webp",
+                                    imageUrl: "$serverURL/${snapshot.data![index].poster!}-mini.webp",
                                     imageBuilder: (context, imageProvider) => Container(
                                       width: size.width,
                                       decoration: BoxDecoration(

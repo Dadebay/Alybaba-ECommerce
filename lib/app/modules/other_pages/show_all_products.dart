@@ -7,6 +7,8 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../constants/errors/empty_widgets.dart';
+import '../../constants/errors/error_widgets.dart';
 import '../../constants/widgets.dart';
 import '../../data/services/product_service.dart';
 import '../home/controllers/home_controller.dart';
@@ -402,14 +404,12 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
           if (homeController.loading.value == 0) {
             return Center(child: spinKit());
           } else if (homeController.loading.value == 1) {
-            return Center(child: Text('Error'));
+            return referalPageError();
           } else if (homeController.loading.value == 2) {
-            return Center(
-              child: Text('Empty'),
-            );
+            return referalPageEmptyData();
           }
           return homeController.showAllList.isEmpty
-              ? Center(child: Text('No Product'))
+              ? referalPageError()
               : StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
                   itemCount: homeController.showAllList.length,
@@ -418,7 +418,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                   itemBuilder: (context, index) => ProductCard(
                     id: homeController.showAllList[index]['id'],
                     createdAt: homeController.showAllList[index]['createdAt'],
-                    image: "$serverURL/${homeController.showAllList[index]['image']}-big.webp",
+                    image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
                     name: homeController.showAllList[index]['name'],
                     price: homeController.showAllList[index]['price'],
                   ),

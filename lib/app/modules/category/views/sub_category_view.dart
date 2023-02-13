@@ -1,50 +1,50 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 
 import '../../other_pages/show_all_products.dart';
 
-class SubCategoryView extends StatefulWidget {
-  const SubCategoryView({Key? key, required this.subCategoryList, required this.categoryID}) : super(key: key);
+class SubCategoryView extends StatelessWidget {
+  const SubCategoryView({Key? key, required this.subCategoryList, required this.categoryID, required this.categoryName}) : super(key: key);
   final List<SubCategoryModel> subCategoryList;
   final int categoryID;
-  @override
-  State<SubCategoryView> createState() => _SubCategoryViewState();
-}
-
-class _SubCategoryViewState extends State<SubCategoryView> {
+  final String categoryName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        title: Text("Sub category Name".tr),
-        elevation: 0,
-        titleTextStyle: TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
-        centerTitle: true,
-      ),
-      body: ListView.builder(
+      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: categoryName),
+      body: ListView.separated(
         physics: const BouncingScrollPhysics(),
-        itemExtent: 220,
-        itemCount: widget.subCategoryList.length,
+        itemCount: subCategoryList.length,
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
-          return GestureDetector(
+          return ListTile(
             onTap: () {
               Get.to(() => ShowAllProducts(
                     filter: true,
-                    pageName: widget.subCategoryList[index].name.toString(),
-                    parametrs: {'sub_category_id': '${widget.subCategoryList[index].id}', 'main_category_id': widget.categoryID.toString()},
+                    pageName: subCategoryList[index].name.toString(),
+                    parametrs: {'sub_category_id': '${subCategoryList[index].id}', 'main_category_id': categoryID.toString()},
                   ));
             },
-            child: Container(
-              child: Text(widget.subCategoryList[index].name.toString()),
-              margin: EdgeInsets.all(8),
-              color: Colors.red,
+            trailing: Icon(
+              IconlyLight.arrowRightCircle,
+              color: Colors.black,
             ),
+            title: Text(
+              subCategoryList[index].name.toString(),
+              style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+            ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider(
+            color: Colors.black12,
+            thickness: 1,
           );
         },
       ),

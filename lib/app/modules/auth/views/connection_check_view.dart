@@ -164,14 +164,14 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                         if (snapshot.data![random].pathId! == 1) {
                           Get.to(() => BannerProfileView(
                                 description: snapshot.data![random].descriptionTM!,
-                                image: "$serverURL/${snapshot.data![random].destination!}-big.webp",
+                                image: "$serverURL/${snapshot.data![random].destination!}-mini.webp",
                                 pageName: snapshot.data![random].titleTM!,
                               ));
                         } else if (snapshot.data![random].pathId == 2) {
                           Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
                         } else if (snapshot.data![random].pathId == 3) {
                           ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
-                            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-big.webp", price: value.price!));
+                            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-mini.webp", price: value.price!));
                           });
                         } else {
                           showSnackBar('errorTitle', 'error', Colors.red);
@@ -179,7 +179,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                       },
                       child: CachedNetworkImage(
                         fadeInCurve: Curves.ease,
-                        imageUrl: "$serverURL/${snapshot.data![random].destination!}-big.webp",
+                        imageUrl: "$serverURL/${snapshot.data![random].destination!}-mini.webp",
                         imageBuilder: (context, imageProvider) => Container(
                           width: size.width,
                           decoration: BoxDecoration(

@@ -5,14 +5,14 @@ import 'package:get/get.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
-import '../../../data/services/product_service.dart';
 import '../../../constants/cards/product_card.dart';
 import '../../other_pages/show_all_products.dart';
 
 class InOurHands extends GetView {
   final Map<String, String> parametrs;
+  final Future<List<ProductModel>> future;
 
-  InOurHands(this.parametrs);
+  InOurHands(this.parametrs, this.future);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class InOurHands extends GetView {
         SizedBox(
           height: 300,
           child: FutureBuilder<List<ProductModel>>(
-              future: ProductsService().getProducts(parametrs: parametrs),
+              future: future,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
@@ -43,7 +43,7 @@ class InOurHands extends GetView {
                     return ProductCard(
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
-                      image: "$serverURL/${snapshot.data![index].image!}-big.webp",
+                      image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
                       name: snapshot.data![index].name!,
                       price: snapshot.data![index].price!,
                     );

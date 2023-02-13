@@ -24,7 +24,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = GetStorage();
-  HomeController controller = Get.put(HomeController());
   @override
   void initState() {
     FirebaseMessaging.instance.getToken().then((value) {});
