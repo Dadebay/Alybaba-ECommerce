@@ -72,11 +72,11 @@ class PhoneNumber extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,

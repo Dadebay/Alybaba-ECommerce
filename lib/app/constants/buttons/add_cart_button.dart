@@ -11,9 +11,10 @@ import '../widgets.dart';
 
 class AddCartButton extends StatefulWidget {
   const AddCartButton({
-    Key? key,
     required this.id,
     required this.productProfil,
+    Key? key,
+
   }) : super(key: key);
 
   final int id;
@@ -57,13 +58,12 @@ class _AddCartButtonState extends State<AddCartButton> {
       onTap: () {
         ProductsService().getProductByID(widget.id).then((value) {
           addCartBool = !addCartBool;
-          print(value.airPlane!);
           if (value.sizes!.isEmpty && value.colors!.isEmpty) {
-            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
+            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
           } else {
-            int sizeId = 0;
-            int colorId = 0;
+            const int sizeId = 0;
+            const int colorId = 0;
             if (value.sizes!.isEmpty) {
               colorEmptyOnlySize(value, colorId, sizeId);
             } else if (value.sizes!.isEmpty) {
@@ -77,7 +77,7 @@ class _AddCartButtonState extends State<AddCartButton> {
       },
       child: Container(
         width: widget.productProfil ? null : Get.size.width,
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           top: 4,
         ),
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.productProfil ? 8 : 4),
@@ -91,8 +91,8 @@ class _AddCartButtonState extends State<AddCartButton> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 2, right: 8),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 2, right: 8),
                     child: Icon(
                       IconlyBroken.bag,
                       color: Colors.black,
@@ -100,11 +100,11 @@ class _AddCartButtonState extends State<AddCartButton> {
                   ),
                   Text(
                     'addCart'.tr,
-                    style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
+                    style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
                   ),
                 ],
               )
-            : Text('addCart'.tr, textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 16)),
+            : Text('addCart'.tr, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 16)),
       ),
     );
   }
@@ -112,8 +112,8 @@ class _AddCartButtonState extends State<AddCartButton> {
   void colorEmptyOnlySize(ProductByIDModel value, int colorId, int sizeId) {
     Get.defaultDialog(
         title: 'selectColor'.tr,
-        titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-        contentPadding: EdgeInsets.symmetric(horizontal: 35),
+        titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 35),
         radius: 5,
         content: Column(
             children: List.generate(
@@ -123,23 +123,23 @@ class _AddCartButtonState extends State<AddCartButton> {
                       child: ElevatedButton(
                           onPressed: () {
                             colorId = value.colors![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                             Get.back();
                             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
                           },
-                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                           child: Text(
                             value.colors![index].name!,
                             style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                          )),
-                    ))));
+                          ),),
+                    ),),),);
   }
 
   void sizeEmptyOnlyColor(ProductByIDModel value, int sizeId, int colorId) {
     Get.defaultDialog(
         title: 'selectSize'.tr,
-        titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-        contentPadding: EdgeInsets.symmetric(horizontal: 35),
+        titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 35),
         radius: 5,
         content: Column(
             children: List.generate(
@@ -149,24 +149,24 @@ class _AddCartButtonState extends State<AddCartButton> {
                       child: ElevatedButton(
                           onPressed: () {
                             sizeId = value.sizes![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                             Get.back();
 
                             showSnackBar('added', 'addedSubtitle', kPrimaryColor);
                           },
-                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                           child: Text(
                             value.sizes![index].name!,
                             style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                          )),
-                    ))));
+                          ),),
+                    ),),),);
   }
 
   void sizeAndColorNotEmpty(ProductByIDModel value, int sizeId, int colorId) {
     Get.defaultDialog(
         title: 'selectSize'.tr,
-        titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-        contentPadding: EdgeInsets.symmetric(horizontal: 35),
+        titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 35),
         radius: 5,
         content: Column(
             children: List.generate(
@@ -179,8 +179,8 @@ class _AddCartButtonState extends State<AddCartButton> {
                             Get.back();
                             Get.defaultDialog(
                                 title: 'selectColor'.tr,
-                                titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-                                contentPadding: EdgeInsets.symmetric(horizontal: 35),
+                                titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                                 radius: 5,
                                 content: Column(
                                     children: List.generate(
@@ -190,31 +190,31 @@ class _AddCartButtonState extends State<AddCartButton> {
                                               child: ElevatedButton(
                                                   onPressed: () {
                                                     colorId = value.colors![index].id!;
-                                                    cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images![0]['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                                                    cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                                                     Get.back();
                                                     showSnackBar('added', 'addedSubtitle', kPrimaryColor);
                                                   },
-                                                  style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                                                  style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                                                   child: Text(
                                                     value.colors![index].name!,
                                                     style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                                                  )),
-                                            ))));
+                                                  ),),
+                                            ),),),);
                           },
-                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                           child: Text(
                             value.sizes![index].name!,
                             style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                          )),
-                    )))).then((value2) {});
+                          ),),
+                    ),),),).then((value2) {});
   }
 
   Container numberPart() {
     return Container(
-      margin: widget.productProfil ? EdgeInsets.only(left: 8, right: 8) : EdgeInsets.zero,
+      margin: widget.productProfil ? const EdgeInsets.only(left: 8, right: 8) : EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: widget.productProfil ? borderRadius10 : BorderRadius.circular(0),
-        color: widget.productProfil ? Colors.transparent : Colors.transparent,
+        color:  Colors.transparent,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,8 +232,8 @@ class _AddCartButtonState extends State<AddCartButton> {
                 setState(() {});
               },
               child: Container(
-                padding: EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(6.0),
+                decoration: const BoxDecoration(
                   color: kPrimaryColor,
                   borderRadius: borderRadius10,
                 ),
@@ -247,10 +247,10 @@ class _AddCartButtonState extends State<AddCartButton> {
               margin: const EdgeInsets.symmetric(
                 horizontal: 30,
               ),
-              padding: EdgeInsets.symmetric(vertical: 3),
+              padding: const EdgeInsets.symmetric(vertical: 3),
               decoration: BoxDecoration(color: widget.productProfil ? Colors.white : kPrimaryColor.withOpacity(0.1), borderRadius: borderRadius5),
               child: Text(
-                '${quantity}',
+                '$quantity',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: widget.productProfil ? kPrimaryColor : Colors.black, fontFamily: gilroyBold, fontSize: 20),
               ),
@@ -264,8 +264,8 @@ class _AddCartButtonState extends State<AddCartButton> {
                 setState(() {});
               },
               child: Container(
-                padding: EdgeInsets.all(6.0),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(6.0),
+                decoration: const BoxDecoration(
                   color: kPrimaryColor,
                   borderRadius: borderRadius10,
                 ),

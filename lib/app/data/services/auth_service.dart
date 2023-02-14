@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 class Auth {
   final storage = GetStorage();
 
-  login(String data) async {
+  dynamic login(String data) async {
     await storage.write('data', data);
   }
 
@@ -22,7 +22,7 @@ class Auth {
   }
 
   Future<String?> getToken() async {
-    return storage.read('AccessToken') ?? null;
+    return storage.read('AccessToken');
   }
 
   Future<bool> removeToken() async {

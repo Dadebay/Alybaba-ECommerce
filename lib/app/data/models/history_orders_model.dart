@@ -12,11 +12,11 @@ class HistoryOrdersModel {
     return HistoryOrdersModel(
       id: json['id'],
       transport: json['transport'] ?? 1,
-      total: json['total'] == null ? 'Null' : json['total'],
+      total: json['total'] ?? 'Null',
       createdAt: json['created_at'] ?? '0',
       items: json['items'] ?? [],
       statusId: json['status_id'] ?? [],
-      statusText: json['status_text'] == null ? 'Null' : json['status_text'],
+      statusText: json['status_text'] ?? 'Null',
     );
   }
 }
@@ -35,11 +35,11 @@ class HistoryOrdersModelByID {
     return HistoryOrdersModelByID(
       id: json['id'],
       transport: json['transport'] ?? 1,
-      total: json['total'] == null ? 'Null' : json['total'],
+      total: json['total'] ?? 'Null',
       createdAt: json['created_at'] ?? '0',
       items: (json['items'] as List).map((json) => HistoryProducts.fromJson(json)).toList(),
       statusId: json['status_id'] ?? [],
-      statusText: json['status_text'] == null ? 'Null' : json['status_text'],
+      statusText: json['status_text'] ?? 'Null',
     );
   }
 }

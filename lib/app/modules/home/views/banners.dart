@@ -9,7 +9,6 @@ import '../../../constants/constants.dart';
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
 import '../../../data/models/banner_model.dart';
-import '../../../data/services/banner_service.dart';
 
 class Banners extends StatelessWidget {
   final Future<List<BannerModel>> future;

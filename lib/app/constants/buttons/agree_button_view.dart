@@ -22,7 +22,7 @@ class AgreeButton extends StatelessWidget {
   Widget animatedContaner() {
     return Obx(() {
       return AnimatedContainer(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: borderRadius20,
           color: kPrimaryColor,
         ),
@@ -31,7 +31,7 @@ class AgreeButton extends StatelessWidget {
         width: homeController.agreeButton.value ? 60 : Get.size.width,
         duration: const Duration(milliseconds: 1000),
         child: homeController.agreeButton.value
-            ? Center(
+            ? const Center(
                 child: SizedBox(
                   width: 35,
                   height: 35,

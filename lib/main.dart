@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/auth/views/connection_check_view.dart';
-import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
 import 'app/constants/utils.dart';
 import 'main_dart_helper.dart';
@@ -14,10 +13,12 @@ import 'main_dart_helper.dart';
 Future<void> main() async {
   mainDartImports();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -41,7 +42,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: gilroyRegular,
         colorSchemeSeed: kPrimaryColor,
         useMaterial3: true,
-        appBarTheme: AppBarTheme(backgroundColor: kPrimaryColor, systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarBrightness: Brightness.dark), titleTextStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20), elevation: 0),
+        appBarTheme: const AppBarTheme(backgroundColor: kPrimaryColor, systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarBrightness: Brightness.dark), titleTextStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20), elevation: 0),
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
             ),
       translations: MyTranslations(),
       defaultTransition: Transition.fade,
-      home: ConnectionCheckView(),
+      home: const ConnectionCheckView(),
     );
   }
 }

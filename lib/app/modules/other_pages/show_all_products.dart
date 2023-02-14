@@ -14,11 +14,11 @@ import '../../data/services/product_service.dart';
 import '../home/controllers/home_controller.dart';
 
 class ShowAllProducts extends StatefulWidget {
-  ShowAllProducts({
-    Key? key,
+  const ShowAllProducts({
     required this.pageName,
     required this.filter,
     required this.parametrs,
+    Key? key,
   }) : super(key: key);
 
   final bool filter;
@@ -83,7 +83,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     isDense: true,
                     hintText: 'minPrice'.tr,
                     hintStyle: TextStyle(fontFamily: gilroyMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                       borderRadius: borderRadius15,
                       borderSide: BorderSide(color: kPrimaryColor, width: 2),
                     ),
@@ -117,7 +117,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     isDense: true,
                     hintText: 'maxPrice'.tr,
                     hintStyle: TextStyle(fontFamily: gilroyMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                       borderRadius: borderRadius15,
                       borderSide: BorderSide(color: kPrimaryColor, width: 2),
                     ),
@@ -159,7 +159,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
             radius: 5,
             backgroundColor: Colors.white,
             titlePadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            contentPadding: const EdgeInsets.only(),
             content: Column(
               children: List.generate(
                 5,
@@ -224,8 +223,8 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
+          const Padding(
+            padding: EdgeInsets.only(left: 8),
             child: Icon(
               IconlyBold.filter2,
               color: Colors.white,
@@ -234,8 +233,8 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "filter".tr,
-              style: TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
+              'filter'.tr,
+              style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
             ),
           )
         ],
@@ -264,13 +263,17 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                   value = a;
                   homeController.showAllList.clear();
                   homeController.page.value = 0;
-                  getDataMine.update("page", ((value) {
-                    value = homeController.page.value.toString();
-                    return value;
-                  }));
+                  getDataMine.update(
+                    'page',
+                    (value) {
+                      // ignore: join_return_with_assignment
+                      value = homeController.page.value.toString();
+                      return value;
+                    },
+                  );
                   getDataMine.addAll({
-                    'sort_column': sortData[index]["sort_column"],
-                    'sort_direction': sortData[index]["sort_direction"],
+                    'sort_column': sortData[index]['sort_column'],
+                    'sort_direction': sortData[index]['sort_direction'],
                   });
                   getData();
                   Get.back();
@@ -288,15 +291,15 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             IconlyBold.swap,
             color: Colors.white,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              "sort".tr,
-              style: TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
+              'sort'.tr,
+              style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
             ),
           )
         ],
@@ -305,14 +308,14 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   }
 
   Widget sortFilter() {
-    return Container(
+    return SizedBox(
       width: Get.size.width,
       child: Container(
         alignment: Alignment.bottomCenter,
         height: 50,
-        margin: EdgeInsets.only(bottom: 15, left: 20, right: 20),
-        padding: EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(color: kBlackColor, borderRadius: borderRadius15),
+        margin: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: const BoxDecoration(color: kBlackColor, borderRadius: borderRadius15),
         child: widget.filter
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -323,7 +326,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     flex: 1,
                     child: sortWidget(),
                   ),
-                  VerticalDivider(
+                  const VerticalDivider(
                     color: Colors.white,
                   ),
                   Expanded(
@@ -342,10 +345,12 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.refreshCompleted();
     homeController.showAllList.clear();
-    getDataMine.update("page", ((value) {
-      value = '0';
-      return value;
-    }));
+    getDataMine.update(
+      'page',
+      (value) {
+        return value = '0';
+      },
+    );
     homeController.loading.value = 0;
     getData();
   }
@@ -358,10 +363,13 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     await Future.delayed(const Duration(milliseconds: 1000));
     _refreshController.loadComplete();
     homeController.page.value += 1;
-    getDataMine.update("page", ((value) {
-      value = homeController.page.value.toString();
-      return value;
-    }));
+    getDataMine.update(
+      'page',
+      (value) {
+      
+        return   value = homeController.page.value.toString();
+      },
+    );
     getData();
   }
 
@@ -374,10 +382,10 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         title: Text(
           widget.pageName.tr,
           maxLines: 1,
-          style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 22),
+          style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 22),
         ),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             IconlyBroken.arrowLeftCircle,
             color: Colors.white,
           ),
@@ -397,7 +405,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         enablePullDown: true,
         enablePullUp: true,
         physics: const BouncingScrollPhysics(),
-        header: MaterialClassicHeader(
+        header: const MaterialClassicHeader(
           color: kPrimaryColor,
         ),
         child: Obx(() {
@@ -409,14 +417,15 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
             return referalPageEmptyData();
           }
           return homeController.showAllList.isEmpty
-              ? referalPageError()
+              ? referalPageEmptyData()
               : StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
                   itemCount: homeController.showAllList.length,
                   shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) => ProductCard(
                     id: homeController.showAllList[index]['id'],
+                    historyOrder: false,
                     createdAt: homeController.showAllList[index]['createdAt'],
                     image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
                     name: homeController.showAllList[index]['name'],

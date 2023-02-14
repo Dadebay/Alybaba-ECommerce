@@ -6,13 +6,15 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/views/cart_view.dart';
 import 'package:nabelli_ecommerce/app/modules/category/views/category_view.dart';
+import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/home/views/home_view.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/user_profil_view.dart';
 import 'package:nabelli_ecommerce/app/modules/videos/views/videos_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-
 class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
+
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
@@ -20,7 +22,7 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
   TabController? tabController;
   PersistentTabController? _controller;
-
+  var homeController = HomeController();
   @override
   void initState() {
     super.initState();
@@ -28,22 +30,20 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
     _controller = PersistentTabController();
   }
 
-  List<Widget> _buildScreens() {
-    return [
-      HomeView(),
-      CategoriesView(),
-      CartView(), //
-      VideosView(), //
-      UserProfilView()
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     return PersistentTabView.custom(
       context,
       controller: _controller,
-      screens: _buildScreens(),
+      screens: [
+        const HomeView(),
+        const CategoriesView(),
+        const CartView(), //
+        Obx(() {
+          return homeController.videoSelectedIndex.value == 3 ? const VideosView() : const SizedBox.shrink();
+        }), //
+        const UserProfilView()
+      ],
       resizeToAvoidBottomInset: true,
       itemCount: 5,
       screenTransitionAnimation: const ScreenTransitionAnimation(animateTabTransition: true),
@@ -89,6 +89,7 @@ class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMix
         onItemSelected: (index) {
           setState(() {
             _controller!.index = index;
+            homeController.videoSelectedIndex.value = index;
           });
         },
       ),
@@ -101,16 +102,16 @@ class CustomNavBarWidget extends StatelessWidget {
   final List<PersistentBottomNavBarItem>? items;
   final ValueChanged<int>? onItemSelected;
 
-  const CustomNavBarWidget({
+  const CustomNavBarWidget({Key? key, 
     this.selectedIndex,
     this.items,
     this.onItemSelected,
-  });
+  }) : super(key: key);
 
   Widget _buildItem(PersistentBottomNavBarItem item, bool isSelected) {
     return Tooltip(
-      message: "${item.title}",
-      textStyle: const TextStyle(fontFamily: "Montserrat_Regular", color: Colors.white),
+      message: '${item.title}',
+      textStyle: const TextStyle(fontFamily: 'Montserrat_Regular', color: Colors.white),
       child: Container(
         alignment: Alignment.center,
         height: 50.0,
@@ -124,7 +125,7 @@ class CustomNavBarWidget extends StatelessWidget {
                 child: isSelected ? item.icon : item.inactiveIcon ?? const SizedBox.shrink(),
               ),
             ),
-            Text("${item.title}", maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: isSelected ? kPrimaryColor : Colors.grey, fontSize: isSelected ? 12 : 11, fontFamily: gilroyMedium))
+            Text('${item.title}', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: isSelected ? kPrimaryColor : Colors.grey, fontSize: isSelected ? 12 : 11, fontFamily: gilroyMedium))
           ],
         ),
       ),

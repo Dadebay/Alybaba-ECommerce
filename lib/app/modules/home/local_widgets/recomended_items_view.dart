@@ -11,7 +11,7 @@ import '../../other_pages/show_all_products.dart';
 class RecomendedItems extends GetView {
   final Map<String, String> parametrs;
 
-  RecomendedItems({required this.parametrs, required this.future});
+  const RecomendedItems({required this.parametrs, required this.future,Key? key, }) : super(key: key);
   final Future<List<ProductModel>> future;
 
   @override
@@ -20,8 +20,8 @@ class RecomendedItems extends GetView {
 
     return Wrap(
       children: [
-        listViewName("recomendedItems", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "recomendedItems", filter: false, parametrs: parametrs));
+        listViewName('recomendedItems', true, size, () {
+          Get.to(() => ShowAllProducts(pageName: 'recomendedItems', filter: false, parametrs: parametrs));
         }),
         SizedBox(
           height: 300,
@@ -31,25 +31,27 @@ class RecomendedItems extends GetView {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.data == null) {
-                  return Text("Empty");
+                  return const Text('Empty');
                 } else if (snapshot.hasError) {
-                  return Text("Error");
+                  return const Text('Error');
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
+                    historyOrder: false,
+
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
-                      image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
+                      image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
                       name: snapshot.data![index].name!,
                       price: snapshot.data![index].price!,
                     );
                   },
                 );
-              }),
+              },),
         )
       ],
     );

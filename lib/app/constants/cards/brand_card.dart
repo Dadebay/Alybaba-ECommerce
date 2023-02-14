@@ -10,7 +10,7 @@ class BrandCard extends StatelessWidget {
   final String name;
   final String image;
   final int id;
-  const BrandCard({Key? key, required this.name, required this.id, required this.image}) : super(key: key);
+  const BrandCard({ required this.name, required this.id, required this.image,Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class BrandCard extends StatelessWidget {
               parametrs: {'producer_id': '$id'},
               pageName: name,
               filter: false,
-            ));
+            ),);
       },
       child: Container(
-        margin: EdgeInsets.all(5),
-        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: kPrimaryColor), borderRadius: borderRadius30),
+        margin: const EdgeInsets.all(5),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius30, boxShadow: [BoxShadow(color: kPrimaryColor.withOpacity(0.1), blurRadius: 2, spreadRadius: 2)]),
         child: Stack(
           children: [
             Positioned.fill(
@@ -56,23 +56,23 @@ class BrandCard extends StatelessWidget {
               right: 0,
               child: Column(
                 children: [
-                  Divider(
+                  const Divider(
                     color: kPrimaryColor,
                     thickness: 1,
                     height: 1,
                   ),
                   Container(
                     width: Get.size.width,
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)), color: Colors.white70),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: const BoxDecoration(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)), color: Colors.white70),
                     child: Column(
                       children: [
                         Text(
                           name,
-                          style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                          style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
                         ),
-                        Text(
-                          "20 Products",
+                        const Text(
+                          '20 Products',
                           style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 16),
                         ),
                       ],

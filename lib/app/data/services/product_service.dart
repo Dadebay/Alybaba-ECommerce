@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 
 import '../../constants/constants.dart';
 import '../../modules/home/controllers/home_controller.dart';
@@ -13,8 +10,10 @@ import '../models/product_model.dart';
 class ProductsService {
   Future<List<ProductModel>> getProducts({required Map<String, String> parametrs}) async {
     String lang = Get.locale!.languageCode;
-    List<ProductModel> productsList = [];
-    if (lang == "tr" || lang == "en") lang = "tm";
+    final List<ProductModel> productsList = [];
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-products',
@@ -24,7 +23,7 @@ class ProductsService {
       },
     );
     if (response.statusCode == 200) {
-      final responseJson = jsonDecode(response.body)["products"] as List;
+      final responseJson = jsonDecode(response.body)['products'] as List;
       for (final Map product in responseJson) {
         productsList.add(ProductModel.fromJson(product));
       }
@@ -37,7 +36,9 @@ class ProductsService {
   Future<List<ProductModel>> getShowAllProducts({required Map<String, String> parametrs}) async {
     final HomeController homeController = Get.put(HomeController());
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == "en") lang = "tm";
+   if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-products',
@@ -48,9 +49,9 @@ class ProductsService {
     );
     if (response.statusCode == 200) {
       homeController.loading.value = 3;
-      final responseJson = jsonDecode(response.body)["products"] as List;
-      if (jsonDecode(response.body)["products"] == null || jsonDecode(response.body)["products"].toString() == '[]') {
-        showSnackBar("noProductTitle", "noProductSubtitle", Colors.red);
+      final responseJson = jsonDecode(response.body)['products'] as List;
+      if (jsonDecode(response.body)['products'] == null || jsonDecode(response.body)['products'].toString() == '[]') {
+        // showSnackBar("noProductTitle", "noProductSubtitle", Colors.red);
       } else {
         for (final Map product in responseJson) {
           homeController.showAllList.add({
@@ -75,7 +76,9 @@ class ProductsService {
 
   Future<ProductByIDModel> getProductByID(int id) async {
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == "en") lang = "tm";
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-product/$id',
@@ -84,7 +87,6 @@ class ProductsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    log(response.body);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);

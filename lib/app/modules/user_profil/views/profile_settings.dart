@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/agree_button_view.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -18,7 +19,11 @@ import '../controllers/user_profil_controller.dart';
 import 'local_widgets.dart';
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({Key? key, required this.userName, required this.userPhoneNumebr}) : super(key: key);
+  const ProfileSettings({
+    required this.userName,
+    required this.userPhoneNumebr,
+    Key? key,
+  }) : super(key: key);
   final String userName;
   final String userPhoneNumebr;
   @override
@@ -35,13 +40,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   File? selectedImage;
   final storage = GetStorage();
 
-  changeData() async {
+  dynamic changeData() async {
     userNameController.text = widget.userName;
     phoneController.text = widget.userPhoneNumebr;
     if (await storage.read('userImage') == null) {
       selectedImage = null;
     } else {
-      if (userProfilController.userImage == '') {
+      if (userProfilController.userImage.toString() == '') {
         selectedImage = null;
       } else {
         final imageTemporary = File(userProfilController.userImage.path);
@@ -78,7 +83,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'profil'),
+      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'profil'),
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -120,7 +125,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             padding: const EdgeInsets.all(6),
                             strokeWidth: 2,
                             color: kPrimaryColor,
-                            child: Center(
+                            child: const Center(
                               child: Icon(
                                 Icons.add_circle_outline_sharp,
                                 color: kPrimaryColor,
@@ -153,6 +158,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             const SizedBox(
               height: 25,
             ),
+            AgreeButton(
+              onTap: () {
+                Get.back();
+              },
+            )
           ],
         ),
       ),

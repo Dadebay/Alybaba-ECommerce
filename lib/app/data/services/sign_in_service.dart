@@ -12,7 +12,10 @@ import 'auth_service.dart';
 class SignInService {
   final UserProfilController userProfilController = Get.put(UserProfilController());
 
-  Future otpCheck({String? otp, required String phoneNumber}) async {
+  Future otpCheck({
+    required String phoneNumber,
+    String? otp,
+  }) async {
     final token = await Auth().getToken();
     final response = await http.post(
       Uri.parse('$serverURL/api/user/ru/verify-login'),
@@ -28,7 +31,7 @@ class SignInService {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['access_token']);
       await Auth().setRefreshToken(responseJson['refresh_token']);
-      await Auth().login((responseJson['data'].toString()));
+      await Auth().login(responseJson['data'].toString());
       userProfilController.saveData(phoneNumber1: phoneNumber, userName1: responseJson['data']['full_name'], userMoney1: '0', referalCode1: responseJson['data']['referral_code']);
       return response.statusCode;
     } else {
@@ -56,9 +59,7 @@ class SignInService {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['access_token']);
       await Auth().setRefreshToken(responseJson['refresh_token']);
-      await Auth().login((responseJson['data'].toString()));
-      showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
-
+      await Auth().login(responseJson['data'].toString());
       userProfilController.saveData(phoneNumber1: phoneNumber, userName1: responseJson['data']['full_name'], userMoney1: '0', referalCode1: responseJson['data']['referral_code']);
       return response.statusCode;
     } else {
@@ -81,7 +82,7 @@ class SignInService {
       if (phone == '62990344') {
         await Auth().setRefreshToken(responseJson['refresh_token']);
         userProfilController.saveData(phoneNumber1: phone, userName1: responseJson['data']['full_name'], userMoney1: '0', referalCode1: responseJson['data']['referral_code']);
-        await Auth().login((responseJson['data'].toString()));
+        await Auth().login(responseJson['data'].toString());
       }
       await Auth().setToken(responseJson['access_token']);
       showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
@@ -103,6 +104,8 @@ class SignInService {
     );
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
+      showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
+
       await Auth().setToken(responseJson['access_token']);
       return response.statusCode;
     } else {

@@ -22,13 +22,19 @@ class OtpCheck extends StatelessWidget {
   final otpCheck = GlobalKey<FormState>();
   TextEditingController otpController = TextEditingController();
 
-  OtpCheck({Key? key, required this.phoneNumber, this.referalKod, this.userName, required this.register}) : super(key: key);
+  OtpCheck({
+    required this.phoneNumber,
+    required this.register,
+    this.referalKod,
+    this.userName,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'otp'),
+      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'otp'),
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(14.0),
@@ -59,13 +65,13 @@ class OtpCheck extends StatelessWidget {
                 onTap: () {
                   if (otpCheck.currentState!.validate()) {
                     Get.find<HomeController>().agreeButton.value = !Get.find<HomeController>().agreeButton.value;
-                    if (register == true) {
+                    if (register) {
                       SignInService().register(otp: otpController.text, phoneNumber: phoneNumber, fullName: userName!, referalKod: referalKod!).then((value) {
                         if (value == 200) {
                           Get.find<UserProfilController>().userLogin.value = true;
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => ConnectionCheckView(),
+                              builder: (context) => const ConnectionCheckView(),
                             ),
                             (Route<dynamic> route) => false,
                           );
@@ -80,7 +86,7 @@ class OtpCheck extends StatelessWidget {
                           Get.find<UserProfilController>().userLogin.value = true;
                           Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (context) => ConnectionCheckView(),
+                              builder: (context) => const ConnectionCheckView(),
                             ),
                             (Route<dynamic> route) => false,
                           );

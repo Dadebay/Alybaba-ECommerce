@@ -8,7 +8,10 @@ import '../../../constants/widgets.dart';
 import '../../../data/models/producer_model.dart';
 
 class ShopByBrand extends StatelessWidget {
-  const ShopByBrand({Key? key, required this.producers}) : super(key: key);
+  const ShopByBrand({
+    required this.producers,
+    Key? key,
+  }) : super(key: key);
   final Future<List<ProducersModel>> producers;
   @override
   Widget build(BuildContext context) {
@@ -21,67 +24,68 @@ class ShopByBrand extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 10),
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 10),
                 child: Text(
-                  "shopByBrand".tr,
-                  style: TextStyle(color: Colors.black, fontSize: 22, fontFamily: gilroyBold),
+                  'shopByBrand'.tr,
+                  style: const TextStyle(color: Colors.black, fontSize: 22, fontFamily: gilroyBold),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 100,
                 child: FutureBuilder<List<ProducersModel>>(
-                    future: producers,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: spinKit());
-                      } else if (snapshot.hasError) {
-                        return Text("Error");
-                      } else if (snapshot.data!.isEmpty) {
-                        return Text('Empty');
-                      }
-                      return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!, filter: false, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
-                            },
-                            child: Container(
-                              width: 140,
-                              margin: EdgeInsets.all(8),
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: backgroundColor,
-                                borderRadius: borderRadius10,
-                              ),
-                              child: Center(
-                                child: CachedNetworkImage(
-                                  fadeInCurve: Curves.ease,
-                                  width: 90,
-                                  height: 900,
-                                  imageUrl: "$serverURL/${snapshot.data![index].image!}-mini.webp",
-                                  imageBuilder: (context, imageProvider) => Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: borderRadius10,
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
-                                      ),
+                  future: producers,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: spinKit());
+                    } else if (snapshot.hasError) {
+                      return const Text('Error');
+                    } else if (snapshot.data!.isEmpty) {
+                      return const Text('Empty');
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!, filter: false, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
+                          },
+                          child: Container(
+                            width: 140,
+                            margin: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(12),
+                            decoration: const BoxDecoration(
+                              color: backgroundColor,
+                              borderRadius: borderRadius10,
+                            ),
+                            child: Center(
+                              child: CachedNetworkImage(
+                                fadeInCurve: Curves.ease,
+                                width: 90,
+                                height: 900,
+                                imageUrl: '$serverURL/${snapshot.data![index].image!}-mini.webp',
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: borderRadius10,
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  placeholder: (context, url) => Center(child: spinKit()),
-                                  errorWidget: (context, url, error) => Center(
-                                    child: Text('No Image'),
-                                  ),
+                                ),
+                                placeholder: (context, url) => Center(child: spinKit()),
+                                errorWidget: (context, url, error) => const Center(
+                                  child: Text('No Image'),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      );
-                    }),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           ),

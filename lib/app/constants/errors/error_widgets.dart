@@ -14,8 +14,8 @@ dynamic bannerErrorWidget() {
           child: Text(
         'noData'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-      )));
+        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      ),),);
 }
 
 dynamic miniBannerErrorWidget() {
@@ -28,8 +28,8 @@ dynamic miniBannerErrorWidget() {
           child: Text(
         'noData'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-      )));
+        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      ),),);
 }
 
 dynamic referalPageError() {
@@ -42,10 +42,10 @@ dynamic referalPageError() {
       Text(
         'noData'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
       )
     ],
-  ));
+  ),);
 }
 
 dynamic locationPageError() {
@@ -58,8 +58,8 @@ dynamic locationPageError() {
       Text(
         'emptyLocations'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
       )
     ],
-  ));
+  ),);
 }

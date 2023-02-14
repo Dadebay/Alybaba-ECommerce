@@ -14,8 +14,8 @@ dynamic bannerEmptyWidget() {
           child: Text(
         'noData1'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-      )));
+        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      ),),);
 }
 
 dynamic miniBannerEmptyWidget() {
@@ -28,8 +28,8 @@ dynamic miniBannerEmptyWidget() {
           child: Text(
         'noData1'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-      )));
+        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      ),),);
 }
 
 dynamic referalPageEmptyData() {
@@ -42,10 +42,10 @@ dynamic referalPageEmptyData() {
       Text(
         'noData1'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
       )
     ],
-  ));
+  ),);
 }
 
 dynamic orderPageEmpty() {
@@ -58,10 +58,10 @@ dynamic orderPageEmpty() {
       Text(
         'noHistoryOrders'.tr,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
       )
     ],
-  ));
+  ),);
 }
 
 dynamic emptyCart() {
@@ -83,7 +83,7 @@ dynamic emptyCart() {
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 125,
         )
       ],

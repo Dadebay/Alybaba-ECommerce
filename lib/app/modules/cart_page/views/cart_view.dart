@@ -14,6 +14,8 @@ import '../../../data/services/create_order.dart';
 import 'local_widget.dart';
 
 class CartView extends StatefulWidget {
+  const CartView({Key? key}) : super(key: key);
+
   @override
   State<CartView> createState() => _CartViewState();
 }
@@ -27,7 +29,7 @@ class _CartViewState extends State<CartView> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: cartViewAppbar(userProfilController.userLogin.value),
-      bottomSheet: bottomSheetOrderPrice(context),
+      bottomSheet: bottomSheetOrderPrice(),
       body: Stack(
         children: [
           Positioned.fill(
@@ -48,12 +50,11 @@ class _CartViewState extends State<CartView> {
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-
                           return Padding(
                             padding: EdgeInsets.only(bottom: cartController.cartListToCompare.length - 1 == index ? 80 : 0),
                             child: CardCart(
                               airPlane: cartController.cartListToCompare[index]['airPlane'] ?? false,
-                              name: cartController.cartListToCompare[index]['name'] ?? "",
+                              name: cartController.cartListToCompare[index]['name'] ?? '',
                               createdAt: cartController.cartListToCompare[index]['creatAt'] ?? '',
                               id: cartController.cartListToCompare[index]['id']!,
                               price: cartController.cartListToCompare[index]['price']!,
@@ -63,32 +64,32 @@ class _CartViewState extends State<CartView> {
                         },
                       );
                     });
-                  })),
+                  },),),
           Positioned(
               bottom: 80,
               left: 0,
               right: 0,
               child: Obx(() {
                 double sum = 0;
-                cartController.list.forEach((element) {
-                  double a = double.parse(element['price']);
+                for (var element in cartController.list) {
+                  final double a = double.parse(element['price']);
                   sum += a;
-                });
+                }
                 return sum > 50
-                    ? SizedBox.shrink()
+                    ? const SizedBox.shrink()
                     : Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(left: 14, right: 14, top: 25),
-                        padding: EdgeInsets.all(6),
+                        margin: const EdgeInsets.only(left: 14, right: 14, top: 25),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.1), borderRadius: borderRadius5),
                         child: Text(
-                          "minSumCount".tr,
+                          'minSumCount'.tr,
                           maxLines: 2,
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey, fontFamily: gilroySemiBold, fontSize: 16),
+                          style: const TextStyle(color: Colors.grey, fontFamily: gilroySemiBold, fontSize: 16),
                         ),
                       );
-              })),
+              }),),
         ],
       ),
     );

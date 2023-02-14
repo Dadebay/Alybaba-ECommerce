@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../constants.dart';
 
 class UserProfilIconButton extends StatelessWidget {
-  UserProfilIconButton({Key? key, required this.icon, required this.name, required this.onTap}) : super(key: key);
+  const UserProfilIconButton({ required this.icon, required this.name, required this.onTap,Key? key,}) : super(key: key);
   final IconData icon;
   final String name;
   final Function() onTap;
@@ -21,7 +21,7 @@ class UserProfilIconButton extends StatelessWidget {
               color: Colors.grey,
               size: 32,
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Padding(
@@ -31,7 +31,7 @@ class UserProfilIconButton extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: gilroyMedium, color: Colors.grey),
+                style: const TextStyle(fontFamily: gilroyMedium, color: Colors.grey),
               ),
             )
           ],

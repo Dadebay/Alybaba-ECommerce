@@ -47,8 +47,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 dynamic mainDartImports() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -63,7 +63,7 @@ dynamic mainDartImports() async {
     sound: true,
   );
   const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
-  final InitializationSettings initializationSettings = InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: null,
     macOS: null,
@@ -93,6 +93,6 @@ dynamic myAppOnInit() {
     );
   });
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    Get.to(() => ConnectionCheckView());
+    Get.to(() => const ConnectionCheckView());
   });
 }

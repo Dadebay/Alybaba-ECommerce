@@ -13,7 +13,10 @@ import '../../../data/models/get_order_info_model.dart';
 import '../controllers/cart_page_controller.dart';
 
 class OrderPage extends StatefulWidget {
-  OrderPage({Key? key, required this.airPlane}) : super(key: key);
+  const OrderPage({
+    required this.airPlane,
+    Key? key,
+  }) : super(key: key);
 
   final bool airPlane;
 
@@ -53,16 +56,16 @@ class _OrderPageState extends State<OrderPage> {
 
   Container userInfo() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
+      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(
-              "userInfo".tr,
+              'userInfo'.tr,
               style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
             ),
           ),
@@ -127,15 +130,15 @@ class _OrderPageState extends State<OrderPage> {
                 },
                 activeColor: kPrimaryColor,
                 title: Text(
-                  "plain".tr,
+                  'plain'.tr,
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
                 ),
                 subtitle: Text(
-                  'orderComesThatDayTitle'.tr + ' ${model.transports![0].minWeek}-${model.transports![0].maxWeek}' + 'orderComesThatDaySubtitle',
+                  '${'orderComesThatDayTitle'.tr} ${model.transports!.first.minWeek}-${model.transports!.first.maxWeek}orderComesThatDaySubtitle',
                   style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
                 ),
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: RadioListTile<OrderType>(
@@ -150,11 +153,11 @@ class _OrderPageState extends State<OrderPage> {
             },
             activeColor: kPrimaryColor,
             title: Text(
-              "train".tr,
+              'train'.tr,
               style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
             ),
             subtitle: Text(
-              'orderComesThatDayTitle'.tr + ' ${model.transports![1].minWeek}-${model.transports![1].maxWeek}' + 'orderComesThatDaySubtitle',
+              '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek}orderComesThatDaySubtitle',
               style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
             ),
           ),
@@ -171,11 +174,11 @@ class _OrderPageState extends State<OrderPage> {
           },
           activeColor: kPrimaryColor,
           title: Text(
-            "container".tr,
+            'container'.tr,
             style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
           ),
           subtitle: Text(
-            'orderComesThatDayTitle'.tr + ' ${model.transports![2].minWeek}-${model.transports![2].maxWeek}' + 'orderComesThatDaySubtitle',
+            '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek}orderComesThatDaySubtitle',
             style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
           ),
         ),
@@ -185,12 +188,12 @@ class _OrderPageState extends State<OrderPage> {
 
   Widget selectCity() {
     return Container(
-      margin: EdgeInsets.only(top: 2, bottom: 2),
+      margin: const EdgeInsets.only(top: 2, bottom: 2),
       decoration: BoxDecoration(borderRadius: borderRadius20, border: Border.all(color: backgroundColor, width: 2)),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 15),
         title: Text(name.tr, style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18)),
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: borderRadius15,
         ),
         trailing: const Icon(IconlyLight.arrowRightCircle),
@@ -243,62 +246,63 @@ class _OrderPageState extends State<OrderPage> {
           children: [
             userInfo(),
             FutureBuilder<GetOrderInfoModel>(
-                future: orderModel,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: spinKit());
-                  } else if (snapshot.data == null) {
-                    return Text("Empty");
-                  } else if (snapshot.hasError) {
-                    return Text("Error");
-                  }
-                  return Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
-                        child: orderTypeWidget(snapshot.data!),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 8,
-                              width: 8,
-                              margin: EdgeInsets.all(10),
-                              decoration: new BoxDecoration(
-                                color: Colors.grey,
-                                shape: BoxShape.circle,
-                              ),
+              future: orderModel,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.data == null) {
+                  return const Text('Empty');
+                } else if (snapshot.hasError) {
+                  return const Text('Error');
+                }
+                return Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
+                      child: orderTypeWidget(snapshot.data!),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25, bottom: 15),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 8,
+                            width: 8,
+                            margin: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
                             ),
-                            Expanded(
-                              child: Text(
-                                snapshot.data!.info!.toString(),
-                                maxLines: 3,
-                                style: TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
-                              ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              snapshot.data!.info!.toString(),
+                              maxLines: 3,
+                              style: const TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  );
-                }),
-            SizedBox(
+                    ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(
               height: 40,
             ),
             AgreeButton(
               onTap: () {
                 if (_orderPage.currentState!.validate()) {
-                  CreateOrderService().createOrder(userName: userNameController.text, userPhoneNumber: phoneController.text, address: '${name} + ${addressController.text}', note: noteController.text, transport: orderTypeNum).then((value) {
+                  CreateOrderService().createOrder(userName: userNameController.text, userPhoneNumber: phoneController.text, address: '$name + ${addressController.text}', note: noteController.text, transport: orderTypeNum).then((value) {
                     if (value == 200) {
                       Get.back();
                       cartController.cartListToCompare.clear();
                       cartController.removeAllCartElements();
-                      showSnackBar('orderComplete', "orderCompletedTrue", Colors.green);
+                      showSnackBar('orderComplete', 'orderCompletedTrue', Colors.green);
                     } else {
                       showSnackBar('errorTitle', 'error', Colors.red);
                     }

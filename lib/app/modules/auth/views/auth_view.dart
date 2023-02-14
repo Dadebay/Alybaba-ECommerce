@@ -9,6 +9,8 @@ import 'log_in_view.dart';
 import 'sign_in_view.dart';
 
 class AuthView extends GetView<AuthController> {
+  const AuthView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,7 +39,7 @@ class AuthView extends GetView<AuthController> {
                           logo,
                           fit: BoxFit.cover,
                         ),
-                      )),
+                      ),),
                 ),
               ),
             ),
@@ -62,7 +64,7 @@ class AuthView extends GetView<AuthController> {
                           labelColor: Colors.white,
                           indicatorWeight: 4,
                           indicatorPadding: const EdgeInsets.only(top: 45),
-                          indicator: BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                          indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
                           unselectedLabelColor: Colors.grey,
                           tabs: [
                             Tab(

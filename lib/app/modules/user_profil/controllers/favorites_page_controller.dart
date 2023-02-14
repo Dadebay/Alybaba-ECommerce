@@ -13,36 +13,36 @@ class FavoritesPageController extends GetxController {
     } else {
       bool value = false;
       for (final element in favList) {
-        if (element["id"] == id) {
+        if (element['id'] == id) {
           value = true;
         }
       }
-      if (value == true) {
-        favList.removeWhere((element) => element["id"] == id);
-      } else if (value == false) {
+      if (value) {
+        favList.removeWhere((element) => element['id'] == id);
+      } else if (!value) {
         favList.add({
-          "id": id,
+          'id': id,
         });
       }
       favList.refresh();
       final String jsonString = jsonEncode(favList);
-      storage.write("favList", jsonString);
+      await storage.write('favList', jsonString);
     }
   }
 
-  returnFavList() {
-    final result = storage.read('favList') ?? "[]";
+  dynamic returnFavList() {
+    final result = storage.read('favList') ?? '[]';
     final List jsonData = jsonDecode(result);
     if (jsonData.isNotEmpty) {
       for (final element in jsonData) {
-        toggleFav(element["id"]);
+        toggleFav(element['id']);
       }
     }
   }
 
-  clearFavList() {
+  dynamic clearFavList() {
     favList.clear();
     final String jsonString = jsonEncode(favList);
-    storage.write("favList", jsonString);
+    storage.write('favList', jsonString);
   }
 }

@@ -12,7 +12,7 @@ class InOurHands extends GetView {
   final Map<String, String> parametrs;
   final Future<List<ProductModel>> future;
 
-  InOurHands(this.parametrs, this.future);
+  const InOurHands(this.parametrs, this.future, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,8 @@ class InOurHands extends GetView {
 
     return Wrap(
       children: [
-        listViewName("inOurHands", true, size, () {
-          Get.to(() => ShowAllProducts(pageName: "inOurHands", filter: false, parametrs: parametrs));
+        listViewName('inOurHands', true, size, () {
+          Get.to(() => ShowAllProducts(pageName: 'inOurHands', filter: false, parametrs: parametrs));
         }),
         SizedBox(
           height: 300,
@@ -31,25 +31,26 @@ class InOurHands extends GetView {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.data == null) {
-                  return Text("Empty");
+                  return const Text('Empty');
                 } else if (snapshot.hasError) {
-                  return Text("Error");
+                  return const Text('Error');
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
+                      historyOrder: false,
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
-                      image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
+                      image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
                       name: snapshot.data![index].name!,
                       price: snapshot.data![index].price!,
                     );
                   },
                 );
-              }),
+              },),
         )
       ],
     );

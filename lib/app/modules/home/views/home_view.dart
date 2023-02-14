@@ -15,9 +15,11 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
+import '../../../data/models/video_model.dart';
 import '../../../data/services/abous_us_service.dart';
 import '../../../data/services/banner_service.dart';
 import '../../../data/services/producers_service.dart';
+import '../../../data/services/video_services.dart';
 import '../local_widgets/home_videos.dart';
 import '../local_widgets/in_our_hand_products.dart';
 import '../local_widgets/recomended_items_view.dart';
@@ -25,6 +27,8 @@ import '../local_widgets/shop_by_brand.dart';
 import 'banners.dart';
 
 class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -36,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
   late Future<List<ProductModel>> productsFutureInOurHands;
   late Future<List<ProductModel>> productsFutureRecomended;
   late Future<List<ProducersModel>> producersFuture;
+  late Future<List<VideosModel>> videosFuture;
   @override
   void initState() {
     super.initState();
@@ -50,13 +55,14 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
   }
 
-  getData() {
+ dynamic getData() {
     minibannerFuture = BannerService().getBanners(3);
     bannersFuture = BannerService().getBanners(2);
     productsFuture = ProductsService().getProducts(parametrs: {'new_in_come': 'true'});
     productsFutureInOurHands = ProductsService().getProducts(parametrs: {'on_hand': 'true'});
     productsFutureRecomended = ProductsService().getProducts(parametrs: {'recomended': 'true'});
     producersFuture = ProducersService().getProducers();
+    videosFuture = VideosService().getVideos();
   }
 
   @override
@@ -70,26 +76,28 @@ class _HomeViewState extends State<HomeView> {
           enablePullDown: true,
           enablePullUp: false,
           physics: const BouncingScrollPhysics(),
-          header: MaterialClassicHeader(
+          header: const MaterialClassicHeader(
             color: kPrimaryColor,
           ),
           child: ListView(
             children: [
               Banners(future: bannersFuture),
               MiniBannersView(minibannerFuture),
-              NewItemsView(parametrs: {'new_in_come': 'true'}, future: productsFuture),
-              HomePageVideos(),
-              RecomendedItems(parametrs: {'recomended': 'true'}, future: productsFutureRecomended),
-              SizedBox(
+              NewItemsView(parametrs: const {'new_in_come': 'true'}, future: productsFuture),
+              HomePageVideos(
+                videosFuture: videosFuture,
+              ),
+              RecomendedItems(parametrs: const {'recomended': 'true'}, future: productsFutureRecomended),
+              const SizedBox(
                 height: 30,
               ),
               ShopByBrand(
                 producers: producersFuture,
               ),
-              InOurHands({'on_hand': 'true'}, productsFutureInOurHands),
+              InOurHands(const {'on_hand': 'true'}, productsFutureInOurHands),
             ],
           ),
-        ));
+        ),);
   }
 
   AppBar appBAr() {
@@ -98,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
         'home'.tr,
       ),
       elevation: 0,
-      titleTextStyle: TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
+      titleTextStyle: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
       centerTitle: true,
       leading: IconButton(
           onPressed: () {
@@ -112,56 +120,56 @@ class _HomeViewState extends State<HomeView> {
                           child: Center(child: spinKit()),
                         );
                       } else if (snapshot.data == null) {
-                        return Text("Empty");
+                        return const Text('Empty');
                       } else if (snapshot.hasError) {
-                        return Text("Error");
+                        return const Text('Error');
                       }
                       return Wrap(
                         children: [
                           ListTile(
                             onTap: () {
-                              launchUrlString("tel://+993-${snapshot.data!.phone1!}");
+                              launchUrlString('tel://+993-${snapshot.data!.phone1!}');
                             },
                             title: Text(
                               '+993-${snapshot.data!.phone1!}',
-                              style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                              style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
                             ),
-                            trailing: Icon(
+                            trailing: const Icon(
                               IconlyBroken.arrowRightCircle,
                               color: Colors.black,
                             ),
                           ),
                           ListTile(
                             onTap: () {
-                              launchUrlString("tel://+993-${snapshot.data!.phone2!}");
+                              launchUrlString('tel://+993-${snapshot.data!.phone2!}');
                             },
                             title: Text(
                               '+993-${snapshot.data!.phone2!}',
-                              style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                              style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
                             ),
-                            trailing: Icon(
+                            trailing: const Icon(
                               IconlyBroken.arrowRightCircle,
                               color: Colors.black,
                             ),
                           )
                         ],
                       );
-                    }),
-                name: 'callNumber'.tr);
+                    },),
+                name: 'callNumber'.tr,);
           },
-          icon: Icon(
+          icon: const Icon(
             IconlyBroken.call,
             color: Colors.white,
-          )),
+          ),),
       actions: [
         IconButton(
             onPressed: () {
-              Get.to(() => SearchPage());
+              Get.to(() => const SearchPage());
             },
-            icon: Icon(
+            icon: const Icon(
               IconlyBroken.search,
               color: Colors.white,
-            )),
+            ),),
       ],
     );
   }

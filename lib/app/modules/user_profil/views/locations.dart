@@ -11,7 +11,7 @@ import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/text_fields/custom_text_field.dart';
 
 class Locations extends StatefulWidget {
-  Locations({Key? key}) : super(key: key);
+  const Locations({Key? key}) : super(key: key);
 
   @override
   State<Locations> createState() => _LocationsState();
@@ -37,12 +37,12 @@ class _LocationsState extends State<Locations> {
         appBar: CustomAppBar(
           backArrow: true,
           actionIcon: userProfilController.userLogin.value,
-          icon: userProfilController.userAddressesList.length == 0
-              ? SizedBox.shrink()
+          icon: userProfilController.userAddressesList.isEmpty
+              ? const SizedBox.shrink()
               : IconButton(
                   onPressed: () {
                     customDialogToUse(
-                      title: "deleteAddress",
+                      title: 'deleteAddress',
                       subtitle: 'deleteAddressTitle',
                       changeColor: false,
                       onAgree: () {
@@ -52,47 +52,47 @@ class _LocationsState extends State<Locations> {
                       },
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     IconlyLight.delete,
                     color: Colors.white,
-                  )),
+                  ),),
           name: 'locations',
         ),
         body: Column(
           children: [
             Expanded(child: Obx(() {
-              return userProfilController.userAddressesList.length == 0
+              return userProfilController.userAddressesList.isEmpty
                   ? locationPageError()
                   : ListView.separated(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: userProfilController.userAddressesList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           tileColor: Colors.white,
                           minLeadingWidth: 15.0,
                           leading: Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: kPrimaryColor,
                             ),
                             child: Text(
                               '${index + 1}',
-                              style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 14),
+                              style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 14),
                             ),
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                           title: Text(
                             userProfilController.userAddressesList[index]['address'],
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
                           ),
                           subtitle: Text(
                             userProfilController.userAddressesList[index]['note'],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 18),
+                            style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 18),
                           ),
                         );
                       },
@@ -100,7 +100,7 @@ class _LocationsState extends State<Locations> {
                         return divider();
                       },
                     );
-            })),
+            }),),
             ElevatedButton(
                 onPressed: () {
                   textEditingControllerNote.clear();
@@ -108,10 +108,10 @@ class _LocationsState extends State<Locations> {
                   Get.defaultDialog(
                       title: 'addAddress'.tr,
                       radius: 8.0,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 14),
-                      titleStyle: TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-                      titlePadding: EdgeInsets.only(top: 15),
-                      content: Container(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+                      titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+                      titlePadding: const EdgeInsets.only(top: 15),
+                      content: SizedBox(
                         width: Get.size.width / 1.4,
                         child: Column(
                           children: [
@@ -124,7 +124,7 @@ class _LocationsState extends State<Locations> {
                               isNumber: false,
                               maxline: 3,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -137,64 +137,64 @@ class _LocationsState extends State<Locations> {
                                         Get.back();
                                       },
                                       style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
+                                          shape: const RoundedRectangleBorder(
                                             borderRadius: borderRadius10,
                                           ),
-                                          backgroundColor: kPrimaryColor),
+                                          backgroundColor: kPrimaryColor,),
                                       child: Text(
-                                        "add".tr,
-                                        style: TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 18),
-                                      )),
+                                        'add'.tr,
+                                        style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 18),
+                                      ),),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Expanded(
                                   child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
+                                          shape: const RoundedRectangleBorder(
                                             borderRadius: borderRadius10,
                                           ),
-                                          backgroundColor: Colors.white),
+                                          backgroundColor: Colors.white,),
                                       onPressed: () {
                                         Get.back();
                                       },
                                       child: Text(
-                                        "no".tr,
-                                        style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-                                      )),
+                                        'no'.tr,
+                                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+                                      ),),
                                 ),
                               ],
                             )
                           ],
                         ),
-                      ));
+                      ),);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kPrimaryColor,
-                  shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+                  shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       CupertinoIcons.add_circled,
                       color: Colors.white,
                       size: 24,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Text(
-                      "addAddress".tr,
-                      style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
+                      'addAddress'.tr,
+                      style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
                     ),
                   ],
-                )),
-            SizedBox(
+                ),),
+            const SizedBox(
               height: 15,
             ),
           ],
-        ));
+        ),);
   }
 }

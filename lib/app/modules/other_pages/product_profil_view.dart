@@ -15,7 +15,13 @@ class ProductProfilView extends StatefulWidget {
   final String image;
   final String price;
   final int id;
-  ProductProfilView({Key? key, required this.name, required this.id, required this.image, required this.price}) : super(key: key);
+  const ProductProfilView({
+    required this.name,
+    required this.id,
+    required this.image,
+    required this.price,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ProductProfilView> createState() => _ProductProfilViewState();
@@ -37,74 +43,79 @@ class _ProductProfilViewState extends State<ProductProfilView> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: kBlackColor,
-        appBar: productProfilAppBar(widget.name, widget.image, widget.price),
-        body: FutureBuilder<ProductByIDModel>(
-            future: productProfil,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(color: Colors.white, child: Center(child: spinKit()));
-              } else if (snapshot.data == null) {
-                return Container(color: Colors.white, child: Center(child: referalPageEmptyData()));
-              } else if (snapshot.hasError) {
-                return Container(color: Colors.white, child: Center(child: referalPageError()));
-              }
-              return Column(
-                children: [
-                  Expanded(
-                    child: ClipRRect(
+      backgroundColor: kBlackColor,
+      appBar: productProfilAppBar(
+        widget.name,
+        widget.image,
+      ),
+      body: FutureBuilder<ProductByIDModel>(
+        future: productProfil,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(color: Colors.white, child: Center(child: spinKit()));
+          } else if (snapshot.data == null) {
+            return Container(color: Colors.white, child: Center(child: referalPageEmptyData()));
+          } else if (snapshot.hasError) {
+            return Container(color: Colors.white, child: Center(child: referalPageError()));
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: backgroundColor,
                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: backgroundColor,
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                    ),
+                    child: ListView(
+                      children: [
+                        productProfilImagePart(snapshot.data!.images!),
+                        productProfilNamePricePart(name: snapshot.data!.name!, kargoIncluded: snapshot.data!.kargoIncluded!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
+                        productProfildescriptionPart(brand: snapshot.data!.producerName!, category: snapshot.data!.mainCategoryName!, createdAt: snapshot.data!.createdAt!.substring(0, 10), description: snapshot.data!.description!, viewCount: snapshot.data!.viewCount!.toString()),
+                        Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.only(
+                            bottom: snapshot.data!.colors!.isEmpty && snapshot.data!.sizes!.isEmpty ? 0 : 35,
+                          ),
+                          child: Column(
+                            children: [
+                              snapshot.data!.colors!.isEmpty ? const SizedBox.shrink() : chooseColor(size, snapshot.data!.colors!),
+                              snapshot.data!.sizes!.isEmpty ? const SizedBox.shrink() : chooseSize(size, snapshot.data!.sizes!),
+                            ],
+                          ),
                         ),
-                        child: ListView(
-                          children: [
-                            productProfilImagePart(snapshot.data!.images!),
-                            productProfilNamePricePart(name: snapshot.data!.name!, kargoIncluded: snapshot.data!.kargoIncluded!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
-                            productProfildescriptionPart(brand: snapshot.data!.producerName!, category: snapshot.data!.mainCategoryName!, createdAt: snapshot.data!.createdAt!.substring(0, 10), description: snapshot.data!.description!, viewCount: snapshot.data!.viewCount!.toString()),
-                            Container(
-                              color: Colors.white,
-                              padding: EdgeInsets.only(
-                                bottom: snapshot.data!.colors!.isEmpty && snapshot.data!.sizes!.isEmpty ? 0 : 35,
-                              ),
-                              child: Column(
-                                children: [
-                                  snapshot.data!.colors!.isEmpty ? SizedBox.shrink() : chooseColor(size, snapshot.data!.colors!),
-                                  snapshot.data!.sizes!.isEmpty ? SizedBox.shrink() : chooseSize(size, snapshot.data!.sizes!),
-                                ],
-                              ),
-                            ),
-                            productProfilSameProducts(size, getSameProducts),
-                          ],
-                        ),
-                      ),
+                        productProfilSameProducts(size, getSameProducts),
+                      ],
                     ),
                   ),
-                  addCartButtonPart()
-                ],
-              );
-            }));
+                ),
+              ),
+              addCartButtonPart()
+            ],
+          );
+        },
+      ),
+    );
   }
 
   Column chooseColor(Size size, List<ColorModel> colorss) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        listViewName("chooseTheColor", false, size, () {}),
+        listViewName('chooseTheColor', false, size, () {}),
         Container(
           height: 90,
-          margin: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.only(top: 10),
           child: ListView.builder(
             itemCount: colorss.length,
             scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              String code = colorss[index].color!.substring(1, 7);
-              String codeII = "0xff$code";
+              final String code = colorss[index].color!.substring(1, 7);
+              final String codeII = '0xff$code';
               return GestureDetector(
                 onTap: () {
                   setState(() {
@@ -112,7 +123,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   });
                 },
                 child: Container(
-                  margin: EdgeInsets.only(left: 20),
+                  margin: const EdgeInsets.only(left: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -120,13 +131,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                       Container(
                         width: 50,
                         height: 50,
-                        margin: EdgeInsets.only(bottom: 8),
+                        margin: const EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(color: Color(int.parse(codeII)), borderRadius: borderRadius15, border: Border.all(color: kPrimaryColor, width: selectedColor == index ? 4 : 0)),
                       ),
                       Text(
                         colorss[index].name.toString(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 16, fontFamily: gilroyMedium),
+                        style: const TextStyle(color: Colors.black, fontSize: 16, fontFamily: gilroyMedium),
                       )
                     ],
                   ),
@@ -143,16 +154,16 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        listViewName("chooseTheSize", false, size, () {}),
-        SizedBox(
+        listViewName('chooseTheSize', false, size, () {}),
+        const SizedBox(
           height: 10,
         ),
-        Container(
+        SizedBox(
           height: 50,
           child: ListView.builder(
             itemCount: sizes.length,
             scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
@@ -163,7 +174,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                 child: Container(
                   width: 50,
                   height: 50,
-                  margin: EdgeInsets.only(left: 15),
+                  margin: const EdgeInsets.only(left: 15),
                   decoration: BoxDecoration(borderRadius: borderRadius15, border: Border.all(color: selectedSize == index ? kPrimaryColor : Colors.grey.withOpacity(0.8), width: selectedSize == index ? 3 : 1)),
                   child: Center(
                     child: Text(
@@ -185,7 +196,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
   Container addCartButtonPart() {
     return Container(
       height: 80,
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,7 +208,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             children: [
               Text(
                 'price'.tr,
-                style: TextStyle(color: kPrimaryColor, fontFamily: gilroyRegular, fontSize: 16),
+                style: const TextStyle(color: kPrimaryColor, fontFamily: gilroyRegular, fontSize: 16),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,15 +217,15 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                 children: [
                   Text(
                     widget.price,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: gilroyBold,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, right: 6),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4, right: 6),
                     child: Text(
                       ' TMT',
                       style: TextStyle(
@@ -229,7 +240,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               ),
             ],
           ),
-          Expanded(
+          const Expanded(
             flex: 1,
             child: SizedBox.shrink(),
           ),

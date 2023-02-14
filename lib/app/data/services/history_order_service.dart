@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +11,9 @@ class HistoryOrdersService {
   Future<List<HistoryOrdersModel>> getHistoryOrders() async {
     String lang = Get.locale!.languageCode;
     final token = await Auth().getToken();
-    if (lang == "tr") lang = "tm";
+     if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final List<HistoryOrdersModel> historyOrders = [];
     final response = await http.get(
       Uri.parse(
@@ -23,8 +24,6 @@ class HistoryOrdersService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    log(response.body);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body)['rows'];
       for (final Map product in responseJson) {
@@ -39,8 +38,9 @@ class HistoryOrdersService {
   Future<HistoryOrdersModelByID> getHistoryByID(int id) async {
     String lang = Get.locale!.languageCode;
     final token = await Auth().getToken();
-    if (lang == "tr") lang = "tm";
-    final List<HistoryOrdersModel> historyOrders = [];
+      if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/user/$lang/order/$id',
@@ -50,8 +50,6 @@ class HistoryOrdersService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.body);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body)['data'];
       return HistoryOrdersModelByID.fromJson(responseJson);

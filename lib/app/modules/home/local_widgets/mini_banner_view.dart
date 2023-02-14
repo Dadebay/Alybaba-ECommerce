@@ -11,7 +11,7 @@ import '../../../constants/cards/mini_banner_card.dart';
 
 class MiniBannersView extends GetView {
   @override
-  MiniBannersView(this.miniBannerFuture, {Key? key}) : super(key: key);
+  const MiniBannersView(this.miniBannerFuture, {Key? key}) : super(key: key);
   final Future<List<BannerModel>> miniBannerFuture;
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,6 @@ class MiniBannersView extends GetView {
               autoPlayAnimationDuration: const Duration(milliseconds: 2000),
             ),
           );
-        });
+        },);
   }
 }

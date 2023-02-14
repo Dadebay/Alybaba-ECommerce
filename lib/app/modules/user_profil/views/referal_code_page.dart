@@ -14,6 +14,8 @@ import '../../../data/models/referal_model.dart';
 class ReferalPage extends StatelessWidget {
   final UserProfilController userProfilController = Get.put(UserProfilController());
 
+   ReferalPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -59,24 +61,24 @@ class ReferalPage extends StatelessWidget {
                         minLeadingWidth: 10,
                         leading: Text(
                           '${index + 1}.',
-                          style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyBold),
+                          style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyBold),
                         ),
                         title: Text(
                           snapshot.data![index].fullName!,
-                          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular),
+                          style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
                         ),
                         subtitle: Text(
                           snapshot.data![index].date!.substring(0, 10),
-                          style: TextStyle(color: Colors.grey, fontFamily: gilroyRegular),
+                          style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular),
                         ),
                         trailing: Text(
-                          "${snapshot.data![index].sum} TMT",
-                          style: TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                          '${snapshot.data![index].sum} TMT',
+                          style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
                         ),
                       );
                     },
                   );
-                }),
+                },),
           ),
           dividder(),
           Padding(
@@ -95,7 +97,7 @@ class ReferalPage extends StatelessWidget {
                     return Text(
                       '${userProfilController.referalCodeSum.value} TMT',
                       textAlign: TextAlign.end,
-                      style: TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 22),
+                      style: const TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 22),
                     );
                   }),
                 ),
@@ -114,7 +116,7 @@ class ReferalPage extends StatelessWidget {
         children: [
           Text(
             userProfilController.userReferalCode.toString(),
-            style: TextStyle(fontFamily: gilroySemiBold, fontSize: 24),
+            style: const TextStyle(fontFamily: gilroySemiBold, fontSize: 24),
           ),
           IconButton(
             onPressed: () {
@@ -122,7 +124,7 @@ class ReferalPage extends StatelessWidget {
                 showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
               });
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.copy,
               color: kPrimaryColor,
               size: 20,

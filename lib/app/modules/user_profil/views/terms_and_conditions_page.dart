@@ -6,19 +6,21 @@ import '../../../constants/widgets.dart';
 import '../../../data/services/abous_us_service.dart';
 
 class TermsAndConditions extends StatelessWidget {
+  const TermsAndConditions({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(backArrow: true, actionIcon: true, icon: SizedBox.shrink(), name: 'terms_and_conditions'),
+      appBar: const CustomAppBar(backArrow: true, actionIcon: true, icon: SizedBox.shrink(), name: 'terms_and_conditions'),
       body: FutureBuilder<dynamic>(
           future: AboutUsService().getRules(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
-              return Text('Error');
+              return const Text('Error');
             } else if (snapshot.data == null) {
-              return Text('Empty');
+              return const Text('Empty');
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -26,12 +28,12 @@ class TermsAndConditions extends StatelessWidget {
                 children: [
                   Text(
                     snapshot.data!['privacy_tm'],
-                    style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+                    style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
                   )
                 ],
               ),
             );
-          }),
+          },),
     );
   }
 }

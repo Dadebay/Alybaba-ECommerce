@@ -23,16 +23,16 @@ class _AboutUsState extends State<AboutUs> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUs'),
+      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUs'),
       body: FutureBuilder<AboutUsModel>(
           future: AboutUsService().getAboutUs(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
-              return Text('Error');
+              return const Text('Error');
             } else if (snapshot.data == null) {
-              return Text('Empty');
+              return const Text('Empty');
             }
             return Container(
               padding: const EdgeInsets.all(14.0),
@@ -66,7 +66,7 @@ class _AboutUsState extends State<AboutUs> {
                 ],
               ),
             );
-          }),
+          },),
     );
   }
 }

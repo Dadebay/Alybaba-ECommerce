@@ -87,7 +87,7 @@ class CustomTextField extends StatelessWidget {
                 : borderRadius == false
                     ? borderRadius5
                     : borderRadius20,
-            borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: borderRadius == null
@@ -95,7 +95,7 @@ class CustomTextField extends StatelessWidget {
                 : borderRadius == false
                     ? borderRadius5
                     : borderRadius20,
-            borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: borderRadius == null

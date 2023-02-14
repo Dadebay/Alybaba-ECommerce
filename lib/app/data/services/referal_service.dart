@@ -15,7 +15,9 @@ class ReferalService {
     userProfilController.referalCodeSum.value = 0.0;
     final List<ReferalModel> referalList = [];
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == 'en') lang = "tm";
+      if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final token = await Auth().getToken();
 
     final response = await http.get(
@@ -28,7 +30,7 @@ class ReferalService {
       },
     );
     if (response.statusCode == 200) {
-      final responseJson = jsonDecode(response.body)["rows"] as List;
+      final responseJson = jsonDecode(response.body)['rows'] as List;
       for (final Map product in responseJson) {
         referalList.add(ReferalModel.fromJson(product));
         userProfilController.referalCodeSum.value += double.parse(ReferalModel.fromJson(product).sum.toString());

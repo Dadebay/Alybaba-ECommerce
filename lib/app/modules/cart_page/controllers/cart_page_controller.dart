@@ -18,7 +18,7 @@ class CartPageController extends GetxController {
           value = true;
         }
       }
-      if (value == false) {
+      if (!value) {
         list.add({'id': id, 'price': price, 'name': name, 'image': image, 'createdAt': createdAt, 'quantity': 1, 'sizeID': sizeID, 'colorID': colorID, 'airplane': airplane});
       }
       list.refresh();
@@ -28,11 +28,11 @@ class CartPageController extends GetxController {
   }
 
   void updateCartQuantity(int id) {
-    list.forEach((element) {
+    for (var element in list) {
       if (element['id'] == id) {
         element['quantity'] += 1;
       }
-    });
+    }
     list.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);

@@ -11,13 +11,13 @@ import '../widgets.dart';
 
 class CardCart extends StatelessWidget {
   const CardCart({
-    Key? key,
     required this.airPlane,
     required this.name,
     required this.price,
     required this.image,
     required this.createdAt,
     required this.id,
+    Key? key,
   }) : super(key: key);
   final int id;
   final String name;
@@ -33,18 +33,20 @@ class CardCart extends StatelessWidget {
       margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
       child: ElevatedButton(
         onPressed: () {
-          Get.to(() => ProductProfilView(
-                name: name,
-                image: image,
-                id: id,
-                price: price,
-              ));
+          Get.to(
+            () => ProductProfilView(
+              name: name,
+              image: image,
+              id: id,
+              price: price,
+            ),
+          );
         },
         style: ElevatedButton.styleFrom(
           elevation: 0.3,
           backgroundColor: Colors.white,
           padding: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(borderRadius: borderRadius25),
+          shape: const RoundedRectangleBorder(borderRadius: borderRadius25),
         ),
         child: Row(
           children: [
@@ -57,7 +59,7 @@ class CardCart extends StatelessWidget {
                   imageUrl: image,
                   imageBuilder: (context, imageProvider) => Container(
                     width: Get.size.width,
-                    margin: EdgeInsets.all(15),
+                    margin: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade100,
                       borderRadius: borderRadius10,
@@ -68,7 +70,7 @@ class CardCart extends StatelessWidget {
                     ),
                   ),
                   placeholder: (context, url) => Center(child: spinKit()),
-                  errorWidget: (context, url, error) => Center(
+                  errorWidget: (context, url, error) => const Center(
                     child: Text('No Image'),
                   ),
                 ),
@@ -97,8 +99,8 @@ class CardCart extends StatelessWidget {
                           onTap: () {
                             Get.find<CartPageController>().removeCardXButton(id);
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8),
+                          child: const Padding(
+                            padding: EdgeInsets.only(left: 8),
                             child: Icon(
                               CupertinoIcons.xmark_circle,
                               color: kPrimaryColor,

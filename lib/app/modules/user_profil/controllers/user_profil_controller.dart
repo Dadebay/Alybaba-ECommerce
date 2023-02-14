@@ -9,10 +9,10 @@ import 'package:nabelli_ecommerce/app/data/services/auth_service.dart';
 class UserProfilController extends GetxController {
   final RxBool userLogin = false.obs;
   File userImage = File('');
-  final RxString userName = "0".obs;
-  final RxString userReferalCode = "0".obs;
-  final RxString userMoney = "".obs;
-  final RxString userPhoneNumber = "".obs;
+  final RxString userName = '0'.obs;
+  final RxString userReferalCode = '0'.obs;
+  final RxString userMoney = ''.obs;
+  final RxString userPhoneNumber = ''.obs;
   final RxDouble referalCodeSum = 0.0.obs;
   final RxList userAddressesList = [].obs;
 
@@ -34,7 +34,7 @@ class UserProfilController extends GetxController {
     findUserLogin();
   }
 
-  findUserLogin() async {
+ dynamic findUserLogin() async {
     final token = await Auth().getToken();
     if (token != null) {
       userLogin.value = true;
@@ -56,10 +56,10 @@ class UserProfilController extends GetxController {
   }
 
   dynamic returnData() async {
-    userName.value = await storage.read('userName') ?? '';
-    userMoney.value = await storage.read('userMoney') ?? ' ';
-    userPhoneNumber.value = await storage.read('userPhoneNumber') ?? ' ';
-    userReferalCode.value = await storage.read('userReferalCode') ?? '';
+    userName.value = storage.read('userName') ?? '';
+    userMoney.value = storage.read('userMoney') ?? ' ';
+    userPhoneNumber.value = storage.read('userPhoneNumber') ?? ' ';
+    userReferalCode.value = storage.read('userReferalCode') ?? '';
   }
 
   dynamic switchLang(String value) {
@@ -76,8 +76,8 @@ class UserProfilController extends GetxController {
     update();
   }
 
-  returnUserAddresses() {
-    final result = storage.read('userAddressesList') ?? "[]";
+ dynamic returnUserAddresses() {
+    final result = storage.read('userAddressesList') ?? '[]';
     final List jsonData = jsonDecode(result);
     if (jsonData.isNotEmpty) {
       for (final element in jsonData) {
@@ -86,10 +86,10 @@ class UserProfilController extends GetxController {
     }
   }
 
-  clearUserAddresses() {
+ dynamic clearUserAddresses() {
     userAddressesList.clear();
     final String jsonString = jsonEncode(userAddressesList);
-    storage.write("userAddressesList", jsonString);
+    storage.write('userAddressesList', jsonString);
   }
 
   dynamic addAddressesToList({required String address, required String note}) async {
@@ -98,16 +98,16 @@ class UserProfilController extends GetxController {
     } else {
       bool value = false;
       for (final element in userAddressesList) {
-        if (element["address"] == address && element['note'] == note) {
+        if (element['address'] == address && element['note'] == note) {
           value = true;
         }
       }
-      if (value == false) {
+      if (!value) {
         userAddressesList.add({'address': address, 'note': note});
       }
       userAddressesList.refresh();
       final String jsonString = jsonEncode(userAddressesList);
-      storage.write("userAddressesList", jsonString);
+      await storage.write('userAddressesList', jsonString);
     }
   }
 }

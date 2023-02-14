@@ -12,6 +12,8 @@ import '../controllers/favorites_page_controller.dart';
 import '../controllers/user_profil_controller.dart';
 
 class FavoritesPageView extends StatefulWidget {
+  const FavoritesPageView({Key? key}) : super(key: key);
+
   @override
   State<FavoritesPageView> createState() => _FavoritesPageViewState();
 }
@@ -32,7 +34,7 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         backArrow: true,
         actionIcon: false,
         name: 'favorites',
@@ -45,12 +47,12 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
             } else if (snapshot.data.toString() == '[]') {
               return emptyPageImage(lottie: heartLottie, text1: 'emptyFavT', text2: 'emptyFavS');
             } else if (snapshot.hasError) {
-              return Text("Error");
+              return const Text('Error');
             }
             return Obx(() {
               favoritesController.favList2ToShow.clear();
               if (favoritesController.favList2ToShow.isEmpty) {
-                snapshot.data!.forEach((element) {
+                for (var element in snapshot.data!) {
                   favoritesController.favList2ToShow.add({
                     'id': element.id,
                     'name': element.name,
@@ -58,7 +60,7 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
                     'price': element.price,
                     'creatAt': element.createdAt,
                   });
-                });
+                }
               }
               return GridView.builder(
                 itemCount: favoritesController.favList2ToShow.length,
@@ -67,6 +69,8 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return ProductCard(
+                    historyOrder: false,
+
                     id: favoritesController.favList2ToShow[index]['id'],
                     createdAt: favoritesController.favList2ToShow[index]['creatAt'],
                     image: "$serverURL/${favoritesController.favList2ToShow[index]['image']}-mini.webp",
@@ -74,10 +78,10 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
                     price: favoritesController.favList2ToShow[index]['price'],
                   );
                 },
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3.2 / 5),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3.2 / 5),
               );
             });
-          }),
+          },),
     );
   }
 }

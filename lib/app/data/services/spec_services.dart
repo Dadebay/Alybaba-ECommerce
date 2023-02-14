@@ -11,7 +11,9 @@ class SpecServices {
   Future<List<GetCatSpecsModel>> getCatSpecs({required int subCategoryID}) async {
     final List<GetCatSpecsModel> referalList = [];
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == 'en') lang = "tm";
+     if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-cat-specs/$subCategoryID',
@@ -21,7 +23,7 @@ class SpecServices {
       },
     );
     if (response.statusCode == 200) {
-      final responseJson = jsonDecode(response.body)["rows"] as List;
+      final responseJson = jsonDecode(response.body)['rows'] as List;
       for (final Map product in responseJson) {
         referalList.add(GetCatSpecsModel.fromJson(product));
       }

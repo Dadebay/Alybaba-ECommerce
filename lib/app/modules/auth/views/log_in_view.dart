@@ -17,10 +17,12 @@ class LogInView extends GetView {
   FocusNode phoneNumberFocusNode = FocusNode();
   final login = GlobalKey<FormState>();
   final HomeController homeController = Get.put(HomeController());
+
+  LogInView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(
         key: login,
@@ -46,41 +48,47 @@ class LogInView extends GetView {
                 style: false,
               ),
             ),
-            Center(child: AgreeButton(onTap: () {
-              homeController.agreeButton.value = !homeController.agreeButton.value;
-              if (login.currentState!.validate()) {
-                if (homeController.agreeButton.value == true) {
-                  SignInService().login(phone: phoneNumberController.text).then((value) {
-                    //TODO google playden gecenson ayyrmaly
+            Center(
+              child: AgreeButton(
+                onTap: () {
+                  homeController.agreeButton.value = !homeController.agreeButton.value;
+                  if (login.currentState!.validate()) {
+                    if (homeController.agreeButton.value) {
+                      SignInService().login(phone: phoneNumberController.text).then((value) {
+                        //TODO google playden gecenson ayyrmaly
+                        if (value == 200) {
+                          if (phoneNumberController.text == '62990344') {
+                            Get.find<UserProfilController>().userLogin.value = true;
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => const ConnectionCheckView(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          } else {
+                            Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text.toString(), register: false, userName: '', referalKod: ''));
+                          }
 
-                    if (value == 200) {
-                      if (phoneNumberController.text == '62990344') {
-                        Get.find<UserProfilController>().userLogin.value = true;
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => ConnectionCheckView(),
-                          ),
-                          (Route<dynamic> route) => false,
-                        );
-                      } else {
-                        Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text.toString(), register: false, userName: '', referalKod: ''));
-                      }
-
-                      homeController.agreeButton.value = !homeController.agreeButton.value;
-                    } else if (value == 409) {
-                      showSnackBar('noConnection3', 'alreadyExist', Colors.red);
-                      homeController.agreeButton.value = !homeController.agreeButton.value;
-                    } else {
-                      showSnackBar('noConnection3', 'errorData', Colors.red);
-                      homeController.agreeButton.value = !homeController.agreeButton.value;
+                          homeController.agreeButton.value = !homeController.agreeButton.value;
+                        } else if (value == 409) {
+                          showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+                          homeController.agreeButton.value = !homeController.agreeButton.value;
+                        } else if (value == 422) {
+                          showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+                          homeController.agreeButton.value = !homeController.agreeButton.value;
+                        } else {
+                          showSnackBar('noConnection3', 'errorData', Colors.red);
+                          homeController.agreeButton.value = !homeController.agreeButton.value;
+                        }
+                      });
                     }
-                  });
-                }
-              } else {
-                showSnackBar('noConnection3', 'errorEmpty', Colors.red);
-                homeController.agreeButton.value = !homeController.agreeButton.value;
-              }
-            })),
+                  } else {
+                    showSnackBar('noConnection3', 'errorEmpty', Colors.red);
+                    homeController.agreeButton.value = !homeController.agreeButton.value;
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

@@ -9,7 +9,7 @@ import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 import '../../other_pages/show_all_products.dart';
 
 class SubCategoryView extends StatelessWidget {
-  const SubCategoryView({Key? key, required this.subCategoryList, required this.categoryID, required this.categoryName}) : super(key: key);
+  const SubCategoryView({ required this.subCategoryList, required this.categoryID, required this.categoryName,Key? key,}) : super(key: key);
   final List<SubCategoryModel> subCategoryList;
   final int categoryID;
   final String categoryName;
@@ -29,20 +29,20 @@ class SubCategoryView extends StatelessWidget {
                     filter: true,
                     pageName: subCategoryList[index].name.toString(),
                     parametrs: {'sub_category_id': '${subCategoryList[index].id}', 'main_category_id': categoryID.toString()},
-                  ));
+                  ),);
             },
-            trailing: Icon(
+            trailing: const Icon(
               IconlyLight.arrowRightCircle,
               color: Colors.black,
             ),
             title: Text(
               subCategoryList[index].name.toString(),
-              style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+              style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
             ),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return Divider(
+          return const Divider(
             color: Colors.black12,
             thickness: 1,
           );

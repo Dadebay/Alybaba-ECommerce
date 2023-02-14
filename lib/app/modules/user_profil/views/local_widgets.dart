@@ -22,16 +22,16 @@ import 'settings.dart';
 
 Container thirdPart({required String userName, required String userPhoneNumber, required bool userLogin}) {
   return Container(
-    padding: EdgeInsets.all(15),
+    padding: const EdgeInsets.all(15),
     decoration: BoxDecoration(color: Colors.white, border: Border.all(color: backgroundColor)),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "profil".tr,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
+          'profil'.tr,
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
@@ -40,31 +40,31 @@ Container thirdPart({required String userName, required String userPhoneNumber, 
           children: [
             UserProfilIconButton(
               icon: IconlyBroken.profile,
-              name: "profil",
+              name: 'profil',
               onTap: () {
                 if (userLogin) {
                   Get.to(() => ProfileSettings(
                         userName: userName,
                         userPhoneNumebr: userPhoneNumber,
-                      ));
+                      ),);
                 } else {
-                  showSnackBar("loginError", 'loginError1', Colors.red);
+                  showSnackBar('loginError', 'loginError1', Colors.red);
                   Vibration.vibrate();
                 }
               },
             ),
             UserProfilIconButton(
               icon: IconlyBroken.setting,
-              name: "settings",
+              name: 'settings',
               onTap: () {
-                Get.to(() => Settings());
+                Get.to(() => const Settings());
               },
             ),
             UserProfilIconButton(
               icon: CupertinoIcons.chat_bubble_2,
-              name: "aboutUs",
+              name: 'aboutUs',
               onTap: () {
-                Get.to(() => AboutUs());
+                Get.to(() => const AboutUs());
               },
             ),
           ],
@@ -76,16 +76,16 @@ Container thirdPart({required String userName, required String userPhoneNumber, 
 
 Container fourthPart(bool userLogin) {
   return Container(
-    padding: EdgeInsets.all(15),
+    padding: const EdgeInsets.all(15),
     decoration: BoxDecoration(color: Colors.white, border: Border.all(color: backgroundColor)),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "more".tr,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
+          'more'.tr,
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
@@ -94,29 +94,29 @@ Container fourthPart(bool userLogin) {
           children: [
             UserProfilIconButton(
               icon: IconlyBroken.ticket,
-              name: "referal_Code",
+              name: 'referal_Code',
               onTap: () {
                 if (userLogin) {
                   Get.to(() => ReferalPage());
                 } else {
-                  showSnackBar("loginError", 'loginError1', Colors.red);
+                  showSnackBar('loginError', 'loginError1', Colors.red);
                   Vibration.vibrate();
                 }
               },
             ),
             UserProfilIconButton(
               icon: IconlyBroken.document,
-              name: "terms_and_conditions",
+              name: 'terms_and_conditions',
               onTap: () {
-                Get.to(() => TermsAndConditions());
+                Get.to(() => const TermsAndConditions());
               },
             ),
             UserProfilIconButton(
               icon: userLogin ? IconlyBroken.logout : IconlyBroken.login,
-              name: userLogin ? 'log_out' : "login",
+              name: userLogin ? 'log_out' : 'login',
               onTap: () {
                 Get.find<HomeController>().agreeButton.value = false;
-                userLogin ? logOut() : Get.to(() => AuthView());
+                userLogin ? logOut() : Get.to(() => const AuthView());
               },
             ),
           ],
@@ -128,17 +128,17 @@ Container fourthPart(bool userLogin) {
 
 Container secondPart(bool userLogin) {
   return Container(
-    padding: EdgeInsets.all(15),
-    margin: EdgeInsets.symmetric(vertical: 15),
+    padding: const EdgeInsets.all(15),
+    margin: const EdgeInsets.symmetric(vertical: 15),
     decoration: BoxDecoration(color: Colors.white, border: Border.all(color: backgroundColor)),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "orders".tr,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
+          'orders'.tr,
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 20),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
@@ -147,30 +147,30 @@ Container secondPart(bool userLogin) {
           children: [
             UserProfilIconButton(
               icon: CupertinoIcons.cube_box,
-              name: "orders",
+              name: 'orders',
               onTap: () {
                 if (userLogin) {
-                  Get.to(() => OrderStatusWait(
+                  Get.to(() => const OrderStatusWait(
                         whichStatus: 1,
-                      ));
+                      ),);
                 } else {
-                  showSnackBar("loginError", 'loginError1', Colors.red);
+                  showSnackBar('loginError', 'loginError1', Colors.red);
                   Vibration.vibrate();
                 }
               },
             ),
             UserProfilIconButton(
               icon: IconlyBroken.heart,
-              name: "favorites",
+              name: 'favorites',
               onTap: () {
-                Get.to(() => FavoritesPageView());
+                Get.to(() => const FavoritesPageView());
               },
             ),
             UserProfilIconButton(
               icon: IconlyBroken.location,
-              name: "locations",
+              name: 'locations',
               onTap: () {
-                Get.to(() => Locations());
+                Get.to(() => const Locations());
               },
             ),
           ],
@@ -186,13 +186,13 @@ Widget topPart({required File userImage, required String userMoney, required Str
       Get.to(() => ProfileSettings(
             userName: userName,
             userPhoneNumebr: userPhoneNumber,
-          ));
+          ),);
     },
     child: Container(
       height: 150,
-      margin: EdgeInsets.only(bottom: 15),
+      margin: const EdgeInsets.only(bottom: 15),
       color: Colors.white,
-      padding: EdgeInsets.only(top: 10, left: 10),
+      padding: const EdgeInsets.only(top: 10, left: 10),
       width: Get.size.width,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -200,16 +200,16 @@ Widget topPart({required File userImage, required String userMoney, required Str
           Container(
             width: 100,
             height: 100,
-            margin: EdgeInsets.all(15),
+            margin: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               color: backgroundColor,
               shape: BoxShape.circle,
               border: Border.all(color: Colors.grey.shade200, width: 3),
-              boxShadow: [BoxShadow(color: backgroundColor, blurRadius: 8, spreadRadius: 8)],
+              boxShadow: const [BoxShadow(color: backgroundColor, blurRadius: 8, spreadRadius: 8)],
             ),
             child: ClipOval(
               child: userImage.path == ''
-                  ? Icon(
+                  ? const Icon(
                       Icons.info_outline,
                       color: Colors.black,
                     )
@@ -225,18 +225,18 @@ Widget topPart({required File userImage, required String userMoney, required Str
             children: [
               Text(
                 userName,
-                style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8, top: 8),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       IconlyBroken.wallet,
                       size: 28,
                       color: Colors.grey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Row(
@@ -245,7 +245,7 @@ Widget topPart({required File userImage, required String userMoney, required Str
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          " - $userMoney",
+                          ' - $userMoney',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 19,

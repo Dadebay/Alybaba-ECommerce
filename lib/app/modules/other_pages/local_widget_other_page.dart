@@ -12,13 +12,13 @@ import '../../constants/widgets.dart';
 import '../../data/models/product_model.dart';
 import '../../constants/cards/product_card.dart';
 
-AppBar productProfilAppBar(String name, String image, String price) {
+AppBar productProfilAppBar(String name, String image) {
   return AppBar(
-    systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
+    systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark),
     backgroundColor: Colors.white,
     title: Text(
       name,
-      style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
+      style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
     ),
     automaticallyImplyLeading: false,
     centerTitle: true,
@@ -59,7 +59,7 @@ Container productProfilImagePart(List images) {
   return Container(
     color: Colors.white,
     height: Get.size.height / 2.5,
-    margin: EdgeInsets.only(bottom: 15),
+    margin: const EdgeInsets.only(bottom: 15),
     child: CarouselSlider.builder(
       itemCount: images.length,
       itemBuilder: (context, index, count) {
@@ -67,7 +67,7 @@ Container productProfilImagePart(List images) {
           onTap: () {
             Get.to(() => PhotoViewPage(
                   image: "$serverURL/${images[index]['destination']}-big.webp",
-                ));
+                ),);
           },
           child: CachedNetworkImage(
             fadeInCurve: Curves.ease,
@@ -82,7 +82,7 @@ Container productProfilImagePart(List images) {
               ),
             ),
             placeholder: (context, url) => Center(child: spinKit()),
-            errorWidget: (context, url, error) => Center(
+            errorWidget: (context, url, error) => const Center(
               child: Text('No Image'),
             ),
           ),
@@ -110,8 +110,8 @@ Container productProfilNamePricePart({
 }) {
   return Container(
     color: Colors.white,
-    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-    margin: EdgeInsets.only(bottom: 15),
+    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
+    margin: const EdgeInsets.only(bottom: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,12 +155,12 @@ Container productProfilNamePricePart({
           barCode,
           style: const TextStyle(color: Colors.grey, fontFamily: gilroyMedium, fontSize: 18),
         ),
-        kargoIncluded == true
+        kargoIncluded
             ? Text(
                 'kargoIncluded'.tr,
                 style: const TextStyle(color: Colors.red, fontFamily: gilroySemiBold, fontSize: 19),
               )
-            : SizedBox.shrink(),
+            : const SizedBox.shrink(),
       ],
     ),
   );
@@ -174,24 +174,24 @@ Container productProfildescriptionPart({
   required String description,
 }) {
   return Container(
-    padding: EdgeInsets.all(15),
+    padding: const EdgeInsets.all(15),
     color: Colors.white,
-    margin: EdgeInsets.only(bottom: 15),
+    margin: const EdgeInsets.only(bottom: 15),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 20, bottom: 10),
           child: Text(
-            "data".tr,
+            'data'.tr,
             style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 21),
           ),
         ),
-        twoText(name1: "brandPP".tr + " : ", name2: brand),
-        twoText(name1: "category".tr + " :", name2: category),
-        twoText(name1: "data3".tr, name2: viewCount),
-        twoText(name1: "createdAt".tr, name2: createdAt),
-        SizedBox(
+        twoText(name1: "${"brandPP".tr} : ", name2: brand),
+        twoText(name1: "${"category".tr} :", name2: category),
+        twoText(name1: 'data3'.tr, name2: viewCount),
+        twoText(name1: 'createdAt'.tr, name2: createdAt),
+        const SizedBox(
           height: 30,
         ),
         customDivider(),
@@ -206,7 +206,7 @@ Container productProfildescriptionPart({
           description,
           style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.black54),
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
       ],
@@ -222,11 +222,11 @@ Widget twoText({required String name1, required String name2}) {
       children: [
         Text(
           name1,
-          style: TextStyle(color: Colors.black54, fontFamily: gilroyMedium, fontSize: 18),
+          style: const TextStyle(color: Colors.black54, fontFamily: gilroyMedium, fontSize: 18),
         ),
         Text(
           name2,
-          style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
+          style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
         ),
       ],
     ),
@@ -236,12 +236,12 @@ Widget twoText({required String name1, required String name2}) {
 Container productProfilSameProducts(Size size, Future<List<ProductModel>> products) {
   return Container(
     color: Colors.white,
-    padding: EdgeInsets.only(bottom: 35),
-    margin: EdgeInsets.only(top: 20, bottom: 50),
+    padding: const EdgeInsets.only(bottom: 35),
+    margin: const EdgeInsets.only(top: 20, bottom: 50),
     child: Wrap(
       crossAxisAlignment: WrapCrossAlignment.start,
       children: [
-        listViewName("sameProducts", false, size, () {}),
+        listViewName('sameProducts', false, size, () {}),
         SizedBox(
           height: 300,
           child: FutureBuilder<List<ProductModel>>(
@@ -250,25 +250,26 @@ Container productProfilSameProducts(Size size, Future<List<ProductModel>> produc
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: spinKit());
                 } else if (snapshot.data == null) {
-                  return Text("Empty");
+                  return const Text('Empty');
                 } else if (snapshot.hasError) {
-                  return Text("Error");
+                  return const Text('Error');
                 }
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
                     return ProductCard(
+                      historyOrder: false,
                       id: snapshot.data![index].id!,
                       createdAt: snapshot.data![index].createdAt!,
-                      image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
+                      image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
                       name: snapshot.data![index].name!,
                       price: snapshot.data![index].price!,
                     );
                   },
                 );
-              }),
+              },),
         ),
       ],
     ),

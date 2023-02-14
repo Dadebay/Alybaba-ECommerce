@@ -12,7 +12,12 @@ class BannerProfileView extends GetView {
   final String pageName;
   final String image;
 
-  const BannerProfileView({required this.pageName, required this.image, required this.description});
+  const BannerProfileView({
+    required this.pageName,
+    required this.image,
+    required this.description,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,7 @@ class BannerProfileView extends GetView {
         backgroundColor: kPrimaryColor,
         elevation: 0,
         centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
       ),
       body: Column(
         children: [

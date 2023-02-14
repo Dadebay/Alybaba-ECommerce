@@ -3,18 +3,22 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../constants/cards/product_card.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
-import '../../../data/models/product_model.dart';
+import '../../../data/models/video_model.dart';
 
 class VideoPLayerMine extends StatefulWidget {
   final String? videoURL;
- final List<ProductModel> products;
-  const VideoPLayerMine({Key? key, this.videoURL, required this.products}) : super(key: key);
+  final String? title;
+  final String? subtitle;
+  final List<Products> products;
+  const VideoPLayerMine({required this.products, this.videoURL,  this.title, this.subtitle,Key? key,}) : super(key: key);
 
   @override
   State<VideoPLayerMine> createState() => _VideoPLayerMineState();
@@ -75,15 +79,53 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                                     DeviceOrientation.portraitUp,
                                   ],
                                   preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                                  flickManager: _homeController.flickManager),
+                                  flickManager: _homeController.flickManager,),
                             ),
-                            // AspectRatio(aspectRatio: _controller.value.aspectRatio, child: VideoPlayer(_controller)),
+                            Positioned(
+                              bottom: 70,
+                              left: 15,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.title!,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 20),
+                                  ),
+                                  Text(
+                                    widget.subtitle!,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         )
                       : Center(child: spinKit()),
                 ),
                 Container(
-                  color: Colors.red,
+                  padding: const EdgeInsets.only(top: 75),
+                  child: StaggeredGridView.countBuilder(
+                    crossAxisCount: 2,
+                    itemCount: widget.products.length,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) => ProductCard(
+                      id: widget.products[index].id!,
+                      createdAt: DateTime.now().toString(),
+                      historyOrder: false,
+                      image: '$serverURL/${widget.products[index].image}-mini.webp',
+                      name: widget.products[index].name!,
+                      price: widget.products[index].price!,
+                    ),
+                    staggeredTileBuilder: (index) => StaggeredTile.count(
+                      1,
+                      index % 2 == 0 ? 1.5 : 1.6,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -98,7 +140,7 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                 Tab(
                   text: 'sameProducts'.tr,
                 )
-              ]),
+              ],),
             ),
           ],
         ),

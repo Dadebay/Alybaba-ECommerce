@@ -10,7 +10,9 @@ class VideosService {
   Future<List<VideosModel>> getVideos() async {
     final List<VideosModel> videosList = [];
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == "en") lang = "tm";
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-videos',
@@ -19,9 +21,8 @@ class VideosService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
     if (response.statusCode == 200) {
-      final responseJson = jsonDecode(response.body)["rows"] as List;
+      final responseJson = jsonDecode(response.body)['rows'] as List;
       for (final Map product in responseJson) {
         videosList.add(VideosModel.fromJson(product));
       }

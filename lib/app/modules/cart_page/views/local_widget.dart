@@ -9,22 +9,22 @@ import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_co
 import 'package:nabelli_ecommerce/app/modules/cart_page/views/order_page.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
 
-dynamic orderDialog(BuildContext context, bool airPlane) {
+dynamic orderDialog(bool airPlane) {
   return Get.defaultDialog(
-    title: "terms_and_conditions".tr,
-    titlePadding: EdgeInsets.only(top: 15, left: 6, right: 6),
+    title: 'terms_and_conditions'.tr,
+    titlePadding: const EdgeInsets.only(top: 15, left: 6, right: 6),
     radius: 8,
     contentPadding: EdgeInsets.zero,
-    titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
+    titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
     content: Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           child: Text(
-            "terms_and_conditions_to_order".tr,
+            'terms_and_conditions_to_order'.tr,
             maxLines: 20,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
           ),
         ),
         Padding(
@@ -33,28 +33,32 @@ dynamic orderDialog(BuildContext context, bool airPlane) {
             children: [
               Expanded(
                 child: ElevatedButton(
-                    onPressed: () {
-                      Get.back();
-                      Get.to(() => OrderPage(
-                            airPlane: airPlane,
-                          ));
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white, elevation: 0, padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15), shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
-                    child: Text(
-                      "skip".tr,
-                      style: TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 18),
-                    )),
+                  onPressed: () {
+                    Get.back();
+                    Get.to(
+                      () => OrderPage(
+                        airPlane: airPlane,
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white, elevation: 0, padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
+                  child: Text(
+                    'skip'.tr,
+                    style: const TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 18),
+                  ),
+                ),
               ),
               Expanded(
                 child: ElevatedButton(
-                    onPressed: () {
-                      Get.to(() => TermsAndConditions());
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, elevation: 1, padding: EdgeInsets.symmetric(vertical: 10, horizontal: 4), shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
-                    child: Text(
-                      "read".tr,
-                      style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
-                    )),
+                  onPressed: () {
+                    Get.to(() => TermsAndConditions());
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, elevation: 1, padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
+                  child: Text(
+                    'read'.tr,
+                    style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
+                  ),
+                ),
               ),
             ],
           ),
@@ -64,65 +68,68 @@ dynamic orderDialog(BuildContext context, bool airPlane) {
   );
 }
 
-Widget bottomSheetOrderPrice(BuildContext context) {
+// ignore: long-method
+Widget bottomSheetOrderPrice() {
   final CartPageController cartController = Get.put(CartPageController());
   bool airplane = true;
   return Obx(() {
     double sum = 0;
-    cartController.list.forEach((element) {
-      double a = double.parse(element['price']);
+    for (var element in cartController.list) {
+      final double a = double.parse(element['price']);
       sum += a * element['quantity'];
       if (element['airplane'] == false) {
         airplane = false;
       }
-    });
+    }
     return Container(
       height: 50,
       color: Colors.red,
       child: Row(
         children: [
           Expanded(
-              child: Container(
-                  color: Colors.white,
-                  child: Center(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          sum.toStringAsFixed(1),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontFamily: gilroyBold,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child: Text(
-                            ' TMT',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontFamily: gilroyBold,
-                            ),
-                          ),
-                        ),
-                      ],
+            child: Container(
+              color: Colors.white,
+              child: Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      sum.toStringAsFixed(1),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 22,
+                        fontFamily: gilroyBold,
+                      ),
                     ),
-                  ))),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 6),
+                      child: Text(
+                        ' TMT',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontFamily: gilroyBold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
           Expanded(
             child: GestureDetector(
               onTap: () async {
-                String? token = await Auth().getToken();
+                final String? token = await Auth().getToken();
                 if (token == null || token == '') {
                   showSnackBar('loginError', 'loginError1', Colors.red);
                 } else {
                   if (cartController.list.isEmpty) {
-                    showSnackBar("cartEmpty", "cartEmptySubtitle", Colors.red);
+                    showSnackBar('cartEmpty', 'cartEmptySubtitle', Colors.red);
                   } else {
-                    orderDialog(context, airplane);
+                    orderDialog( airplane);
                   }
                 }
               },
@@ -135,10 +142,10 @@ Widget bottomSheetOrderPrice(BuildContext context) {
                   children: [
                     Text(
                       'orderProducts'.tr,
-                      style: TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 20),
+                      style: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 20),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
+                    const Padding(
+                      padding: EdgeInsets.only(
                         left: 10,
                       ),
                       child: Icon(
@@ -162,32 +169,33 @@ AppBar cartViewAppbar(bool value) {
   return AppBar(
     backgroundColor: kPrimaryColor,
     elevation: 0,
-    systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.light),
+    systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.light),
     centerTitle: true,
     actions: [
       value
           ? IconButton(
               onPressed: () {
                 customDialogToUse(
-                    title: "doYouWantToDeleteCart",
-                    subtitle: 'doYouWantToDeleteCartSubtitle',
-                    onAgree: () {
-                      Get.back();
+                  title: 'doYouWantToDeleteCart',
+                  subtitle: 'doYouWantToDeleteCartSubtitle',
+                  onAgree: () {
+                    Get.back();
 
-                      showSnackBar('orderDeleted', 'orderDeletedSubtitle', Colors.red);
-                      Get.find<CartPageController>().removeAllCartElements();
-                    },
-                    changeColor: false);
+                    showSnackBar('orderDeleted', 'orderDeletedSubtitle', Colors.red);
+                    Get.find<CartPageController>().removeAllCartElements();
+                  },
+                  changeColor: false,
+                );
               },
-              icon: Icon(
+              icon: const Icon(
                 IconlyLight.delete,
                 color: Colors.white,
               ),
             )
-          : SizedBox.shrink()
+          : const SizedBox.shrink()
     ],
-    title: Text("cart".tr),
-    titleTextStyle: TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
+    title: Text('cart'.tr),
+    titleTextStyle: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
   );
 }
 
@@ -195,11 +203,11 @@ AppBar orderPgaeAppBar() {
   return AppBar(
     backgroundColor: kPrimaryColor,
     elevation: 0,
-    systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.light),
+    systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.light),
     centerTitle: true,
     title: Text(
       'orders'.tr,
-      style: TextStyle(fontFamily: gilroySemiBold, fontSize: 21, color: Colors.white),
+      style: const TextStyle(fontFamily: gilroySemiBold, fontSize: 21, color: Colors.white),
     ),
     leading: IconButton(
       icon: const Icon(

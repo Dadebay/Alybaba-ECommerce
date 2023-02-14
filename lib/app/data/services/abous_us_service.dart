@@ -9,7 +9,9 @@ import '../../constants/constants.dart';
 class AboutUsService {
   Future<AboutUsModel> getAboutUs() async {
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == 'en') lang = "tm";
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-shop-data',
@@ -29,7 +31,9 @@ class AboutUsService {
 
   Future getRules() async {
     String lang = Get.locale!.languageCode;
-    if (lang == "tr" || lang == 'en') lang = "tm";
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-rules',
@@ -40,8 +44,7 @@ class AboutUsService {
     );
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
-      final responseJson = json.decode(decoded);
-      return responseJson;
+      return  json.decode(decoded);
     } else {
       return response.body;
     }

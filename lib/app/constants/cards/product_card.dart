@@ -16,21 +16,24 @@ class ProductCard extends StatelessWidget {
   final String price;
   final String createdAt;
   final int id;
+  final bool historyOrder;
 
   const ProductCard({
     required this.image,
     required this.id,
+    required this.historyOrder,
     required this.createdAt,
     required this.name,
     required this.price,
-  });
+    Key? key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
       width: 180,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: borderRadius15,
       ),
@@ -44,24 +47,31 @@ class ProductCard extends StatelessWidget {
           shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         ),
         onPressed: () {
-          Get.to(() => ProductProfilView(
+          if (historyOrder) {
+          } else {
+            Get.to(
+              () => ProductProfilView(
                 name: name,
                 image: image,
                 id: id,
                 price: price,
-              ));
+              ),
+            );
+          }
         },
         child: Column(
           children: [
             imagePart(size, createdAt),
             namePart1(),
-            Padding(
-              padding: const EdgeInsets.only(left: 4, right: 4, bottom: 4),
-              child: AddCartButton(
-                id: id,
-                productProfil: false,
-              ),
-            )
+            historyOrder
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: const EdgeInsets.only(left: 4, right: 4, bottom: 4),
+                    child: AddCartButton(
+                      id: id,
+                      productProfil: false,
+                    ),
+                  )
           ],
         ),
       ),
@@ -91,23 +101,26 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => Center(
+                errorWidget: (context, url, error) => const Center(
                   child: Text('No Image'),
                 ),
               ),
             ),
           ),
-          Positioned(
-              top: 8,
-              right: 6,
-              child: FavButton(
-                whiteColor: true,
-                createdAt: createdAt,
-                id: id,
-                price: price,
-                name: name,
-                image: image,
-              ))
+          historyOrder
+              ? const SizedBox.shrink()
+              : Positioned(
+                  top: 8,
+                  right: 6,
+                  child: FavButton(
+                    whiteColor: true,
+                    createdAt: createdAt,
+                    id: id,
+                    price: price,
+                    name: name,
+                    image: image,
+                  ),
+                )
         ],
       ),
     );
@@ -128,16 +141,16 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                price == '' ? "5" : price.substring(0, price.length - 1),
-                style: TextStyle(
+                price == '' ? '5' : price.substring(0, price.length - 1),
+                style: const TextStyle(
                   color: kPrimaryColor,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   fontFamily: gilroySemiBold,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 4, right: 6),
+              const Padding(
+                padding: EdgeInsets.only(top: 4, right: 6),
                 child: Text(
                   ' TMT',
                   style: TextStyle(
@@ -154,7 +167,7 @@ class ProductCard extends StatelessWidget {
             name == '' ? 'Haryt ady' : name,
             textAlign: TextAlign.start,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
           ),
         ],
       ),

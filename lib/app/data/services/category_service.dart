@@ -9,7 +9,9 @@ import '../models/category_model.dart';
 class CategoryService {
   Future<List<CategoryModel>> getCategories() async {
     String lang = Get.locale!.languageCode;
-    if (lang == "tr") lang = "tm";
+     if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final List<CategoryModel> categoryList = [];
     final response = await http.get(
       Uri.parse(

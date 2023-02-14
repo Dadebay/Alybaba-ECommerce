@@ -6,7 +6,7 @@ import 'constants.dart';
 import 'widgets.dart';
 
 Widget loaderBanner() {
-  return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: BoxDecoration(borderRadius: borderRadius15, color: backgroundColor), child: Center(child: spinKit()));
+  return Container(margin: const EdgeInsets.all(8), height: 220, width: Get.size.width, decoration: const BoxDecoration(borderRadius: borderRadius15, color: backgroundColor), child: Center(child: spinKit()));
 }
 
 Widget loaderCategory() {
@@ -14,8 +14,8 @@ Widget loaderCategory() {
     itemCount: 10,
     itemBuilder: (context, index, count) {
       return Container(
-        margin: EdgeInsets.all(15),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.all(15),
+        decoration: const BoxDecoration(
           borderRadius: borderRadius10,
           color: backgroundColor,
         ),
@@ -42,12 +42,12 @@ Widget loaderCollar() {
     scrollDirection: Axis.horizontal,
     itemBuilder: (BuildContext context, int index) {
       return Container(
+        decoration: const BoxDecoration(borderRadius: borderRadius10, color: backgroundColor),
+        width: 180,
+        margin: const EdgeInsets.only(left: 15, bottom: 5),
         child: Center(
           child: spinKit(),
         ),
-        decoration: BoxDecoration(borderRadius: borderRadius10, color: backgroundColor),
-        width: 180,
-        margin: const EdgeInsets.only(left: 15, bottom: 5),
       );
     },
   );
@@ -62,7 +62,7 @@ Widget loaderMachines() {
       return Container(
         width: Get.size.width / 1.2,
         margin: const EdgeInsets.only(left: 15, bottom: 5),
-        decoration: BoxDecoration(borderRadius: borderRadius15, color: backgroundColor),
+        decoration: const BoxDecoration(borderRadius: borderRadius15, color: backgroundColor),
         child: Center(
           child: spinKit(),
         ),

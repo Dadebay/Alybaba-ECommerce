@@ -50,9 +50,9 @@ class _CategoriesViewState extends State<CategoriesView> {
         backgroundColor: backgroundColor,
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
-          title: Text("categoriesMini".tr),
+          title: Text('categoriesMini'.tr),
           elevation: 0,
-          titleTextStyle: TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
+          titleTextStyle: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
           centerTitle: true,
         ),
         body: Column(
@@ -80,21 +80,21 @@ class _CategoriesViewState extends State<CategoriesView> {
                             return CategoryCard(
                               subCategoryList: snapshot.data![index].subCategory!,
                               id: snapshot.data![index].id!,
-                              image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
+                              image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
                               name: snapshot.data![index].name!,
                             );
                           },
                         );
-                      }),
+                      },),
                   FutureBuilder<List<ProducersModel>>(
                       future: ProducersService().getProducers(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Center(child: spinKit());
                         } else if (snapshot.hasError) {
-                          return Text('Error');
+                          return const Text('Error');
                         } else if (snapshot.data!.isEmpty) {
-                          return Text('Empty');
+                          return const Text('Empty');
                         }
                         return GridView.builder(
                           shrinkWrap: true,
@@ -104,13 +104,13 @@ class _CategoriesViewState extends State<CategoriesView> {
                           itemBuilder: (context, index) {
                             return BrandCard(
                               id: snapshot.data![index].id!,
-                              image: "$serverURL/${snapshot.data![index].image!}-mini.webp",
+                              image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
                               name: snapshot.data![index].name!,
                             );
                           },
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         );
-                      }),
+                      },),
                 ],
               ),
             ),

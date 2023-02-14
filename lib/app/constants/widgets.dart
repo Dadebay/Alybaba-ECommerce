@@ -6,15 +6,16 @@ import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:restart_app/restart_app.dart';
 
 import '../data/services/auth_service.dart';
 
 dynamic noBannerImage() {
-  return const Text('No Image');
+  return Text('noImage'.tr);
 }
 
 dynamic spinKit() {
-  return Lottie.asset(loading2Lottie, animate: true, width: 150, height: 150);
+  return Lottie.asset(loading1Lottie, animate: true, width: 150, height: 150);
 }
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
@@ -62,10 +63,10 @@ Padding namePart({required String text, required bool removeIcon, required Funct
       children: [
         Text(text.tr, style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 22)),
         removeIcon
-            ? SizedBox.shrink()
+            ? const SizedBox.shrink()
             : IconButton(
                 onPressed: onTap,
-                icon: Icon(
+                icon: const Icon(
                   IconlyLight.arrowRightCircle,
                   color: kPrimaryColor,
                   size: 25,
@@ -77,19 +78,19 @@ Padding namePart({required String text, required bool removeIcon, required Funct
 }
 
 void changeLanguage() {
-  var userProfilController = UserProfilController();
-  dividerr() {
+  final userProfilController = UserProfilController();
+  Container dividerr() {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      child: Divider(
+      child: const Divider(
         color: backgroundColor,
         thickness: 2,
       ),
     );
   }
 
-  button(String name, String icon, Function() onTap) {
+  ListTile button(String name, String icon, Function() onTap) {
     return ListTile(
       dense: true,
       minVerticalPadding: 0,
@@ -103,7 +104,7 @@ void changeLanguage() {
       ),
       title: Text(
         name,
-        style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
       ),
     );
   }
@@ -134,17 +135,17 @@ void changeLanguage() {
             ),
           ),
           dividerr(),
-          button("Türkmen", tmIcon, () {
+          button('Türkmen', tmIcon, () {
             userProfilController.switchLang('tm');
             Get.back();
           }),
           dividerr(),
-          button("Русский", ruIcon, () {
+          button('Русский', ruIcon, () {
             userProfilController.switchLang('ru');
             Get.back();
           }),
           dividerr(),
-          button("English", engIcon, () {
+          button('English', engIcon, () {
             userProfilController.switchLang('en');
             Get.back();
           }),
@@ -197,7 +198,7 @@ void logOut() {
               Get.find<UserProfilController>().userLogin.value = false;
               await Auth().logout();
               Get.back();
-              // await Restart.restartApp();
+              await Restart.restartApp();
             },
             child: Container(
               width: Get.size.width,
@@ -235,7 +236,7 @@ void logOut() {
 
 Padding listViewName(String text, bool icon, Size size, Function() onTap) {
   return Padding(
-    padding: EdgeInsets.only(left: 15, right: 15, top: 35, bottom: 10),
+    padding: const EdgeInsets.only(left: 15, right: 15, top: 35, bottom: 10),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -265,7 +266,7 @@ CustomFooter footer() {
       if (mode == LoadStatus.idle) {
         body = const Text('Garasyn...');
       } else if (mode == LoadStatus.loading) {
-        body = CircularProgressIndicator(
+        body = const CircularProgressIndicator(
           color: kPrimaryColor,
         );
       } else if (mode == LoadStatus.failed) {
@@ -385,15 +386,15 @@ dynamic emptyPageImage({
         Text(
           text1.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
           text2.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
         ),
       ],
     ),
@@ -447,7 +448,7 @@ Padding customDivider() {
     child: Container(
       width: double.infinity,
       height: 2,
-      decoration: BoxDecoration(color: Colors.black12, borderRadius: borderRadius30),
+      decoration: const BoxDecoration(color: Colors.black12, borderRadius: borderRadius30),
     ),
   );
 }
@@ -455,10 +456,10 @@ Padding customDivider() {
 dynamic customDialogToUse({required String title, required String subtitle, required Function() onAgree, required bool changeColor}) {
   return Get.defaultDialog(
     title: title.tr,
-    titlePadding: EdgeInsets.only(top: 15),
+    titlePadding: const EdgeInsets.only(top: 15),
     radius: 8,
     contentPadding: EdgeInsets.zero,
-    titleStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
+    titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 22),
     content: Column(
       children: [
         Padding(
@@ -466,7 +467,7 @@ dynamic customDialogToUse({required String title, required String subtitle, requ
           child: Text(
             subtitle.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
           ),
         ),
         Padding(
@@ -476,22 +477,22 @@ dynamic customDialogToUse({required String title, required String subtitle, requ
               Expanded(
                 child: ElevatedButton(
                     onPressed: onAgree,
-                    style: ElevatedButton.styleFrom(backgroundColor: changeColor ? kPrimaryColor : Colors.white, elevation: changeColor ? 1 : 0, padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4), shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                    style: ElevatedButton.styleFrom(backgroundColor: changeColor ? kPrimaryColor : Colors.white, elevation: changeColor ? 1 : 0, padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                     child: Text(
-                      "yes".tr,
+                      'yes'.tr,
                       style: TextStyle(color: changeColor ? Colors.white : kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 18),
-                    )),
+                    ),),
               ),
               Expanded(
                 child: ElevatedButton(
                     onPressed: () {
                       Get.back();
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: changeColor ? Colors.white : kPrimaryColor, elevation: changeColor ? 0 : 1, padding: EdgeInsets.symmetric(vertical: 4, horizontal: 4), shape: RoundedRectangleBorder(borderRadius: borderRadius5)),
+                    style: ElevatedButton.styleFrom(backgroundColor: changeColor ? Colors.white : kPrimaryColor, elevation: changeColor ? 0 : 1, padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                     child: Text(
-                      "no".tr,
+                      'no'.tr,
                       style: TextStyle(color: changeColor ? kPrimaryColor : Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
-                    )),
+                    ),),
               ),
             ],
           ),

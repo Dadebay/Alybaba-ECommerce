@@ -8,7 +8,7 @@ import '../../constants/widgets.dart';
 
 class PhotoViewPage extends StatefulWidget {
   final String? image;
-  const PhotoViewPage({this.image});
+  const PhotoViewPage({Key? key, this.image}) : super(key: key);
 
   @override
   State<PhotoViewPage> createState() => _PhotoViewPageState();

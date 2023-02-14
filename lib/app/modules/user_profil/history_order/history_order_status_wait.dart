@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/services/history_order_service.dart';
 
+import '../../../constants/cards/product_card.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
@@ -13,13 +15,13 @@ import '../../../data/models/history_orders_model.dart';
 
 class OrderStatusWait extends StatelessWidget {
   final int whichStatus;
-  const OrderStatusWait({Key? key, required this.whichStatus}) : super(key: key);
+  const OrderStatusWait({ required this.whichStatus,Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'orders'),
+      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'orders'),
       body: FutureBuilder<List<HistoryOrdersModel>>(
           future: HistoryOrdersService().getHistoryOrders(),
           builder: (context, snapshot) {
@@ -38,12 +40,12 @@ class OrderStatusWait extends StatelessWidget {
                   onTap: () {
                     Get.to(() => HistoryOrderProductProfil(
                           id: snapshot.data![index].id!,
-                          pageName: "order".tr + "${snapshot.data!.length - index - 1}",
-                        ));
+                          pageName: "${"order".tr} ${snapshot.data!.length - index}",
+                        ),);
                   },
                   child: Container(
-                    margin: EdgeInsets.all(8),
-                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                     decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 3, spreadRadius: 3)]),
                     child: Column(
                       children: [
@@ -56,12 +58,12 @@ class OrderStatusWait extends StatelessWidget {
                               itemCount: snapshot.data![index].items!.length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              physics: BouncingScrollPhysics(),
+                              physics: const BouncingScrollPhysics(),
                               itemBuilder: (BuildContext context, int indexx) {
                                 return Container(
-                                  margin: EdgeInsets.all(8),
+                                  margin: const EdgeInsets.all(8),
                                   width: 60,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     borderRadius: borderRadius10,
                                     color: Colors.amber,
                                   ),
@@ -81,7 +83,7 @@ class OrderStatusWait extends StatelessWidget {
                                         ),
                                       ),
                                       placeholder: (context, url) => Center(child: spinKit()),
-                                      errorWidget: (context, url, error) => Center(
+                                      errorWidget: (context, url, error) => const Center(
                                         child: Text('No Image'),
                                       ),
                                     ),
@@ -106,7 +108,7 @@ class OrderStatusWait extends StatelessWidget {
                 );
               },
             );
-          }),
+          },),
     );
   }
 
@@ -125,7 +127,7 @@ class OrderStatusWait extends StatelessWidget {
             name2.tr,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.black, fontSize: 15, fontFamily: gilroySemiBold),
+            style: const TextStyle(color: Colors.black, fontSize: 15, fontFamily: gilroySemiBold),
           ),
         ],
       ),
@@ -141,17 +143,17 @@ class OrderStatusWait extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "order".tr + " ${index + 1}",
-              style: TextStyle(color: Colors.black, fontSize: 18, fontFamily: gilroySemiBold),
+              "${"order".tr} ${index + 1}",
+              style: const TextStyle(color: Colors.black, fontSize: 18, fontFamily: gilroySemiBold),
             ),
             Text(
               snapshot.data![index].createdAt!,
-              style: TextStyle(color: Colors.grey, fontSize: 15, fontFamily: gilroyRegular),
+              style: const TextStyle(color: Colors.grey, fontSize: 15, fontFamily: gilroyRegular),
             ),
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Icon(
             IconlyLight.arrowRightCircle,
             color: Colors.black,
@@ -164,7 +166,7 @@ class OrderStatusWait extends StatelessWidget {
 }
 
 class HistoryOrderProductProfil extends StatelessWidget {
-  HistoryOrderProductProfil({Key? key, required this.id, required this.pageName}) : super(key: key);
+  const HistoryOrderProductProfil({required this.id, required this.pageName,Key? key }) : super(key: key);
   final int id;
   final String pageName;
   @override
@@ -181,29 +183,31 @@ class HistoryOrderProductProfil extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());
             } else if (snapshot.hasError) {
-              return Text('Error');
+              return const Center(child: Text('Error'));
             }
             return Column(
               children: [
-                // Expanded(child: StaggeredGridView.countBuilder(
-                //   crossAxisCount: 2,
-                //   itemCount: homeController.showAllList.length,
-                //   shrinkWrap: true,
-                //   physics: BouncingScrollPhysics(),
-                //   itemBuilder: (context, index) => ProductCard(
-                //     id: homeController.showAllList[index]['id'],
-                //     createdAt: homeController.showAllList[index]['createdAt'],
-                //     image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
-                //     name: homeController.showAllList[index]['name'],
-                //     price: homeController.showAllList[index]['price'],
-                //   ),
-                //   staggeredTileBuilder: (index) => StaggeredTile.count(
-                //     1,
-                //     index % 2 == 0 ? 1.5 : 1.6,
-                //   ),
-                // )),
+                Expanded(
+                    child: StaggeredGridView.countBuilder(
+                  crossAxisCount: 2,
+                  itemCount: snapshot.data!.items!.length,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => ProductCard(
+                    id: snapshot.data!.items![index].id!,
+                    createdAt: DateTime.now().toString(),
+                    historyOrder: true,
+                    image: '$serverURL/${snapshot.data!.items![index].image}-mini.webp',
+                    name: snapshot.data!.items![index].name!,
+                    price: snapshot.data!.items![index].price!,
+                  ),
+                  staggeredTileBuilder: (index) => StaggeredTile.count(
+                    1,
+                    index % 2 == 0 ? 1.3 : 1.4,
+                  ),
+                ),),
                 Container(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.grey.shade100, blurRadius: 3, spreadRadius: 3)]),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -211,23 +215,23 @@ class HistoryOrderProductProfil extends StatelessWidget {
                     children: [
                       Text(
                         'orderDetails'.tr,
-                        style: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                        style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
-                      bottomPart2('priceProduct', snapshot.data!.total! + 'TMT'),
+                      bottomPart2('date', snapshot.data!.createdAt!),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: bottomPart2('countProducts', '15'),
+                        child: bottomPart2('countProducts', snapshot.data!.items!.length.toString()),
                       ),
-                      bottomPart2('date', '15/02/2022'),
+                      bottomPart2('priceProduct', '${snapshot.data!.total!.substring(0, snapshot.data!.total!.length - 3)} TMT'),
                     ],
                   ),
                 ),
               ],
             );
-          }),
+          },),
     );
   }
 
@@ -236,12 +240,12 @@ class HistoryOrderProductProfil extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          name,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+          name.tr,
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
         ),
         Text(
           name1,
-          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+          style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
         ),
       ],
     );

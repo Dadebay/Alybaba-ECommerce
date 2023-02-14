@@ -18,6 +18,8 @@ import '../../other_pages/product_profil_view.dart';
 import '../../other_pages/show_all_products.dart';
 
 class ConnectionCheckView extends StatefulWidget {
+  const ConnectionCheckView({Key? key}) : super(key: key);
+
   @override
   _ConnectionCheckViewState createState() => _ConnectionCheckViewState();
 }
@@ -37,7 +39,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return BottomNavBar();
+                return const BottomNavBar();
               },
             ),
           );
@@ -69,7 +71,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                   children: <Widget>[
                     Text(
                       'noConnection1'.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24.0,
                         color: kPrimaryColor,
                         fontFamily: gilroyMedium,
@@ -153,25 +155,25 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: spinKit());
                     } else if (snapshot.hasError) {
-                      return Text("Error");
+                      return const Text('Error');
                     } else if (snapshot.data!.isEmpty) {
-                      return Text("Empty");
+                      return const Text('Empty');
                     }
-                    Random rand = Random();
-                    int random = rand.nextInt(snapshot.data!.length);
+                    final Random rand = Random();
+                    final int random = rand.nextInt(snapshot.data!.length);
                     return GestureDetector(
                       onTap: () async {
                         if (snapshot.data![random].pathId! == 1) {
-                          Get.to(() => BannerProfileView(
+                          await Get.to(() => BannerProfileView(
                                 description: snapshot.data![random].descriptionTM!,
-                                image: "$serverURL/${snapshot.data![random].destination!}-mini.webp",
+                                image: '$serverURL/${snapshot.data![random].destination!}-mini.webp',
                                 pageName: snapshot.data![random].titleTM!,
-                              ));
+                              ),);
                         } else if (snapshot.data![random].pathId == 2) {
-                          Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
+                          await Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
                         } else if (snapshot.data![random].pathId == 3) {
-                          ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
-                            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: "$serverURL/${value.images![0]}-mini.webp", price: value.price!));
+                          await ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
+                            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: '$serverURL/${value.images!.first}-mini.webp', price: value.price!));
                           });
                         } else {
                           showSnackBar('errorTitle', 'error', Colors.red);
@@ -179,7 +181,7 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                       },
                       child: CachedNetworkImage(
                         fadeInCurve: Curves.ease,
-                        imageUrl: "$serverURL/${snapshot.data![random].destination!}-mini.webp",
+                        imageUrl: '$serverURL/${snapshot.data![random].destination!}-mini.webp',
                         imageBuilder: (context, imageProvider) => Container(
                           width: size.width,
                           decoration: BoxDecoration(
@@ -196,8 +198,8 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                         ),
                       ),
                     );
-                  })),
-          LinearProgressIndicator()
+                  },),),
+          const LinearProgressIndicator()
         ],
       ),
     );

@@ -9,7 +9,7 @@ import '../../data/models/producer_model.dart';
 import '../../data/services/producers_service.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key? key}) : super(key: key);
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -33,7 +33,7 @@ class _SearchPageState extends State<SearchPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             searchField(),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ShopByBrand(
@@ -65,8 +65,8 @@ class _SearchPageState extends State<SearchPage> {
         decoration: InputDecoration(
           errorStyle: const TextStyle(fontFamily: gilroyMedium),
           hintText: 'search'.tr,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
+          prefixIcon: const Padding(
+            padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
             child: Icon(
               IconlyLight.search,
               color: Colors.black,
@@ -74,27 +74,27 @@ class _SearchPageState extends State<SearchPage> {
           ),
           fillColor: backgroundColor,
           filled: true,
-          hintStyle: TextStyle(color: Colors.grey, fontFamily: gilroyMedium),
+          hintStyle: const TextStyle(color: Colors.grey, fontFamily: gilroyMedium),
           contentPadding: const EdgeInsets.only(left: 25, top: 14, bottom: 14, right: 10),
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderRadius: borderRadius15,
-            borderSide: const BorderSide(color: Colors.grey, width: 2),
+            borderSide: BorderSide(color: Colors.grey, width: 2),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: borderRadius15,
             borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderRadius: borderRadius15,
             borderSide: BorderSide(color: kPrimaryColor, width: 2),
           ),
-          focusedErrorBorder: OutlineInputBorder(
+          focusedErrorBorder: const OutlineInputBorder(
             borderRadius: borderRadius15,
             borderSide: BorderSide(color: kPrimaryColor, width: 2),
           ),
-          errorBorder: OutlineInputBorder(
+          errorBorder: const OutlineInputBorder(
             borderRadius: borderRadius15,
-            borderSide: const BorderSide(color: Colors.red, width: 2),
+            borderSide: BorderSide(color: Colors.red, width: 2),
           ),
         ),
       ),

@@ -22,13 +22,15 @@ class VideosModel {
 class Products {
   String? price;
   String? name;
+  String? image;
   int? id;
 
-  Products({this.name, this.price, this.id});
+  Products({this.name, this.price, this.image, this.id});
 
   factory Products.fromJson(Map<String, dynamic> json) {
     return Products(
       price: json['price'],
+      image: json['image'],
       name: json['name'],
       id: json['id'],
     );

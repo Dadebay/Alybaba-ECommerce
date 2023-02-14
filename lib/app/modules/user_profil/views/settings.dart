@@ -24,7 +24,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'settings'),
+      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'settings'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -57,7 +57,7 @@ class _SettingsState extends State<Settings> {
           SettingButton(
             name: 'versia',
             onTap: () {},
-            icon: Text(
+            icon: const Text(
               '1.0.0',
               style: TextStyle(color: kPrimaryColor, fontFamily: gilroyMedium),
             ),

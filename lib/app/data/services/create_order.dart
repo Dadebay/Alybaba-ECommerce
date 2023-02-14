@@ -15,63 +15,61 @@ class CreateOrderService {
 
   Future createOrder({required String userName, required String userPhoneNumber, required String address, required String note, required int transport}) async {
     final token = await Auth().getToken();
-    List products = [];
-    cartController.list.forEach((element) {
-      products.add({'id': element['id'], "size_id": element['sizeID'], "color_id": element['colorID'], "count": element['quantity']});
-    });
+    final List products = [];
+    for (var element in cartController.list) {
+      products.add({'id': element['id'], 'size_id': element['sizeID'], 'color_id': element['colorID'], 'count': element['quantity']});
+    }
     final response = await http.post(
       Uri.parse('$serverURL/api/user/ru/create-order'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
-      body: jsonEncode(<String, dynamic>{'note': note, 'phone': userPhoneNumber, 'name': userName, 'address': address, 'transport': transport, "products": products}),
+      body: jsonEncode(<String, dynamic>{'note': note, 'phone': userPhoneNumber, 'name': userName, 'address': address, 'transport': transport, 'products': products}),
     );
-    if (response.statusCode == 200) {
-      return response.statusCode;
-    } else {
-      return response.statusCode;
-    }
+    return response.statusCode;
   }
 
   Future<List<ProductModel>> getCartItems(bool cart) async {
-    List list = [];
-    if (cart == true) {
-      cartController.list.forEach((element) {
+    final List list = [];
+    if (cart) {
+      for (var element in cartController.list) {
         list.add(element['id']);
-      });
+      }
     } else {
       final FavoritesPageController favoritesPageController = Get.put(FavoritesPageController());
-      favoritesPageController.favList.forEach((element) {
+      for (var element in favoritesPageController.favList) {
         list.add(element['id']);
-      });
+      }
     }
 
     final List<ProductModel> productsList = [];
     final response = await http.get(
-      Uri.parse('$serverURL/api/ru/get-selected-products').replace(queryParameters: {
-        'products': jsonEncode(list),
-      }),
+      Uri.parse('$serverURL/api/ru/get-selected-products').replace(
+        queryParameters: {
+          'products': jsonEncode(list),
+        },
+      ),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
     if (response.statusCode == 200) {
-      final responseJson = jsonDecode(response.body)["rows"] as List;
+      final responseJson = jsonDecode(response.body)['rows'] as List;
       for (final Map product in responseJson) {
         productsList.add(ProductModel.fromJson(product));
       }
       cartController.cartListToCompare.clear();
-      productsList.forEach((element) {
+      for (var element in productsList) {
         cartController.cartListToCompare.add({
           'id': element.id,
           'name': element.name,
-          'image': "$serverURL/${element.image!}-mini.webp",
+          'image': '$serverURL/${element.image!}-mini.webp',
           'price': element.price,
           'creatAt': element.createdAt,
-          "airPlane": element.airplane!,
+          'airPlane': element.airplane!,
         });
-      });
+      }
       return productsList;
     } else {
       return [];
@@ -79,8 +77,10 @@ class CreateOrderService {
   }
 
   Future<GetOrderInfoModel> getOrderInfo() async {
-    String lang = Get.locale!.languageCode;
-    if (lang == "tr") lang = "tm";
+     String lang = Get.locale!.languageCode;
+       if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-order-info',
