@@ -22,14 +22,15 @@ class _UserProfilViewState extends State<UserProfilView> {
       appBar: AppBar(
         title: Text('profil'.tr),
         elevation: 0,
+        automaticallyImplyLeading: false,
         titleTextStyle: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
         centerTitle: true,
       ),
       body: Obx(() {
         return ListView(
           children: [
-            userProfilController.userLogin.value ? topPart(userImage: userProfilController.userImage, userMoney: userProfilController.userMoney.value, userName: userProfilController.userName.value, userPhoneNumber: userProfilController.userPhoneNumber.value) : const SizedBox.shrink(),
-            thirdPart(userName: userProfilController.userName.value, userPhoneNumber: userProfilController.userPhoneNumber.value, userLogin: userProfilController.userLogin.value),
+            userProfilController.userLogin.value ? topPart(userImage: userProfilController.userImage, userMoney: userProfilController.userMoney.value, userName: userProfilController.userName.value) : const SizedBox.shrink(),
+            thirdPart(userLogin: userProfilController.userLogin.value),
             secondPart(userProfilController.userLogin.value),
             fourthPart(userProfilController.userLogin.value),
           ],

@@ -8,19 +8,28 @@ import '../../modules/other_pages/show_all_products.dart';
 
 class BrandCard extends StatelessWidget {
   final String name;
+  final String productCount;
   final String image;
   final int id;
-  const BrandCard({ required this.name, required this.id, required this.image,Key? key,}) : super(key: key);
+  const BrandCard({
+    required this.name,
+    required this.id,
+    required this.image,
+    Key? key,
+    required this.productCount,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => ShowAllProducts(
-              parametrs: {'producer_id': '$id'},
-              pageName: name,
-              filter: false,
-            ),);
+        Get.to(
+          () => ShowAllProducts(
+            parametrs: {'producer_id': '$id'},
+            pageName: name,
+            filter: false,
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.all(5),
@@ -56,8 +65,12 @@ class BrandCard extends StatelessWidget {
               right: 0,
               child: Column(
                 children: [
-                  const Divider(
-                    color: kPrimaryColor,
+                   Divider(
+                    color:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
                     thickness: 1,
                     height: 1,
                   ),
@@ -71,9 +84,9 @@ class BrandCard extends StatelessWidget {
                           name,
                           style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
                         ),
-                        const Text(
-                          '20 Products',
-                          style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 16),
+                        Text(
+                          productCount + 'product'.tr,
+                          style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 16),
                         ),
                       ],
                     ),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +37,7 @@ class ProductsService {
   Future<List<ProductModel>> getShowAllProducts({required Map<String, String> parametrs}) async {
     final HomeController homeController = Get.put(HomeController());
     String lang = Get.locale!.languageCode;
-   if (lang == 'tr' || lang == 'en') {
+    if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
     final response = await http.get(
@@ -60,6 +61,8 @@ class ProductsService {
             'price': ProductModel.fromJson(product).price,
             'createdAt': ProductModel.fromJson(product).createdAt,
             'image': ProductModel.fromJson(product).image,
+            'discountValue': ProductModel.fromJson(product).discountValue,
+            'discountValueType': ProductModel.fromJson(product).discountValueType,
           });
         }
         if (homeController.showAllList.isEmpty) {

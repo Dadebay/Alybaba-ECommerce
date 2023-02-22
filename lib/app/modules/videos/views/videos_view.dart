@@ -34,7 +34,7 @@ class _VideosViewState extends State<VideosView> {
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.black,
-        appBar: const CustomAppBar(backArrow: false, actionIcon: false, name: 'videos'),
+        appBar:  CustomAppBar(backArrow: false, actionIcon: false, name: 'videos'),
         body: FutureBuilder<List<VideosModel>>(
             future: videosFuture,
             builder: (context, snapshot) {

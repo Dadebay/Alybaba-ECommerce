@@ -9,6 +9,7 @@ import '../../../constants/constants.dart';
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
 import '../../../data/models/banner_model.dart';
+import '../controllers/color_controller.dart';
 
 class Banners extends StatelessWidget {
   final Future<List<BannerModel>> future;
@@ -58,6 +59,8 @@ class Banners extends StatelessWidget {
     );
   }
 
+  final ColorController colorController = Get.put(ColorController());
+
   SizedBox dots(AsyncSnapshot<List<BannerModel>> snapshot, Size size) {
     return SizedBox(
       height: size.width >= 800 ? 40 : 20,
@@ -90,7 +93,16 @@ class Banners extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: controller.bannerDotsIndex.value == index ? Colors.transparent : Colors.grey,
                   shape: BoxShape.circle,
-                  border: controller.bannerDotsIndex.value == index ? Border.all(color: kPrimaryColor, width: 3) : Border.all(color: Colors.white),
+                  border: controller.bannerDotsIndex.value == index
+                      ? Border.all(
+                          color: colorController.findMainColor.value == 0
+                              ? kPrimaryColor
+                              : colorController.findMainColor.value == 1
+                                  ? kPrimaryColor1
+                                  : kPrimaryColor2,
+                          width: 3,
+                        )
+                      : Border.all(color: Colors.white),
                 ),
               );
             });

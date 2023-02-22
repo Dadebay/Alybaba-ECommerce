@@ -4,19 +4,25 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/constants.dart';
-import '../controllers/auth_controller.dart';
+
+import '../../home/controllers/color_controller.dart';
 import 'log_in_view.dart';
 import 'sign_in_view.dart';
 
-class AuthView extends GetView<AuthController> {
-  const AuthView({Key? key}) : super(key: key);
+class AuthView extends StatelessWidget {
+  AuthView({Key? key}) : super(key: key);
+  final ColorController colorController = Get.put(ColorController());
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
         body: Stack(
           children: [
             SizedBox(
@@ -26,20 +32,21 @@ class AuthView extends GetView<AuthController> {
                 borderRadius: borderRadius30,
                 child: Center(
                   child: Container(
-                      width: 170,
-                      height: 170,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: borderRadius30,
+                    width: 170,
+                    height: 170,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: borderRadius30,
+                    ),
+                    alignment: Alignment.center,
+                    child: ClipRRect(
+                      borderRadius: borderRadius30,
+                      child: Image.asset(
+                        logo,
+                        fit: BoxFit.cover,
                       ),
-                      alignment: Alignment.center,
-                      child: ClipRRect(
-                        borderRadius: borderRadius30,
-                        child: Image.asset(
-                          logo,
-                          fit: BoxFit.cover,
-                        ),
-                      ),),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -64,7 +71,14 @@ class AuthView extends GetView<AuthController> {
                           labelColor: Colors.white,
                           indicatorWeight: 4,
                           indicatorPadding: const EdgeInsets.only(top: 45),
-                          indicator: const BoxDecoration(color: kPrimaryColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                          indicator: BoxDecoration(
+                            color: colorController.findMainColor.value == 0
+                                ? kPrimaryColor
+                                : colorController.findMainColor.value == 1
+                                    ? kPrimaryColor1
+                                    : kPrimaryColor2,
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                          ),
                           unselectedLabelColor: Colors.grey,
                           tabs: [
                             Tab(

@@ -70,8 +70,8 @@ class CardCart extends StatelessWidget {
                     ),
                   ),
                   placeholder: (context, url) => Center(child: spinKit()),
-                  errorWidget: (context, url, error) => const Center(
-                    child: Text('No Image'),
+                  errorWidget: (context, url, error) => Center(
+                    child: Text('noImage'.tr),
                   ),
                 ),
               ),
@@ -99,11 +99,15 @@ class CardCart extends StatelessWidget {
                           onTap: () {
                             Get.find<CartPageController>().removeCardXButton(id);
                           },
-                          child: const Padding(
-                            padding: EdgeInsets.only(left: 8),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8),
                             child: Icon(
                               CupertinoIcons.xmark_circle,
-                              color: kPrimaryColor,
+                              color: colorController.findMainColor.value == 0
+                                  ? kPrimaryColor
+                                  : colorController.findMainColor.value == 1
+                                      ? kPrimaryColor1
+                                      : kPrimaryColor2,
                               size: 30,
                             ),
                           ),

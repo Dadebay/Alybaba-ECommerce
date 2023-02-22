@@ -12,10 +12,13 @@ import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
 import '../../../data/services/banner_service.dart';
 import '../../../data/services/product_service.dart';
+import '../../cart_page/controllers/cart_page_controller.dart';
+import '../../home/controllers/color_controller.dart';
 import '../../home/views/banner_profil_view.dart';
 import '../../home/views/bottom_nav_bar.dart';
 import '../../other_pages/product_profil_view.dart';
 import '../../other_pages/show_all_products.dart';
+import '../../user_profil/controllers/favorites_page_controller.dart';
 
 class ConnectionCheckView extends StatefulWidget {
   const ConnectionCheckView({Key? key}) : super(key: key);
@@ -24,11 +27,18 @@ class ConnectionCheckView extends StatefulWidget {
   _ConnectionCheckViewState createState() => _ConnectionCheckViewState();
 }
 
-class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
+class _ConnectionCheckViewState extends State {
+  final CartPageController cartPageController = Get.put(CartPageController());
+  final FavoritesPageController favPageController = Get.put(FavoritesPageController());
+  final ColorController colorController = Get.put(ColorController());
+
   @override
   void initState() {
     super.initState();
     checkConnection();
+    cartPageController.returnCartList();
+    favPageController.returnFavList();
+    colorController.returnMainColor();
   }
 
   void checkConnection() async {
@@ -71,9 +81,13 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                   children: <Widget>[
                     Text(
                       'noConnection1'.tr,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24.0,
-                        color: kPrimaryColor,
+                        color: colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2,
                         fontFamily: gilroyMedium,
                       ),
                     ),
@@ -97,7 +111,11 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: kPrimaryColor,
+                        backgroundColor: colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2,
                         shape: const RoundedRectangleBorder(
                           borderRadius: borderRadius10,
                         ),
@@ -145,60 +163,68 @@ class _ConnectionCheckViewState extends State with TickerProviderStateMixin {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
       body: Column(
         children: [
           Expanded(
-              child: FutureBuilder<List<BannerModel>>(
-                  future: BannerService().getBanners(1),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: spinKit());
-                    } else if (snapshot.hasError) {
-                      return const Text('Error');
-                    } else if (snapshot.data!.isEmpty) {
-                      return const Text('Empty');
-                    }
-                    final Random rand = Random();
-                    final int random = rand.nextInt(snapshot.data!.length);
-                    return GestureDetector(
-                      onTap: () async {
-                        if (snapshot.data![random].pathId! == 1) {
-                          await Get.to(() => BannerProfileView(
-                                description: snapshot.data![random].descriptionTM!,
-                                image: '$serverURL/${snapshot.data![random].destination!}-mini.webp',
-                                pageName: snapshot.data![random].titleTM!,
-                              ),);
-                        } else if (snapshot.data![random].pathId == 2) {
-                          await Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
-                        } else if (snapshot.data![random].pathId == 3) {
-                          await ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
-                            Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: '$serverURL/${value.images!.first}-mini.webp', price: value.price!));
-                          });
-                        } else {
-                          showSnackBar('errorTitle', 'error', Colors.red);
-                        }
-                      },
-                      child: CachedNetworkImage(
-                        fadeInCurve: Curves.ease,
-                        imageUrl: '$serverURL/${snapshot.data![random].destination!}-mini.webp',
-                        imageBuilder: (context, imageProvider) => Container(
-                          width: size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: borderRadius10,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
+            child: FutureBuilder<List<BannerModel>>(
+              future: BannerService().getBanners(1),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return const Text('Error');
+                } else if (snapshot.data!.isEmpty) {
+                  return const Text('Empty');
+                }
+                final Random rand = Random();
+                final int random = rand.nextInt(snapshot.data!.length);
+                return GestureDetector(
+                  onTap: () async {
+                    if (snapshot.data![random].pathId! == 1) {
+                      await Get.to(
+                        () => BannerProfileView(
+                          description: snapshot.data![random].descriptionTM!,
+                          image: '$serverURL/${snapshot.data![random].destination!}-mini.webp',
+                          pageName: snapshot.data![random].titleTM!,
                         ),
-                        placeholder: (context, url) => Center(child: spinKit()),
-                        errorWidget: (context, url, error) => Center(
-                          child: noBannerImage(),
+                      );
+                    } else if (snapshot.data![random].pathId == 2) {
+                      await Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
+                    } else if (snapshot.data![random].pathId == 3) {
+                      await ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
+                        Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: '$serverURL/${value.images!.first}-mini.webp', price: value.price!));
+                      });
+                    } else {
+                      showSnackBar('errorTitle', 'error', Colors.red);
+                    }
+                  },
+                  child: CachedNetworkImage(
+                    fadeInCurve: Curves.ease,
+                    imageUrl: '$serverURL/${snapshot.data![random].destination!}-mini.webp',
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: borderRadius10,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.fill,
                         ),
                       ),
-                    );
-                  },),),
+                    ),
+                    placeholder: (context, url) => Center(child: spinKit()),
+                    errorWidget: (context, url, error) => Center(
+                      child: noBannerImage(),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           const LinearProgressIndicator()
         ],
       ),

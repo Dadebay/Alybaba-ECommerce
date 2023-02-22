@@ -18,7 +18,13 @@ class VideoPLayerMine extends StatefulWidget {
   final String? title;
   final String? subtitle;
   final List<Products> products;
-  const VideoPLayerMine({required this.products, this.videoURL,  this.title, this.subtitle,Key? key,}) : super(key: key);
+  const VideoPLayerMine({
+    required this.products,
+    this.videoURL,
+    this.title,
+    this.subtitle,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<VideoPLayerMine> createState() => _VideoPLayerMineState();
@@ -69,17 +75,18 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                             AspectRatio(
                               aspectRatio: _homeController.controller.value.aspectRatio,
                               child: FlickVideoPlayer(
-                                  flickVideoWithControls: FlickVideoWithControls(
-                                    controls: FlickPortraitControls(
-                                      progressBarSettings: FlickProgressBarSettings(),
-                                    ),
+                                flickVideoWithControls: FlickVideoWithControls(
+                                  controls: FlickPortraitControls(
+                                    progressBarSettings: FlickProgressBarSettings(),
                                   ),
-                                  preferredDeviceOrientation: const [
-                                    DeviceOrientation.portraitDown,
-                                    DeviceOrientation.portraitUp,
-                                  ],
-                                  preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                                  flickManager: _homeController.flickManager,),
+                                ),
+                                preferredDeviceOrientation: const [
+                                  DeviceOrientation.portraitDown,
+                                  DeviceOrientation.portraitUp,
+                                ],
+                                preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+                                flickManager: _homeController.flickManager,
+                              ),
                             ),
                             Positioned(
                               bottom: 70,
@@ -115,6 +122,8 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                     physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) => ProductCard(
                       id: widget.products[index].id!,
+                      discountValue: 0,
+                      discountValueType: 0,
                       createdAt: DateTime.now().toString(),
                       historyOrder: false,
                       image: '$serverURL/${widget.products[index].image}-mini.webp',
@@ -133,14 +142,24 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
               top: 40,
               left: 0,
               right: 0,
-              child: TabBar(labelStyle: const TextStyle(fontFamily: gilroySemiBold, fontSize: 20), unselectedLabelStyle: const TextStyle(fontFamily: gilroyMedium, fontSize: 18), labelColor: Colors.white, unselectedLabelColor: Colors.grey, labelPadding: const EdgeInsets.only(top: 8, bottom: 4), indicatorSize: TabBarIndicatorSize.label, indicatorColor: Colors.white, indicatorWeight: 2, tabs: [
-                Tab(
-                  text: 'videos'.tr,
-                ),
-                Tab(
-                  text: 'sameProducts'.tr,
-                )
-              ],),
+              child: TabBar(
+                labelStyle: const TextStyle(fontFamily: gilroySemiBold, fontSize: 20),
+                unselectedLabelStyle: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.grey,
+                labelPadding: const EdgeInsets.only(top: 8, bottom: 4),
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorColor: Colors.white,
+                indicatorWeight: 2,
+                tabs: [
+                  Tab(
+                    text: 'videos'.tr,
+                  ),
+                  Tab(
+                    text: 'sameProducts'.tr,
+                  )
+                ],
+              ),
             ),
           ],
         ),

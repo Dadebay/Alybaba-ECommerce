@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../modules/home/controllers/color_controller.dart';
 import '../constants.dart';
 
 class PhoneNumber extends StatelessWidget {
@@ -12,7 +13,8 @@ class PhoneNumber extends StatelessWidget {
   final FocusNode requestFocus;
   final bool style;
   final bool? disabled;
-  const PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
+   PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
+  final ColorController colorController = Get.put(ColorController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,24 +61,44 @@ class PhoneNumber extends StatelessWidget {
           isDense: true,
           hintText: '65 656565 ',
           filled: style,
-          fillColor: kPrimaryColor,
+          fillColor:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
           alignLabelWithHint: true,
           hintStyle: TextStyle(color: Colors.grey.shade400, fontFamily: gilroyMedium),
           border: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: style ? kPrimaryColor : Colors.grey, width: 2),
+            borderSide: BorderSide(color: style ?  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2 : Colors.grey, width: 2,),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: style ? kPrimaryColor : Colors.grey.shade200, width: 2),
+            borderSide: BorderSide(color: style ?  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2 : Colors.grey.shade200, width: 2,),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
+            borderSide:  BorderSide(color:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2, width: 2,),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
+            borderSide:  BorderSide(color:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2, width: 2,),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,

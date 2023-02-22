@@ -16,11 +16,15 @@ class ProductCard extends StatelessWidget {
   final String price;
   final String createdAt;
   final int id;
+  final int discountValueType;
+  final int discountValue;
   final bool historyOrder;
 
   const ProductCard({
     required this.image,
     required this.id,
+    required this.discountValue,
+    required this.discountValueType,
     required this.historyOrder,
     required this.createdAt,
     required this.name,
@@ -42,7 +46,11 @@ class ProductCard extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           elevation: 1,
           backgroundColor: Colors.white,
-          shadowColor: kPrimaryColor,
+          shadowColor: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
           padding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 5),
           shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         ),
@@ -101,12 +109,26 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => const Center(
-                  child: Text('No Image'),
+                errorWidget: (context, url, error) => Center(
+                  child: Text('noImage'.tr),
                 ),
               ),
             ),
           ),
+          discountValueType == 1
+              ? Positioned(
+                  bottom: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    decoration: const BoxDecoration(color: Colors.red, borderRadius: borderRadius5),
+                    child: Text(
+                      '-$discountValue%',
+                      style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium),
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
           historyOrder
               ? const SizedBox.shrink()
               : Positioned(
@@ -127,6 +149,14 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget namePart1() {
+    double pricee = double.parse(price.toString());
+    if (discountValueType == 2) {
+      pricee -= discountValue.toDouble();
+    } else if (discountValueType == 1) {
+      double procent = discountValue / 100;
+      procent *= pricee;
+      pricee -= procent;
+    }
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(top: 5, left: 4, bottom: 4),
@@ -135,34 +165,11 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                price == '' ? '5' : price.substring(0, price.length - 1),
-                style: const TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: gilroySemiBold,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 4, right: 6),
-                child: Text(
-                  ' TMT',
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: gilroySemiBold,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          discountValueType == 1
+              ? discountPriceWidget(pricee)
+              : discountValueType == 2
+                  ? discountPriceWidget(pricee)
+                  : normalPrice(pricee),
           Text(
             name == '' ? 'Haryt ady' : name,
             textAlign: TextAlign.start,
@@ -171,6 +178,109 @@ class ProductCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Row discountPriceWidget(double pricee) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          price.substring(0, price.length - 1).toString(),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 15,
+            height: 2,
+            decoration: TextDecoration.lineThrough,
+            fontFamily: gilroyMedium,
+            decorationColor: Colors.grey.shade400,
+          ),
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                pricee.toString(),
+                style: TextStyle(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: gilroySemiBold,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 4, right: 6),
+                  child: Text(
+                    ' TMT',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: colorController.findMainColor.value == 0
+                          ? kPrimaryColor
+                          : colorController.findMainColor.value == 1
+                              ? kPrimaryColor1
+                              : kPrimaryColor2,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: gilroySemiBold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row normalPrice(double pricee) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          pricee.toString(),
+          style: TextStyle(
+            color: colorController.findMainColor.value == 0
+                ? kPrimaryColor
+                : colorController.findMainColor.value == 1
+                    ? kPrimaryColor1
+                    : kPrimaryColor2,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            fontFamily: gilroySemiBold,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 4, right: 6),
+          child: Text(
+            ' TMT',
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              fontFamily: gilroySemiBold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

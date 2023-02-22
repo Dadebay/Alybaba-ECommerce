@@ -38,9 +38,9 @@ class ShopByBrand extends StatelessWidget {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: spinKit());
                     } else if (snapshot.hasError) {
-                      return const Text('Error');
+                      return const SizedBox.shrink();
                     } else if (snapshot.data!.isEmpty) {
-                      return const Text('Empty');
+                      return const SizedBox.shrink();
                     }
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
@@ -75,8 +75,8 @@ class ShopByBrand extends StatelessWidget {
                                   ),
                                 ),
                                 placeholder: (context, url) => Center(child: spinKit()),
-                                errorWidget: (context, url, error) => const Center(
-                                  child: Text('No Image'),
+                                errorWidget: (context, url, error) => Center(
+                                  child: Text('noImage'.tr),
                                 ),
                               ),
                             ),

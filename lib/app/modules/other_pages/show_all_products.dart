@@ -39,15 +39,19 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   @override
   void initState() {
     super.initState();
-    getDataMine = {};
-    getDataMine = widget.parametrs;
+    getDataMine.addAll(widget.parametrs);
     homeController.showAllList.clear();
     homeController.page.value = 0;
     homeController.loading.value = 0;
+    addDataToMap();
+  }
+
+  dynamic addDataToMap() {
     getDataMine.addAll({
-      'limit': '4',
+      'limit': '10',
       'page': '${homeController.page.value}',
     });
+    setState(() {});
     getData();
   }
 
@@ -66,7 +70,11 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
               Expanded(
                 child: TextFormField(
                   style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
-                  cursorColor: kPrimaryColor,
+                  cursorColor: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
                   controller: controller1,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -83,9 +91,16 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     isDense: true,
                     hintText: 'minPrice'.tr,
                     hintStyle: TextStyle(fontFamily: gilroyMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: kPrimaryColor, width: 2),
+                      borderSide: BorderSide(
+                        color: colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2,
+                        width: 2,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: borderRadius15,
@@ -103,7 +118,11 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
               Expanded(
                 child: TextFormField(
                   style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
-                  cursorColor: kPrimaryColor,
+                  cursorColor: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
                   controller: controller2,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -117,9 +136,16 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     isDense: true,
                     hintText: 'maxPrice'.tr,
                     hintStyle: TextStyle(fontFamily: gilroyMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: kPrimaryColor, width: 2),
+                      borderSide: BorderSide(
+                        color: colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2,
+                        width: 2,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: borderRadius15,
@@ -131,61 +157,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Padding selectCity() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('selectCityTitle'.tr, style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 14)),
-            Text(name.tr, style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18)),
-          ],
-        ),
-        leading: const Icon(
-          IconlyBroken.location,
-          size: 30,
-        ),
-        trailing: const Icon(IconlyBroken.arrowRightCircle),
-        onTap: () {
-          Get.defaultDialog(
-            title: 'selectCityTitle'.tr,
-            titleStyle: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
-            radius: 5,
-            backgroundColor: Colors.white,
-            titlePadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-            content: Column(
-              children: List.generate(
-                5,
-                (index) => Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.center,
-                  children: [
-                    dividerr(),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          name = cities[index];
-                        });
-                        Get.back();
-                      },
-                      child: Text(
-                        cities[index],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
@@ -256,7 +227,11 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                 value: index,
                 tileColor: Colors.black,
                 selectedTileColor: Colors.black,
-                activeColor: kPrimaryColor,
+                activeColor: colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
                 groupValue: value,
                 onChanged: (ind) {
                   final int a = int.parse(ind.toString());
@@ -266,9 +241,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                   getDataMine.update(
                     'page',
                     (value) {
-                      // ignore: join_return_with_assignment
-                      value = homeController.page.value.toString();
-                      return value;
+                      return homeController.page.value.toString();
                     },
                   );
                   getDataMine.addAll({
@@ -366,8 +339,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     getDataMine.update(
       'page',
       (value) {
-      
-        return   value = homeController.page.value.toString();
+        return value = homeController.page.value.toString();
       },
     );
     getData();
@@ -377,7 +349,8 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      bottomSheet: sortFilter(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: sortFilter(),
       appBar: AppBar(
         title: Text(
           widget.pageName.tr,
@@ -394,7 +367,11 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
           },
         ),
         centerTitle: true,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
         elevation: 0,
       ),
       body: SmartRefresher(
@@ -405,8 +382,12 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         enablePullDown: true,
         enablePullUp: true,
         physics: const BouncingScrollPhysics(),
-        header: const MaterialClassicHeader(
-          color: kPrimaryColor,
+        header: MaterialClassicHeader(
+          color: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
         ),
         child: Obx(() {
           if (homeController.loading.value == 0) {
@@ -426,6 +407,8 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                   itemBuilder: (context, index) => ProductCard(
                     id: homeController.showAllList[index]['id'],
                     historyOrder: false,
+                    discountValue: int.parse(homeController.showAllList[index]['discountValue'].toString()),
+                    discountValueType: int.parse(homeController.showAllList[index]['discountValueType'].toString()),
                     createdAt: homeController.showAllList[index]['createdAt'],
                     image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
                     name: homeController.showAllList[index]['name'],

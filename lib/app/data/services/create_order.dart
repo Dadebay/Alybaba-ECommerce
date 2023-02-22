@@ -42,10 +42,13 @@ class CreateOrderService {
         list.add(element['id']);
       }
     }
-
+    String lang = Get.locale!.languageCode;
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     final List<ProductModel> productsList = [];
     final response = await http.get(
-      Uri.parse('$serverURL/api/ru/get-selected-products').replace(
+      Uri.parse('$serverURL/api/$lang/get-selected-products').replace(
         queryParameters: {
           'products': jsonEncode(list),
         },
@@ -77,8 +80,8 @@ class CreateOrderService {
   }
 
   Future<GetOrderInfoModel> getOrderInfo() async {
-     String lang = Get.locale!.languageCode;
-       if (lang == 'tr' || lang == 'en') {
+    String lang = Get.locale!.languageCode;
+    if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
     final response = await http.get(

@@ -9,7 +9,7 @@ import '../../constants/constants.dart';
 class ProducersService {
   Future<List<ProducersModel>> getProducers() async {
     String lang = Get.locale!.languageCode;
-     if (lang == 'tr' || lang == 'en') {
+    if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
     final List<ProducersModel> categoryList = [];

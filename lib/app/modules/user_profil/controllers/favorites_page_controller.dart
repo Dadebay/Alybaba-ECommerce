@@ -7,6 +7,7 @@ class FavoritesPageController extends GetxController {
   final RxList favList = [].obs;
   final RxList favList2ToShow = [].obs;
   final storage = GetStorage();
+
   dynamic toggleFav(int id) async {
     if (favList.isEmpty) {
       favList.add({'id': id});
@@ -24,19 +25,25 @@ class FavoritesPageController extends GetxController {
           'id': id,
         });
       }
-      favList.refresh();
-      final String jsonString = jsonEncode(favList);
-      await storage.write('favList', jsonString);
     }
+    favList.refresh();
+    final String jsonString = jsonEncode(favList);
+    await storage.write('favList', jsonString);
   }
 
-  dynamic returnFavList() {
-    final result = storage.read('favList') ?? '[]';
-    final List jsonData = jsonDecode(result);
-    if (jsonData.isNotEmpty) {
-      for (final element in jsonData) {
-        toggleFav(element['id']);
+  dynamic returnFavList() async {
+    print(storage.read('mainColor'));
+    final a = storage.read('favList');
+    if (storage.read('favList') != null) {
+      final result = storage.read('favList') ?? '[]';
+      final List jsonData = jsonDecode(result);
+      if (jsonData.isEmpty) {
+      } else {
+        for (final element in jsonData) {
+          toggleFav(int.parse(element['id'].toString()));
+        }
       }
+      print(favList);
     }
   }
 

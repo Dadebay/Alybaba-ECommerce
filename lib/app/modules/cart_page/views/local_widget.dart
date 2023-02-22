@@ -44,16 +44,36 @@ dynamic orderDialog(bool airPlane) {
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.white, elevation: 0, padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                   child: Text(
                     'skip'.tr,
-                    style: const TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 18),
+                    style: TextStyle(
+                      color: colorController.findMainColor.value == 0
+                          ? kPrimaryColor
+                          : colorController.findMainColor.value == 1
+                              ? kPrimaryColor1
+                              : kPrimaryColor2,
+                      fontFamily: gilroySemiBold,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
+              ),
+              const SizedBox(
+                width: 8,
               ),
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => TermsAndConditions());
+                    Get.to(() => const TermsAndConditions());
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, elevation: 1, padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorController.findMainColor.value == 0
+                        ? kPrimaryColor
+                        : colorController.findMainColor.value == 1
+                            ? kPrimaryColor1
+                            : kPrimaryColor2,
+                    elevation: 1,
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                    shape: const RoundedRectangleBorder(borderRadius: borderRadius5),
+                  ),
                   child: Text(
                     'read'.tr,
                     style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
@@ -81,12 +101,17 @@ Widget bottomSheetOrderPrice() {
         airplane = false;
       }
     }
+    String lang = Get.locale!.languageCode;
+    if (lang == 'tr' || lang == 'en') {
+      lang = 'tm';
+    }
     return Container(
       height: 50,
       color: Colors.red,
       child: Row(
         children: [
           Expanded(
+            flex: lang == 'tm' ? 1 : 2,
             child: Container(
               color: Colors.white,
               child: Center(
@@ -120,6 +145,7 @@ Widget bottomSheetOrderPrice() {
             ),
           ),
           Expanded(
+            flex: lang == 'tm' ? 1 : 3,
             child: GestureDetector(
               onTap: () async {
                 final String? token = await Auth().getToken();
@@ -129,12 +155,16 @@ Widget bottomSheetOrderPrice() {
                   if (cartController.list.isEmpty) {
                     showSnackBar('cartEmpty', 'cartEmptySubtitle', Colors.red);
                   } else {
-                    orderDialog( airplane);
+                    orderDialog(airplane);
                   }
                 }
               },
               child: Container(
-                color: kPrimaryColor,
+                color: colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
                 height: Get.size.height,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -167,9 +197,21 @@ Widget bottomSheetOrderPrice() {
 
 AppBar cartViewAppbar(bool value) {
   return AppBar(
-    backgroundColor: kPrimaryColor,
+    backgroundColor: colorController.findMainColor.value == 0
+        ? kPrimaryColor
+        : colorController.findMainColor.value == 1
+            ? kPrimaryColor1
+            : kPrimaryColor2,
     elevation: 0,
-    systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.light),
+    automaticallyImplyLeading: false,
+    systemOverlayStyle: SystemUiOverlayStyle(
+      statusBarColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
+      statusBarIconBrightness: Brightness.light,
+    ),
     centerTitle: true,
     actions: [
       value
@@ -180,7 +222,6 @@ AppBar cartViewAppbar(bool value) {
                   subtitle: 'doYouWantToDeleteCartSubtitle',
                   onAgree: () {
                     Get.back();
-
                     showSnackBar('orderDeleted', 'orderDeletedSubtitle', Colors.red);
                     Get.find<CartPageController>().removeAllCartElements();
                   },
@@ -201,9 +242,20 @@ AppBar cartViewAppbar(bool value) {
 
 AppBar orderPgaeAppBar() {
   return AppBar(
-    backgroundColor: kPrimaryColor,
+    backgroundColor: colorController.findMainColor.value == 0
+        ? kPrimaryColor
+        : colorController.findMainColor.value == 1
+            ? kPrimaryColor1
+            : kPrimaryColor2,
     elevation: 0,
-    systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.light),
+    systemOverlayStyle: SystemUiOverlayStyle(
+      statusBarColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
+      statusBarIconBrightness: Brightness.light,
+    ),
     centerTitle: true,
     title: Text(
       'orders'.tr,

@@ -14,7 +14,7 @@ import '../../../data/models/referal_model.dart';
 class ReferalPage extends StatelessWidget {
   final UserProfilController userProfilController = Get.put(UserProfilController());
 
-   ReferalPage({Key? key}) : super(key: key);
+  ReferalPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,40 +45,41 @@ class ReferalPage extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder<List<ReferalModel>>(
-                future: ReferalService().getReferrals(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: spinKit());
-                  } else if (snapshot.hasError) {
-                    return referalPageError();
-                  } else if (snapshot.data.toString() == '[]') {
-                    return referalPageEmptyData();
-                  }
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        minLeadingWidth: 10,
-                        leading: Text(
-                          '${index + 1}.',
-                          style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyBold),
-                        ),
-                        title: Text(
-                          snapshot.data![index].fullName!,
-                          style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
-                        ),
-                        subtitle: Text(
-                          snapshot.data![index].date!.substring(0, 10),
-                          style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular),
-                        ),
-                        trailing: Text(
-                          '${snapshot.data![index].sum} TMT',
-                          style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
-                        ),
-                      );
-                    },
-                  );
-                },),
+              future: ReferalService().getReferrals(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return referalPageError();
+                } else if (snapshot.data.toString() == '[]') {
+                  return referalPageEmptyData();
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      minLeadingWidth: 10,
+                      leading: Text(
+                        '${index + 1}.',
+                        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyBold),
+                      ),
+                      title: Text(
+                        snapshot.data![index].fullName!,
+                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular),
+                      ),
+                      subtitle: Text(
+                        snapshot.data![index].date!.substring(0, 10),
+                        style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular),
+                      ),
+                      trailing: Text(
+                        '${snapshot.data![index].sum} TMT',
+                        style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
           dividder(),
           Padding(
@@ -97,7 +98,15 @@ class ReferalPage extends StatelessWidget {
                     return Text(
                       '${userProfilController.referalCodeSum.value} TMT',
                       textAlign: TextAlign.end,
-                      style: const TextStyle(color: kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 22),
+                      style: TextStyle(
+                        color: colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2,
+                        fontFamily: gilroySemiBold,
+                        fontSize: 22,
+                      ),
                     );
                   }),
                 ),
@@ -124,9 +133,13 @@ class ReferalPage extends StatelessWidget {
                 showSnackBar('copySucces', 'copySuccesSubtitle', Colors.green);
               });
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.copy,
-              color: kPrimaryColor,
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
               size: 20,
             ),
           )

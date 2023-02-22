@@ -23,7 +23,7 @@ class _AboutUsState extends State<AboutUs> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUs'),
+      appBar:  CustomAppBar(backArrow: true, actionIcon: false, name: 'aboutUs'),
       body: FutureBuilder<AboutUsModel>(
           future: AboutUsService().getAboutUs(),
           builder: (context, snapshot) {

@@ -132,7 +132,18 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                         width: 50,
                         height: 50,
                         margin: const EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(color: Color(int.parse(codeII)), borderRadius: borderRadius15, border: Border.all(color: kPrimaryColor, width: selectedColor == index ? 4 : 0)),
+                        decoration: BoxDecoration(
+                          color: Color(int.parse(codeII)),
+                          borderRadius: borderRadius15,
+                          border: Border.all(
+                            color: colorController.findMainColor.value == 0
+                                ? kPrimaryColor
+                                : colorController.findMainColor.value == 1
+                                    ? kPrimaryColor1
+                                    : kPrimaryColor2,
+                            width: selectedColor == index ? 4 : 0,
+                          ),
+                        ),
                       ),
                       Text(
                         colorss[index].name.toString(),
@@ -175,7 +186,19 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   width: 50,
                   height: 50,
                   margin: const EdgeInsets.only(left: 15),
-                  decoration: BoxDecoration(borderRadius: borderRadius15, border: Border.all(color: selectedSize == index ? kPrimaryColor : Colors.grey.withOpacity(0.8), width: selectedSize == index ? 3 : 1)),
+                  decoration: BoxDecoration(
+                    borderRadius: borderRadius15,
+                    border: Border.all(
+                      color: selectedSize == index
+                          ? colorController.findMainColor.value == 0
+                              ? kPrimaryColor
+                              : colorController.findMainColor.value == 1
+                                  ? kPrimaryColor1
+                                  : kPrimaryColor2
+                          : Colors.grey.withOpacity(0.8),
+                      width: selectedSize == index ? 3 : 1,
+                    ),
+                  ),
                   child: Center(
                     child: Text(
                       sizes[index].name.toString(),
@@ -208,7 +231,15 @@ class _ProductProfilViewState extends State<ProductProfilView> {
             children: [
               Text(
                 'price'.tr,
-                style: const TextStyle(color: kPrimaryColor, fontFamily: gilroyRegular, fontSize: 16),
+                style: TextStyle(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                  fontFamily: gilroyRegular,
+                  fontSize: 16,
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

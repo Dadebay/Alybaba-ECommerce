@@ -34,7 +34,7 @@ class OtpCheck extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'otp'),
+      appBar:  CustomAppBar(backArrow: true, actionIcon: false, name: 'otp'),
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(14.0),
@@ -56,7 +56,7 @@ class OtpCheck extends StatelessWidget {
                 style: const TextStyle(color: Colors.red, fontSize: 20, fontFamily: gilroyMedium),
               ),
             ),
-            Form(key: otpCheck, child: CustomTextField(labelName: 'otp', controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, borderRadius: true, isNumber: true)),
+            Form(key: otpCheck, child: CustomTextField(labelName: 'otp', controller: otpController, focusNode: otpFocusNode, requestfocusNode: otpFocusNode, borderRadius: true, isNumber: true,unFocus: true,)),
             const SizedBox(
               height: 15,
             ),

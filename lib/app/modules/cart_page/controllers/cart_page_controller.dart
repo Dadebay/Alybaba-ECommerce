@@ -21,10 +21,27 @@ class CartPageController extends GetxController {
       if (!value) {
         list.add({'id': id, 'price': price, 'name': name, 'image': image, 'createdAt': createdAt, 'quantity': 1, 'sizeID': sizeID, 'colorID': colorID, 'airplane': airplane});
       }
-      list.refresh();
-      final String jsonString = jsonEncode(list);
-      storage.write('cartList', jsonString);
     }
+    list.refresh();
+    final String jsonString = jsonEncode(list);
+    storage.write('cartList', jsonString);
+  }
+
+  dynamic returnCartList() {
+    print(storage.read('mainColor'));
+
+    final result = storage.read('cartList') ?? '[]';
+    final List jsonData = jsonDecode(result);
+    print(list);
+    print(result);
+    print(result);
+    if (jsonData.isEmpty) {
+    } else {
+      for (final element in jsonData) {
+        list.add({'id': element['id'], 'price': element['price'], 'image': element['image'], 'name': element['name'], 'createdAt': element['createdAt'], 'quantity': element['quantity'], 'sizeID': element['sizeID'], 'colorID': element['colorID'], 'airplane': element['airplane']});
+      }
+    }
+    print(list);
   }
 
   void updateCartQuantity(int id) {
@@ -68,7 +85,6 @@ class CartPageController extends GetxController {
     list.clear();
     cartListToCompare.clear();
     cartListToCompare.refresh();
-
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
   }

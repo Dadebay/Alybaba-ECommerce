@@ -77,6 +77,7 @@ class _OrderPageState extends State<OrderPage> {
             isNumber: false,
             maxline: 1,
             borderRadius: true,
+            unFocus: false,
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
@@ -91,6 +92,7 @@ class _OrderPageState extends State<OrderPage> {
             isNumber: false,
             borderRadius: true,
             maxline: 4,
+            unFocus: false,
           ),
           CustomTextField(
             labelName: 'note',
@@ -100,6 +102,7 @@ class _OrderPageState extends State<OrderPage> {
             isNumber: false,
             maxline: 4,
             borderRadius: true,
+            unFocus: true,
           ),
         ],
       ),
@@ -128,13 +131,17 @@ class _OrderPageState extends State<OrderPage> {
                     orderTypeNum = 1;
                   });
                 },
-                activeColor: kPrimaryColor,
+                activeColor:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
                 title: Text(
                   'plain'.tr,
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
                 ),
                 subtitle: Text(
-                  '${'orderComesThatDayTitle'.tr} ${model.transports!.first.minWeek}-${model.transports!.first.maxWeek}orderComesThatDaySubtitle',
+                  '${'orderComesThatDayTitle'.tr} ${model.transports!.first.minWeek}-${model.transports!.first.maxWeek} ${'orderComesThatDaySubtitle'.tr}',
                   style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
                 ),
               )
@@ -151,13 +158,17 @@ class _OrderPageState extends State<OrderPage> {
                 orderTypeNum = 2;
               });
             },
-            activeColor: kPrimaryColor,
+            activeColor:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
             title: Text(
               'train'.tr,
               style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
             ),
             subtitle: Text(
-              '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek}orderComesThatDaySubtitle',
+              '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
               style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
             ),
           ),
@@ -172,13 +183,17 @@ class _OrderPageState extends State<OrderPage> {
               orderTypeNum = 3;
             });
           },
-          activeColor: kPrimaryColor,
+          activeColor:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
           title: Text(
             'container'.tr,
             style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
           ),
           subtitle: Text(
-            '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek}orderComesThatDaySubtitle',
+            '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
             style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
           ),
         ),
@@ -280,7 +295,6 @@ class _OrderPageState extends State<OrderPage> {
                           Expanded(
                             child: Text(
                               snapshot.data!.info!.toString(),
-                              maxLines: 3,
                               style: const TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
                             ),
                           ),

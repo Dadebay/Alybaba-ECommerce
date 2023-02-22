@@ -15,100 +15,106 @@ import '../../../data/models/history_orders_model.dart';
 
 class OrderStatusWait extends StatelessWidget {
   final int whichStatus;
-  const OrderStatusWait({ required this.whichStatus,Key? key,}) : super(key: key);
+  const OrderStatusWait({
+    required this.whichStatus,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'orders'),
+      appBar:  CustomAppBar(backArrow: true, actionIcon: false, name: 'orders'),
       body: FutureBuilder<List<HistoryOrdersModel>>(
-          future: HistoryOrdersService().getHistoryOrders(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: spinKit());
-            } else if (snapshot.hasError) {
-              return referalPageError();
-            } else if (snapshot.data!.isEmpty) {
-              return orderPageEmpty();
-            }
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemExtent: 210,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(() => HistoryOrderProductProfil(
-                          id: snapshot.data![index].id!,
-                          pageName: "${"order".tr} ${snapshot.data!.length - index}",
-                        ),);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                    decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 3, spreadRadius: 3)]),
-                    child: Column(
-                      children: [
-                        topPart(snapshot.data!.length - index - 1, snapshot),
-                        Expanded(
-                          flex: 2,
-                          child: SizedBox(
-                            width: Get.size.width,
-                            child: ListView.builder(
-                              itemCount: snapshot.data![index].items!.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              physics: const BouncingScrollPhysics(),
-                              itemBuilder: (BuildContext context, int indexx) {
-                                return Container(
-                                  margin: const EdgeInsets.all(8),
-                                  width: 60,
-                                  decoration: const BoxDecoration(
-                                    borderRadius: borderRadius10,
-                                    color: Colors.amber,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: borderRadius10,
-                                    child: CachedNetworkImage(
-                                      fadeInCurve: Curves.ease,
-                                      imageUrl: "$serverURL/${snapshot.data![index].items![indexx]['image']!}-mini.webp",
-                                      imageBuilder: (context, imageProvider) => Container(
-                                        width: Get.size.width,
-                                        decoration: BoxDecoration(
-                                          borderRadius: borderRadius10,
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                          ),
+        future: HistoryOrdersService().getHistoryOrders(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: spinKit());
+          } else if (snapshot.hasError) {
+            return referalPageError();
+          } else if (snapshot.data!.isEmpty) {
+            return orderPageEmpty();
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemExtent: 210,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  Get.to(
+                    () => HistoryOrderProductProfil(
+                      id: snapshot.data![index].id!,
+                      pageName: "${"order".tr} ${snapshot.data!.length - index}",
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                  decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 3, spreadRadius: 3)]),
+                  child: Column(
+                    children: [
+                      topPart(snapshot.data!.length - index - 1, snapshot),
+                      Expanded(
+                        flex: 2,
+                        child: SizedBox(
+                          width: Get.size.width,
+                          child: ListView.builder(
+                            itemCount: snapshot.data![index].items!.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (BuildContext context, int indexx) {
+                              return Container(
+                                margin: const EdgeInsets.all(8),
+                                width: 60,
+                                decoration: const BoxDecoration(
+                                  borderRadius: borderRadius10,
+                                  color: Colors.amber,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: borderRadius10,
+                                  child: CachedNetworkImage(
+                                    fadeInCurve: Curves.ease,
+                                    imageUrl: "$serverURL/${snapshot.data![index].items![indexx]['image']!}-mini.webp",
+                                    imageBuilder: (context, imageProvider) => Container(
+                                      width: Get.size.width,
+                                      decoration: BoxDecoration(
+                                        borderRadius: borderRadius10,
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      placeholder: (context, url) => Center(child: spinKit()),
-                                      errorWidget: (context, url, error) => const Center(
-                                        child: Text('No Image'),
-                                      ),
                                     ),
+                                    placeholder: (context, url) => Center(child: spinKit()),
+                                    errorWidget: (context, url, error) =>  Center(
+                    child: Text('noImage'.tr),
+                  ),
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            bottomPart1('products', '15 haryt '),
-                            bottomPart1('status', snapshot.data![index].statusText!),
-                            bottomPart1('sum', '${snapshot.data![index].total.toString().substring(0, snapshot.data![index].total!.length - 3)} TMT'),
-                          ],
-                        )
-                      ],
-                    ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          bottomPart1('products', '15 haryt '),
+                          bottomPart1('status', snapshot.data![index].statusText!),
+                          bottomPart1('sum', '${snapshot.data![index].total.toString().substring(0, snapshot.data![index].total!.length - 3)} TMT'),
+                        ],
+                      )
+                    ],
                   ),
-                );
-              },
-            );
-          },),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -166,7 +172,7 @@ class OrderStatusWait extends StatelessWidget {
 }
 
 class HistoryOrderProductProfil extends StatelessWidget {
-  const HistoryOrderProductProfil({required this.id, required this.pageName,Key? key }) : super(key: key);
+  const HistoryOrderProductProfil({required this.id, required this.pageName, Key? key}) : super(key: key);
   final int id;
   final String pageName;
   @override
@@ -178,17 +184,17 @@ class HistoryOrderProductProfil extends StatelessWidget {
         name: pageName,
       ),
       body: FutureBuilder<HistoryOrdersModelByID>(
-          future: HistoryOrdersService().getHistoryByID(id),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: spinKit());
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Error'));
-            }
-            return Column(
-              children: [
-                Expanded(
-                    child: StaggeredGridView.countBuilder(
+        future: HistoryOrdersService().getHistoryByID(id),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: spinKit());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error'));
+          }
+          return Column(
+            children: [
+              Expanded(
+                child: StaggeredGridView.countBuilder(
                   crossAxisCount: 2,
                   itemCount: snapshot.data!.items!.length,
                   shrinkWrap: true,
@@ -197,6 +203,8 @@ class HistoryOrderProductProfil extends StatelessWidget {
                     id: snapshot.data!.items![index].id!,
                     createdAt: DateTime.now().toString(),
                     historyOrder: true,
+                    discountValue: 0,
+                    discountValueType: 0,
                     image: '$serverURL/${snapshot.data!.items![index].image}-mini.webp',
                     name: snapshot.data!.items![index].name!,
                     price: snapshot.data!.items![index].price!,
@@ -205,33 +213,35 @@ class HistoryOrderProductProfil extends StatelessWidget {
                     1,
                     index % 2 == 0 ? 1.3 : 1.4,
                   ),
-                ),),
-                Container(
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.grey.shade100, blurRadius: 3, spreadRadius: 3)]),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'orderDetails'.tr,
-                        style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      bottomPart2('date', snapshot.data!.createdAt!),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: bottomPart2('countProducts', snapshot.data!.items!.length.toString()),
-                      ),
-                      bottomPart2('priceProduct', '${snapshot.data!.total!.substring(0, snapshot.data!.total!.length - 3)} TMT'),
-                    ],
-                  ),
                 ),
-              ],
-            );
-          },),
+              ),
+              Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.grey.shade100, blurRadius: 3, spreadRadius: 3)]),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'orderDetails'.tr,
+                      style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    bottomPart2('date', snapshot.data!.createdAt!),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: bottomPart2('countProducts', snapshot.data!.items!.length.toString()),
+                    ),
+                    bottomPart2('priceProduct', '${snapshot.data!.total!.substring(0, snapshot.data!.total!.length - 3)} TMT'),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 

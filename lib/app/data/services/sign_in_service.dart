@@ -55,6 +55,7 @@ class SignInService {
         'email': '',
       }),
     );
+
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       await Auth().setToken(responseJson['access_token']);
@@ -105,7 +106,6 @@ class SignInService {
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
-
       await Auth().setToken(responseJson['access_token']);
       return response.statusCode;
     } else {

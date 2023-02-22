@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../../../constants/buttons/settings_button.dart';
+import '../../home/controllers/color_controller.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -20,11 +21,13 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  final ColorController colorController = Get.put(ColorController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'settings'),
+      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'settings'),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -57,9 +60,35 @@ class _SettingsState extends State<Settings> {
           SettingButton(
             name: 'versia',
             onTap: () {},
-            icon: const Text(
+            icon: Text(
               '1.0.0',
-              style: TextStyle(color: kPrimaryColor, fontFamily: gilroyMedium),
+              style: TextStyle(
+                color: colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
+                fontFamily: gilroyMedium,
+              ),
+            ),
+          ),
+          SettingButton(
+            name: 'appColor',
+            onTap: () {
+              changeColor(context);
+              setState(() {});
+            },
+            icon: Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
+              ),
             ),
           ),
           SettingButton(

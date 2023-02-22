@@ -7,6 +7,7 @@ import 'package:nabelli_ecommerce/app/modules/other_pages/show_all_products.dart
 
 import '../../data/models/producer_model.dart';
 import '../../data/services/producers_service.dart';
+import '../home/controllers/color_controller.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -44,6 +45,8 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  final ColorController colorController = Get.put(ColorController());
 
   Widget searchField() {
     return Padding(
@@ -84,13 +87,27 @@ class _SearchPageState extends State<SearchPage> {
             borderRadius: borderRadius15,
             borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
           ),
-          focusedBorder: const OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: borderRadius15,
-            borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: BorderSide(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              width: 2,
+            ),
           ),
-          focusedErrorBorder: const OutlineInputBorder(
+          focusedErrorBorder: OutlineInputBorder(
             borderRadius: borderRadius15,
-            borderSide: BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: BorderSide(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              width: 2,
+            ),
           ),
           errorBorder: const OutlineInputBorder(
             borderRadius: borderRadius15,

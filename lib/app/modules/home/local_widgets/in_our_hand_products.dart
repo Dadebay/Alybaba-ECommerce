@@ -26,31 +26,34 @@ class InOurHands extends GetView {
         SizedBox(
           height: 300,
           child: FutureBuilder<List<ProductModel>>(
-              future: future,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
-                } else if (snapshot.data == null) {
-                  return const Text('Empty');
-                } else if (snapshot.hasError) {
-                  return const Text('Error');
-                }
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCard(
-                      historyOrder: false,
-                      id: snapshot.data![index].id!,
-                      createdAt: snapshot.data![index].createdAt!,
-                      image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
-                      name: snapshot.data![index].name!,
-                      price: snapshot.data![index].price!,
-                    );
-                  },
-                );
-              },),
+            future: future,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: spinKit());
+              } else if (snapshot.data == null) {
+                return const SizedBox.shrink();
+              } else if (snapshot.hasError) {
+                return const SizedBox.shrink();
+              }
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  return ProductCard(
+                    discountValue: snapshot.data![index].discountValue!,
+                    discountValueType: snapshot.data![index].discountValueType!,
+                    historyOrder: false,
+                    id: snapshot.data![index].id!,
+                    createdAt: snapshot.data![index].createdAt!,
+                    image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
+                    name: snapshot.data![index].name!,
+                    price: snapshot.data![index].price!,
+                  );
+                },
+              );
+            },
+          ),
         )
       ],
     );

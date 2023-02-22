@@ -19,13 +19,8 @@ import '../controllers/user_profil_controller.dart';
 import 'local_widgets.dart';
 
 class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({
-    required this.userName,
-    required this.userPhoneNumebr,
-    Key? key,
-  }) : super(key: key);
-  final String userName;
-  final String userPhoneNumebr;
+  const ProfileSettings({Key? key}) : super(key: key);
+
   @override
   State<ProfileSettings> createState() => _ProfileSettingsState();
 }
@@ -41,8 +36,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   final storage = GetStorage();
 
   dynamic changeData() async {
-    userNameController.text = widget.userName;
-    phoneController.text = widget.userPhoneNumebr;
+    userNameController.text = userProfilController.userName.value;
+    phoneController.text = userProfilController.userPhoneNumber.value;
     if (await storage.read('userImage') == null) {
       selectedImage = null;
     } else {
@@ -83,7 +78,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: const CustomAppBar(backArrow: true, actionIcon: false, name: 'profil'),
+      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'profil'),
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -124,11 +119,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             radius: const Radius.circular(12),
                             padding: const EdgeInsets.all(6),
                             strokeWidth: 2,
-                            color: kPrimaryColor,
-                            child: const Center(
+                            color: colorController.findMainColor.value == 0
+                                ? kPrimaryColor
+                                : colorController.findMainColor.value == 1
+                                    ? kPrimaryColor1
+                                    : kPrimaryColor2,
+                            child: Center(
                               child: Icon(
                                 Icons.add_circle_outline_sharp,
-                                color: kPrimaryColor,
+                                color: colorController.findMainColor.value == 0
+                                    ? kPrimaryColor
+                                    : colorController.findMainColor.value == 1
+                                        ? kPrimaryColor1
+                                        : kPrimaryColor2,
                                 size: 35,
                               ),
                             ),
@@ -146,6 +149,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               requestfocusNode: userNameFocusNode,
               isNumber: false,
               disabled: false,
+              unFocus: false,
             ),
             textPartUserProfil('phoneNumber'),
             PhoneNumber(

@@ -45,8 +45,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 dynamic mainDartImports() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
   await SystemChrome.setPreferredOrientations([

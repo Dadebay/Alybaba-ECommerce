@@ -8,11 +8,16 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/auth/views/connection_check_view.dart';
 
 import 'app/constants/utils.dart';
+import 'app/modules/home/controllers/color_controller.dart';
 import 'main_dart_helper.dart';
 
 Future<void> main() async {
-  mainDartImports();
+  WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+  await GetStorage.init();
+  mainDartImports();
+
   runApp(const MyApp());
 }
 
@@ -25,10 +30,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final storage = GetStorage();
+  final ColorController colorController = Get.put(ColorController());
+
   @override
   void initState() {
     FirebaseMessaging.instance.getToken().then((value) {});
     myAppOnInit();
+    colorController.returnMainColor();
     super.initState();
   }
 
@@ -40,9 +48,29 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: gilroyRegular,
-        colorSchemeSeed: kPrimaryColor,
+        colorSchemeSeed: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
         useMaterial3: true,
-        appBarTheme: const AppBarTheme(backgroundColor: kPrimaryColor, systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarBrightness: Brightness.dark), titleTextStyle: TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20), elevation: 0),
+        appBarTheme: AppBarTheme(
+          backgroundColor: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: colorController.findMainColor.value == 0
+                ? kPrimaryColor
+                : colorController.findMainColor.value == 1
+                    ? kPrimaryColor1
+                    : kPrimaryColor2,
+            statusBarBrightness: Brightness.dark,
+          ),
+          titleTextStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+          elevation: 0,
+        ),
         bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent.withOpacity(0)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

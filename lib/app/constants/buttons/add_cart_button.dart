@@ -14,7 +14,6 @@ class AddCartButton extends StatefulWidget {
     required this.id,
     required this.productProfil,
     Key? key,
-
   }) : super(key: key);
 
   final int id;
@@ -60,7 +59,15 @@ class _AddCartButtonState extends State<AddCartButton> {
           addCartBool = !addCartBool;
           if (value.sizes!.isEmpty && value.colors!.isEmpty) {
             cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
-            showSnackBar('added', 'addedSubtitle', kPrimaryColor);
+            showSnackBar(
+              'added',
+              'addedSubtitle',
+              colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+            );
           } else {
             const int sizeId = 0;
             const int colorId = 0;
@@ -82,7 +89,11 @@ class _AddCartButtonState extends State<AddCartButton> {
         ),
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.productProfil ? 8 : 4),
         decoration: BoxDecoration(
-          color: kPrimaryColor,
+          color: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
           borderRadius: widget.productProfil ? borderRadius10 : borderRadius5,
         ),
         child: widget.productProfil
@@ -111,102 +122,174 @@ class _AddCartButtonState extends State<AddCartButton> {
 
   void colorEmptyOnlySize(ProductByIDModel value, int colorId, int sizeId) {
     Get.defaultDialog(
-        title: 'selectColor'.tr,
-        titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 35),
-        radius: 5,
-        content: Column(
-            children: List.generate(
-                value.colors!.length,
-                (index) => SizedBox(
-                      width: Get.size.width,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            colorId = value.colors![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
-                            Get.back();
-                            showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-                          },
-                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
-                          child: Text(
-                            value.colors![index].name!,
-                            style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                          ),),
-                    ),),),);
+      title: 'selectColor'.tr,
+      titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+      radius: 5,
+      content: Column(
+        children: List.generate(
+          value.colors!.length,
+          (index) => SizedBox(
+            width: Get.size.width,
+            child: ElevatedButton(
+              onPressed: () {
+                colorId = value.colors![index].id!;
+                cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                Get.back();
+                showSnackBar(
+                  'added',
+                  'addedSubtitle',
+                  colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                );
+              },
+              style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
+              child: Text(
+                value.colors![index].name!,
+                style: TextStyle(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                  fontFamily: gilroySemiBold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void sizeEmptyOnlyColor(ProductByIDModel value, int sizeId, int colorId) {
     Get.defaultDialog(
-        title: 'selectSize'.tr,
-        titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 35),
-        radius: 5,
-        content: Column(
-            children: List.generate(
-                value.sizes!.length,
-                (index) => SizedBox(
-                      width: Get.size.width,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            sizeId = value.sizes![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
-                            Get.back();
+      title: 'selectSize'.tr,
+      titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+      radius: 5,
+      content: Column(
+        children: List.generate(
+          value.sizes!.length,
+          (index) => SizedBox(
+            width: Get.size.width,
+            child: ElevatedButton(
+              onPressed: () {
+                sizeId = value.sizes![index].id!;
+                cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                Get.back();
 
-                            showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-                          },
-                          style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
-                          child: Text(
-                            value.sizes![index].name!,
-                            style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                          ),),
-                    ),),),);
+                showSnackBar(
+                  'added',
+                  'addedSubtitle',
+                  colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                );
+              },
+              style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
+              child: Text(
+                value.sizes![index].name!,
+                style: TextStyle(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                  fontFamily: gilroySemiBold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void sizeAndColorNotEmpty(ProductByIDModel value, int sizeId, int colorId) {
     Get.defaultDialog(
-        title: 'selectSize'.tr,
-        titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 35),
-        radius: 5,
-        content: Column(
-            children: List.generate(
-                value.sizes!.length,
-                (index) => SizedBox(
-                      width: Get.size.width,
-                      child: ElevatedButton(
+      title: 'selectSize'.tr,
+      titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+      radius: 5,
+      content: Column(
+        children: List.generate(
+          value.sizes!.length,
+          (index) => SizedBox(
+            width: Get.size.width,
+            child: ElevatedButton(
+              onPressed: () {
+                sizeId = value.sizes![index].id!;
+                Get.back();
+                Get.defaultDialog(
+                  title: 'selectColor'.tr,
+                  titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+                  radius: 5,
+                  content: Column(
+                    children: List.generate(
+                      value.colors!.length,
+                      (index) => SizedBox(
+                        width: Get.size.width,
+                        child: ElevatedButton(
                           onPressed: () {
-                            sizeId = value.sizes![index].id!;
+                            colorId = value.colors![index].id!;
+                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
                             Get.back();
-                            Get.defaultDialog(
-                                title: 'selectColor'.tr,
-                                titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 35),
-                                radius: 5,
-                                content: Column(
-                                    children: List.generate(
-                                        value.colors!.length,
-                                        (index) => SizedBox(
-                                              width: Get.size.width,
-                                              child: ElevatedButton(
-                                                  onPressed: () {
-                                                    colorId = value.colors![index].id!;
-                                                    cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
-                                                    Get.back();
-                                                    showSnackBar('added', 'addedSubtitle', kPrimaryColor);
-                                                  },
-                                                  style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
-                                                  child: Text(
-                                                    value.colors![index].name!,
-                                                    style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                                                  ),),
-                                            ),),),);
+                            showSnackBar(
+                              'added',
+                              'addedSubtitle',
+                              colorController.findMainColor.value == 0
+                                  ? kPrimaryColor
+                                  : colorController.findMainColor.value == 1
+                                      ? kPrimaryColor1
+                                      : kPrimaryColor2,
+                            );
                           },
                           style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                           child: Text(
-                            value.sizes![index].name!,
-                            style: TextStyle(color: kPrimaryColor.withOpacity(0.8), fontFamily: gilroySemiBold, fontSize: 18),
-                          ),),
-                    ),),),).then((value2) {});
+                            value.colors![index].name!,
+                            style: TextStyle(
+                              color: colorController.findMainColor.value == 0
+                                  ? kPrimaryColor
+                                  : colorController.findMainColor.value == 1
+                                      ? kPrimaryColor1
+                                      : kPrimaryColor2,
+                              fontFamily: gilroySemiBold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
+              child: Text(
+                value.sizes![index].name!,
+                style: TextStyle(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                  fontFamily: gilroySemiBold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ).then((value2) {});
   }
 
   Container numberPart() {
@@ -214,7 +297,7 @@ class _AddCartButtonState extends State<AddCartButton> {
       margin: widget.productProfil ? const EdgeInsets.only(left: 8, right: 8) : EdgeInsets.zero,
       decoration: BoxDecoration(
         borderRadius: widget.productProfil ? borderRadius10 : BorderRadius.circular(0),
-        color:  Colors.transparent,
+        color: Colors.transparent,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,8 +316,12 @@ class _AddCartButtonState extends State<AddCartButton> {
               },
               child: Container(
                 padding: const EdgeInsets.all(6.0),
-                decoration: const BoxDecoration(
-                  color: kPrimaryColor,
+                decoration: BoxDecoration(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
                   borderRadius: borderRadius10,
                 ),
                 child: Icon(CupertinoIcons.minus, color: Colors.white, size: widget.productProfil ? 24 : 20),
@@ -252,7 +339,17 @@ class _AddCartButtonState extends State<AddCartButton> {
               child: Text(
                 '$quantity',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: widget.productProfil ? kPrimaryColor : Colors.black, fontFamily: gilroyBold, fontSize: 20),
+                style: TextStyle(
+                  color: widget.productProfil
+                      ? colorController.findMainColor.value == 0
+                          ? kPrimaryColor
+                          : colorController.findMainColor.value == 1
+                              ? kPrimaryColor1
+                              : kPrimaryColor2
+                      : Colors.black,
+                  fontFamily: gilroyBold,
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
@@ -265,8 +362,12 @@ class _AddCartButtonState extends State<AddCartButton> {
               },
               child: Container(
                 padding: const EdgeInsets.all(6.0),
-                decoration: const BoxDecoration(
-                  color: kPrimaryColor,
+                decoration: BoxDecoration(
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
                   borderRadius: borderRadius10,
                 ),
                 child: Icon(CupertinoIcons.add, color: Colors.white, size: widget.productProfil ? 24 : 20),

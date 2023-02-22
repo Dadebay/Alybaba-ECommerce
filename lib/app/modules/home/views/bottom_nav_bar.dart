@@ -1,16 +1,17 @@
-// ignore_for_file: file_names, must_be_immutable, always_use_package_imports, avoid_void_async, non_constant_identifier_names
+// // ignore_for_file: file_names, must_be_immutable, always_use_package_imports, avoid_void_async, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/modules/cart_page/views/cart_view.dart';
-import 'package:nabelli_ecommerce/app/modules/category/views/category_view.dart';
-import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
-import 'package:nabelli_ecommerce/app/modules/home/views/home_view.dart';
-import 'package:nabelli_ecommerce/app/modules/user_profil/views/user_profil_view.dart';
-import 'package:nabelli_ecommerce/app/modules/videos/views/videos_view.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+
+import '../../../constants/constants.dart';
+import '../../cart_page/views/cart_view.dart';
+import '../../category/views/category_view.dart';
+import '../../user_profil/views/user_profil_view.dart';
+import '../../videos/views/videos_view.dart';
+import '../controllers/color_controller.dart';
+import '../controllers/home_controller.dart';
+import 'home_view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -19,144 +20,76 @@ class BottomNavBar extends StatefulWidget {
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _BottomNavBarState extends State<BottomNavBar> with TickerProviderStateMixin {
-  TabController? tabController;
-  PersistentTabController? _controller;
-  var homeController = HomeController();
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(vsync: this, length: 5);
-    _controller = PersistentTabController();
-  }
+class _BottomNavBarState extends State<BottomNavBar> {
+  int selectedIndex = 0;
+  final ColorController colorController = Get.put(ColorController());
 
+  var homeController = HomeController();
+  List page = [const HomeView(), const CategoriesView(), const CartView(), const VideosView(), const UserProfilView()];
+  List page2 = [const HomeView(), const CategoriesView(), const CartView(), const SizedBox.shrink(), const UserProfilView()];
   @override
   Widget build(BuildContext context) {
-    return PersistentTabView.custom(
-      context,
-      controller: _controller,
-      screens: [
-        const HomeView(),
-        const CategoriesView(),
-        const CartView(), //
-        Obx(() {
-          return homeController.videoSelectedIndex.value == 3 ? const VideosView() : const SizedBox.shrink();
-        }), //
-        const UserProfilView()
-      ],
-      resizeToAvoidBottomInset: true,
-      itemCount: 5,
-      screenTransitionAnimation: const ScreenTransitionAnimation(animateTabTransition: true),
-      customWidget: CustomNavBarWidget(
-        items: [
-          PersistentBottomNavBarItem(
-            activeColorPrimary: kPrimaryColor,
-            inactiveColorPrimary: Colors.grey,
-            inactiveIcon: const Icon(IconlyBroken.home),
-            icon: const Icon(IconlyBold.home),
-            title: 'home'.tr,
-          ),
-          PersistentBottomNavBarItem(
-            activeColorPrimary: kPrimaryColor,
-            inactiveColorPrimary: Colors.grey,
-            inactiveIcon: const Icon(IconlyBroken.category),
-            icon: const Icon(IconlyBold.category),
-            title: 'category'.tr,
-          ),
-          PersistentBottomNavBarItem(
-            activeColorPrimary: kPrimaryColor,
-            inactiveColorPrimary: Colors.grey,
-            inactiveIcon: const Icon(IconlyBroken.bag2),
-            icon: const Icon(IconlyBold.bag2),
-            title: 'cart'.tr,
-          ),
-          PersistentBottomNavBarItem(
-            activeColorPrimary: kPrimaryColor,
-            inactiveColorPrimary: Colors.grey,
-            inactiveIcon: const Icon(IconlyBroken.discovery),
-            icon: const Icon(IconlyBold.discovery),
-            title: 'Videos'.tr,
-          ),
-          PersistentBottomNavBarItem(
-            activeColorPrimary: kPrimaryColor,
-            inactiveColorPrimary: Colors.grey,
-            inactiveIcon: const Icon(IconlyBroken.profile),
-            icon: const Icon(IconlyBold.profile),
-            title: 'profil'.tr,
-          ),
-        ],
-        selectedIndex: _controller!.index,
-        onItemSelected: (index) {
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        iconSize: 22,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
+        useLegacyColorScheme: true,
+        selectedLabelStyle: const TextStyle(fontFamily: gilroySemiBold, fontSize: 13),
+        unselectedLabelStyle: const TextStyle(fontFamily: gilroyMedium, fontSize: 12),
+        currentIndex: selectedIndex,
+        onTap: (index) async {
           setState(() {
-            _controller!.index = index;
-            homeController.videoSelectedIndex.value = index;
+            selectedIndex = index;
           });
         },
-      ),
-    );
-  }
-}
-
-class CustomNavBarWidget extends StatelessWidget {
-  final int? selectedIndex;
-  final List<PersistentBottomNavBarItem>? items;
-  final ValueChanged<int>? onItemSelected;
-
-  const CustomNavBarWidget({Key? key, 
-    this.selectedIndex,
-    this.items,
-    this.onItemSelected,
-  }) : super(key: key);
-
-  Widget _buildItem(PersistentBottomNavBarItem item, bool isSelected) {
-    return Tooltip(
-      message: '${item.title}',
-      textStyle: const TextStyle(fontFamily: 'Montserrat_Regular', color: Colors.white),
-      child: Container(
-        alignment: Alignment.center,
-        height: 50.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Flexible(
-              child: IconTheme(
-                data: IconThemeData(size: 24.0, color: isSelected ? (item.activeColorSecondary ?? item.activeColorPrimary) : item.inactiveColorPrimary ?? item.activeColorPrimary),
-                child: isSelected ? item.icon : item.inactiveIcon ?? const SizedBox.shrink(),
-              ),
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(IconlyLight.home),
+            activeIcon: const Icon(IconlyBold.home),
+            label: 'home'.tr,
+            tooltip: 'home'.tr,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(IconlyLight.category),
+            activeIcon: const Icon(IconlyBold.category),
+            label: 'category'.tr,
+            tooltip: 'category'.tr,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(IconlyLight.bag2),
+            activeIcon: const Icon(IconlyBold.bag2),
+            label: 'cart'.tr,
+            tooltip: 'cart'.tr,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(IconlyLight.discovery),
+            activeIcon: const Icon(IconlyBold.discovery),
+            label: 'Videos'.tr,
+            tooltip: 'Videos'.tr,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              IconlyLight.profile,
             ),
-            Text('${item.title}', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: isSelected ? kPrimaryColor : Colors.grey, fontSize: isSelected ? 12 : 11, fontFamily: gilroyMedium))
-          ],
-        ),
+            activeIcon: const Icon(IconlyBold.profile),
+            label: 'profil'.tr,
+            tooltip: 'profil'.tr,
+          ),
+        ],
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      elevation: 20,
-      color: Colors.white,
-      child: Container(
-        color: Colors.transparent,
-        width: double.infinity,
-        height: 50.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: items!.map((item) {
-            final int index = items!.indexOf(item);
-            return Flexible(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(foregroundColor: kPrimaryColor.withOpacity(0.4), padding: EdgeInsets.zero, side: BorderSide.none),
-                onPressed: () {
-                  onItemSelected!(index);
-                },
-                child: _buildItem(item, selectedIndex == index),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
+      body: Obx(() {
+        return Center(
+          child: homeController.videoSelectedIndex.value == 3 ? page[selectedIndex] : page2[selectedIndex],
+        );
+      }),
     );
   }
 }

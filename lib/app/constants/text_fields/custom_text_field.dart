@@ -3,25 +3,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../modules/home/controllers/color_controller.dart';
 import '../constants.dart';
 
 class CustomTextField extends StatelessWidget {
+  final ColorController colorController = Get.put(ColorController());
+
   final String labelName;
   final int? maxline;
   final TextEditingController controller;
   final FocusNode focusNode;
   final FocusNode requestfocusNode;
   final bool isNumber;
+  final bool unFocus;
   final bool? borderRadius;
   final bool? disabled;
   final bool? isLabel;
 
-  const CustomTextField({
+  CustomTextField({
     required this.labelName,
     required this.controller,
     required this.focusNode,
     required this.requestfocusNode,
     required this.isNumber,
+    required this.unFocus,
     this.isLabel = false,
     this.maxline,
     this.borderRadius,
@@ -43,7 +48,7 @@ class CustomTextField extends StatelessWidget {
           return null;
         },
         onEditingComplete: () {
-          requestfocusNode.requestFocus();
+          unFocus ? FocusScope.of(context).unfocus() : requestfocusNode.requestFocus();
         },
         keyboardType: isNumber ? TextInputType.number : TextInputType.text,
         maxLines: maxline ?? 1,
@@ -87,7 +92,14 @@ class CustomTextField extends StatelessWidget {
                 : borderRadius == false
                     ? borderRadius5
                     : borderRadius20,
-            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: BorderSide(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              width: 2,
+            ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: borderRadius == null
@@ -95,7 +107,14 @@ class CustomTextField extends StatelessWidget {
                 : borderRadius == false
                     ? borderRadius5
                     : borderRadius20,
-            borderSide: const BorderSide(color: kPrimaryColor, width: 2),
+            borderSide: BorderSide(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              width: 2,
+            ),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: borderRadius == null

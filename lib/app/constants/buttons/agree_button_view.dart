@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
+import '../../modules/home/controllers/color_controller.dart';
+
 class AgreeButton extends StatelessWidget {
   final Function() onTap;
 
@@ -19,12 +21,18 @@ class AgreeButton extends StatelessWidget {
     return GestureDetector(onTap: onTap, child: animatedContaner());
   }
 
+  final ColorController colorController = Get.put(ColorController());
+
   Widget animatedContaner() {
     return Obx(() {
       return AnimatedContainer(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: borderRadius20,
-          color: kPrimaryColor,
+          color: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
         ),
         margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: homeController.agreeButton.value ? 0 : 10),

@@ -5,13 +5,15 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 
+import '../modules/home/controllers/color_controller.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSize {
   final bool backArrow;
   final Widget? icon;
   final bool actionIcon;
   final String name;
 
-  const CustomAppBar({
+  CustomAppBar({
     required this.backArrow,
     required this.actionIcon,
     required this.name,
@@ -24,11 +26,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight + 1);
+  final ColorController colorController = Get.put(ColorController());
 
   @override
   Widget build(BuildContext context) {
     final double sizeWidth = MediaQuery.of(context).size.width;
     return AppBar(
+      
       elevation: 0,
       centerTitle: true,
       leadingWidth: 40,
@@ -60,7 +64,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
           SizedBox.shrink()
       ],
       automaticallyImplyLeading: false,
-      backgroundColor: kPrimaryColor,
+      backgroundColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
       title: Text(
         name.tr,
         maxLines: 1,

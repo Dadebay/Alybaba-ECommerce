@@ -37,10 +37,18 @@ class BannerProfileView extends GetView {
             color: Colors.black,
           ),
         ),
-        backgroundColor: kPrimaryColor,
+        backgroundColor:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
         elevation: 0,
         centerTitle: true,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: kPrimaryColor, statusBarIconBrightness: Brightness.dark),
+        systemOverlayStyle:  SystemUiOverlayStyle(statusBarColor:  colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2, statusBarIconBrightness: Brightness.dark,),
       ),
       body: Column(
         children: [

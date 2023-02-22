@@ -33,11 +33,10 @@ class NewItemsView extends GetView {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: spinKit());
               } else if (snapshot.data == null) {
-                return const Text('Empty');
+                return const SizedBox.shrink();
               } else if (snapshot.hasError) {
-                return const Text('Error');
+                return const SizedBox.shrink();
               }
-
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 physics: const BouncingScrollPhysics(),
@@ -45,6 +44,8 @@ class NewItemsView extends GetView {
                 itemBuilder: (BuildContext context, int index) {
                   return ProductCard(
                     historyOrder: false,
+                    discountValue: snapshot.data![index].discountValue!,
+                    discountValueType: snapshot.data![index].discountValueType!,
                     id: snapshot.data![index].id!,
                     createdAt: snapshot.data![index].createdAt!,
                     image: '$serverURL/${snapshot.data![index].image!}-mini.webp',

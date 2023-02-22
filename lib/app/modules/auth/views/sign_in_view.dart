@@ -46,10 +46,26 @@ class SignInView extends GetView {
                       style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
                     ),
                   ),
-                  CustomTextField(labelName: 'signIn1', controller: fullNameController, focusNode: fullNameFocusNode, requestfocusNode: idFocusNode, borderRadius: true, isNumber: false),
+                  CustomTextField(
+                    labelName: 'signIn1',
+                    controller: fullNameController,
+                    focusNode: fullNameFocusNode,
+                    requestfocusNode: idFocusNode,
+                    borderRadius: true,
+                    isNumber: false,
+                    unFocus: false,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: CustomTextField(labelName: 'signIn2', controller: idController, focusNode: idFocusNode, requestfocusNode: phoneNumberFocusNode, borderRadius: true, isNumber: false),
+                    child: CustomTextField(
+                      labelName: 'signIn2',
+                      controller: idController,
+                      focusNode: idFocusNode,
+                      requestfocusNode: phoneNumberFocusNode,
+                      borderRadius: true,
+                      isNumber: false,
+                      unFocus: false,
+                    ),
                   ),
                   PhoneNumber(
                     mineFocus: phoneNumberFocusNode,
@@ -62,34 +78,48 @@ class SignInView extends GetView {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: CustomTextField(labelName: 'referalKod', controller: referalCodeController, focusNode: referalCodeFocusNode, requestfocusNode: fullNameFocusNode, borderRadius: true, isNumber: false),
+              child: CustomTextField(
+                labelName: 'referalKod',
+                controller: referalCodeController,
+                focusNode: referalCodeFocusNode,
+                requestfocusNode: fullNameFocusNode,
+                borderRadius: true,
+                isNumber: false,
+                unFocus: true,
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Center(child: AgreeButton(onTap: () {
-              homeController.agreeButton.value = !homeController.agreeButton.value;
+            Center(
+              child: AgreeButton(
+                onTap: () {
+                  homeController.agreeButton.value = !homeController.agreeButton.value;
 
-              if (_signUp.currentState!.validate()) {
-                SignInService().sendCode(phone: phoneNumberController.text).then((value) {
-                  if (value == 200) {
-                    Get.to(() => OtpCheck(
-                          phoneNumber: phoneNumberController.text,
-                          register: true,
-                          referalKod: referalCodeController.text,
-                          userName: '${fullNameController.text} ${idController.text} ',
-                        ),);
-                  } else if (value == 409) {
-                    showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+                  if (_signUp.currentState!.validate()) {
+                    SignInService().sendCode(phone: phoneNumberController.text).then((value) {
+                      if (value == 200) {
+                        Get.to(
+                          () => OtpCheck(
+                            phoneNumber: phoneNumberController.text,
+                            register: true,
+                            referalKod: referalCodeController.text,
+                            userName: '${fullNameController.text} ${idController.text} ',
+                          ),
+                        );
+                      } else if (value == 409) {
+                        showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+                      } else {
+                        showSnackBar('noConnection3', 'errorData', Colors.red);
+                      }
+                    });
                   } else {
-                    showSnackBar('noConnection3', 'errorData', Colors.red);
+                    showSnackBar('noConnection3', 'errorEmpty', Colors.red);
                   }
-                });
-              } else {
-                showSnackBar('noConnection3', 'errorEmpty', Colors.red);
-              }
-              homeController.agreeButton.value = !homeController.agreeButton.value;
-            },),)
+                  homeController.agreeButton.value = !homeController.agreeButton.value;
+                },
+              ),
+            )
           ],
         ),
       ),

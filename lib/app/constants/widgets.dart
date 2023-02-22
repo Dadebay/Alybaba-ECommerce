@@ -4,11 +4,15 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/modules/auth/views/connection_check_view.dart';
+import 'package:nabelli_ecommerce/app/modules/home/controllers/color_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restart_app/restart_app.dart';
 
 import '../data/services/auth_service.dart';
+
+final ColorController colorController = Get.put(ColorController());
 
 dynamic noBannerImage() {
   return Text('noImage'.tr);
@@ -66,9 +70,13 @@ Padding namePart({required String text, required bool removeIcon, required Funct
             ? const SizedBox.shrink()
             : IconButton(
                 onPressed: onTap,
-                icon: const Icon(
+                icon: Icon(
                   IconlyLight.arrowRightCircle,
-                  color: kPrimaryColor,
+                  color: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
                   size: 25,
                 ),
               )
@@ -204,7 +212,7 @@ void logOut() {
               width: Get.size.width,
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.grey[500], borderRadius: borderRadius10),
+              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: borderRadius10),
               child: Text(
                 'yes'.tr,
                 textAlign: TextAlign.center,
@@ -266,8 +274,12 @@ CustomFooter footer() {
       if (mode == LoadStatus.idle) {
         body = const Text('Garasyn...');
       } else if (mode == LoadStatus.loading) {
-        body = const CircularProgressIndicator(
-          color: kPrimaryColor,
+        body = CircularProgressIndicator(
+          color: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
         );
       } else if (mode == LoadStatus.failed) {
         body = const Text('Load Failed!Click retry!');
@@ -342,35 +354,6 @@ Widget dividerr() {
   );
 }
 
-// dynamic errorPage({required Function() onTap}) {
-//   return Column(
-//     mainAxisSize: MainAxisSize.min,
-//     crossAxisAlignment: CrossAxisAlignment.center,
-//     mainAxisAlignment: MainAxisAlignment.center,
-//     children: [
-//       Text(
-//         'noConnection2'.tr,
-//         textAlign: TextAlign.center,
-//         style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-//       ),
-//       Padding(
-//         padding: const EdgeInsets.only(top: 8),
-//         child: ElevatedButton(
-//           onPressed: onTap,
-//           style: ElevatedButton.styleFrom(
-//             shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-//             backgroundColor: kPrimaryColor,
-//           ),
-//           child: Text(
-//             'noConnection3'.tr,
-//             style: TextStyle(color: Colors.white, fontSize: 18),
-//           ),
-//         ),
-//       )
-//     ],
-//   );
-// }
-
 dynamic emptyPageImage({
   required String lottie,
   required String text1,
@@ -400,47 +383,6 @@ dynamic emptyPageImage({
     ),
   );
 }
-
-// dynamic emptryPageText() {
-//   return Center(
-//     child: Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Text(
-//         'noData1'.tr,
-//         textAlign: TextAlign.center,
-//         style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-//       ),
-//     ),
-//   );
-// }
-
-// Expanded emptyCart() {
-//   return Expanded(
-//     child: Center(
-//       child: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Lottie.asset('assets/lottie/emptyCART.json', width: 350, height: 350),
-//             Text(
-//               'cartEmpty'.tr,
-//               textAlign: TextAlign.center,
-//               style: TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 20),
-//             ),
-//             Text(
-//               'cartEmptySubtitle'.tr,
-//               textAlign: TextAlign.center,
-//               style: TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 20),
-//             ),
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
 
 Padding customDivider() {
   return Padding(
@@ -476,28 +418,170 @@ dynamic customDialogToUse({required String title, required String subtitle, requ
             children: [
               Expanded(
                 child: ElevatedButton(
-                    onPressed: onAgree,
-                    style: ElevatedButton.styleFrom(backgroundColor: changeColor ? kPrimaryColor : Colors.white, elevation: changeColor ? 1 : 0, padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
-                    child: Text(
-                      'yes'.tr,
-                      style: TextStyle(color: changeColor ? Colors.white : kPrimaryColor, fontFamily: gilroySemiBold, fontSize: 18),
-                    ),),
+                  onPressed: onAgree,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: changeColor
+                        ? colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2
+                        : Colors.white,
+                    elevation: changeColor ? 1 : 0,
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                    shape: const RoundedRectangleBorder(borderRadius: borderRadius5),
+                  ),
+                  child: Text(
+                    'yes'.tr,
+                    style: TextStyle(
+                      color: changeColor
+                          ? Colors.white
+                          : colorController.findMainColor.value == 0
+                              ? kPrimaryColor
+                              : colorController.findMainColor.value == 1
+                                  ? kPrimaryColor1
+                                  : kPrimaryColor2,
+                      fontFamily: gilroySemiBold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
               ),
               Expanded(
                 child: ElevatedButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: changeColor ? Colors.white : kPrimaryColor, elevation: changeColor ? 0 : 1, padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4), shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
-                    child: Text(
-                      'no'.tr,
-                      style: TextStyle(color: changeColor ? kPrimaryColor : Colors.white, fontFamily: gilroySemiBold, fontSize: 18),
-                    ),),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: changeColor
+                        ? Colors.white
+                        : colorController.findMainColor.value == 0
+                            ? kPrimaryColor
+                            : colorController.findMainColor.value == 1
+                                ? kPrimaryColor1
+                                : kPrimaryColor2,
+                    elevation: changeColor ? 0 : 1,
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                    shape: const RoundedRectangleBorder(borderRadius: borderRadius5),
+                  ),
+                  child: Text(
+                    'no'.tr,
+                    style: TextStyle(
+                      color: changeColor
+                          ? colorController.findMainColor.value == 0
+                              ? kPrimaryColor
+                              : colorController.findMainColor.value == 1
+                                  ? kPrimaryColor1
+                                  : kPrimaryColor2
+                          : Colors.white,
+                      fontFamily: gilroySemiBold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
         )
       ],
+    ),
+  );
+}
+
+void changeColor(BuildContext context) {
+  final ColorController homeController = Get.put(ColorController());
+  Get.bottomSheet(
+    Container(
+      padding: const EdgeInsets.only(bottom: 20),
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Wrap(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+              bottom: 5,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox.shrink(),
+                Text(
+                  'appColor1'.tr,
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
+                )
+              ],
+            ),
+          ),
+          divider(),
+          ListTile(
+            onTap: () async {
+              homeController.saveColorInt(0);
+              await Restart.restartApp();
+            },
+            leading: Container(
+              width: 35,
+              height: 35,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: kPrimaryColor,
+              ),
+            ),
+            title: Text(
+              'appColor2'.tr,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
+          divider(),
+          ListTile(
+            onTap: () async {
+              homeController.saveColorInt(1);
+
+              await Restart.restartApp();
+            },
+            leading: Container(
+              width: 35,
+              height: 35,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: kPrimaryColor1,
+              ),
+            ),
+            title: Text(
+              'appColor3'.tr,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
+          divider(),
+          ListTile(
+            onTap: () async {
+              homeController.saveColorInt(2);
+
+              await Restart.restartApp();
+            },
+            leading: Container(
+              width: 35,
+              height: 35,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: kPrimaryColor2,
+              ),
+            ),
+            title: Text(
+              'appColor4'.tr,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

@@ -20,7 +20,7 @@ import '../../../constants/buttons/user_profil_icon_button.dart';
 import 'about_us.dart';
 import 'settings.dart';
 
-Container thirdPart({required String userName, required String userPhoneNumber, required bool userLogin}) {
+Container thirdPart({required bool userLogin}) {
   return Container(
     padding: const EdgeInsets.all(15),
     decoration: BoxDecoration(color: Colors.white, border: Border.all(color: backgroundColor)),
@@ -43,10 +43,9 @@ Container thirdPart({required String userName, required String userPhoneNumber, 
               name: 'profil',
               onTap: () {
                 if (userLogin) {
-                  Get.to(() => ProfileSettings(
-                        userName: userName,
-                        userPhoneNumebr: userPhoneNumber,
-                      ),);
+                  Get.to(
+                    () => const ProfileSettings(),
+                  );
                 } else {
                   showSnackBar('loginError', 'loginError1', Colors.red);
                   Vibration.vibrate();
@@ -116,7 +115,7 @@ Container fourthPart(bool userLogin) {
               name: userLogin ? 'log_out' : 'login',
               onTap: () {
                 Get.find<HomeController>().agreeButton.value = false;
-                userLogin ? logOut() : Get.to(() => const AuthView());
+                userLogin ? logOut() : Get.to(() => AuthView());
               },
             ),
           ],
@@ -150,9 +149,11 @@ Container secondPart(bool userLogin) {
               name: 'orders',
               onTap: () {
                 if (userLogin) {
-                  Get.to(() => const OrderStatusWait(
-                        whichStatus: 1,
-                      ),);
+                  Get.to(
+                    () => const OrderStatusWait(
+                      whichStatus: 1,
+                    ),
+                  );
                 } else {
                   showSnackBar('loginError', 'loginError1', Colors.red);
                   Vibration.vibrate();
@@ -180,13 +181,12 @@ Container secondPart(bool userLogin) {
   );
 }
 
-Widget topPart({required File userImage, required String userMoney, required String userName, required String userPhoneNumber}) {
+Widget topPart({required File userImage, required String userMoney, required String userName}) {
   return GestureDetector(
     onTap: () {
-      Get.to(() => ProfileSettings(
-            userName: userName,
-            userPhoneNumebr: userPhoneNumber,
-          ),);
+      Get.to(
+        () => const ProfileSettings(),
+      );
     },
     child: Container(
       height: 150,
@@ -288,7 +288,11 @@ ListTile simpleWidget({
     shape: const RoundedRectangleBorder(borderRadius: borderRadius5),
     leading: Icon(
       icon,
-      color: kPrimaryColor,
+      color: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
     ),
     title: Text(
       name,
