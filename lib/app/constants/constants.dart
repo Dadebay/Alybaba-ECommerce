@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const String serverURL = 'http://95.85.127.250:5001';
+const String serverURL = 'http://216.250.9.167:5001';
 const Color kPrimaryColor = Color(0xfffd7e15);
-const Color kPrimaryColor1 = Color(0xffff1d8e);
+const Color kPrimaryColor1 = Color(0xff1f2123);
 const Color kPrimaryColor2 = Color(0xff6366f1);
 const Color backgroundColor = Color(0xfff2f2f2);
 const Color kBlackColor = Color(0xff2b2b2b);
@@ -15,6 +15,7 @@ const BorderRadius borderRadius20 = BorderRadius.all(Radius.circular(20));
 const BorderRadius borderRadius25 = BorderRadius.all(Radius.circular(25));
 const BorderRadius borderRadius30 = BorderRadius.all(Radius.circular(30));
 const BorderRadius borderRadius40 = BorderRadius.all(Radius.circular(40));
+const BorderRadius borderRadius50 = BorderRadius.all(Radius.circular(50));
 /////////////////////////////////
 const String gilroyBold = 'GilroyBold';
 const String gilroySemiBold = 'GilroySemiBold';
@@ -30,7 +31,7 @@ const String logo = 'assets/icons/logo.png';
 const String noData = 'assets/lottie/noData.json';
 const String shareIcon = 'assets/icons/share1.png';
 const String appName = 'Alybaba';
-const String appShareLink = 'https://play.google.com/store/apps/developer?id=Bilermen+Nesil';
+const String appShareLink = 'https://play.google.com/store/apps/details?id=com.gurbanow.alybaba&pli=1';
 const String loremImpsum =
     'Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir,Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir,Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir,Lorem ipsum, yaygın olarak kullanılan bir yer tutucu metne verilen isimdir. Dolgu veya sahte metin olarak da bilinen bu tip yer tutucu metinler, aslında anlamlı bir şey söylemeden bir alanı doldurmaya yarayan metinlerdir';
 /////////////////////////////////////////////////

@@ -28,20 +28,24 @@ class CartPageController extends GetxController {
   }
 
   dynamic returnCartList() {
-    print(storage.read('mainColor'));
-
     final result = storage.read('cartList') ?? '[]';
     final List jsonData = jsonDecode(result);
-    print(list);
-    print(result);
-    print(result);
     if (jsonData.isEmpty) {
     } else {
       for (final element in jsonData) {
-        list.add({'id': element['id'], 'price': element['price'], 'image': element['image'], 'name': element['name'], 'createdAt': element['createdAt'], 'quantity': element['quantity'], 'sizeID': element['sizeID'], 'colorID': element['colorID'], 'airplane': element['airplane']});
+        list.add({
+          'id': element['id'],
+          'price': element['price'],
+          'image': element['image'],
+          'name': element['name'],
+          'createdAt': element['createdAt'],
+          'quantity': element['quantity'],
+          'sizeID': element['sizeID'],
+          'colorID': element['colorID'],
+          'airplane': element['airplane']
+        });
       }
     }
-    print(list);
   }
 
   void updateCartQuantity(int id) {

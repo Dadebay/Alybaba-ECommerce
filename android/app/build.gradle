@@ -54,8 +54,8 @@ android {
         applicationId "com.gurbanow.alybaba"
         minSdkVersion localProperties.getProperty('flutter.minSdkVersion').toInteger()
         targetSdkVersion localProperties.getProperty('flutter.targetSdkVersion').toInteger()
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode localProperties.getProperty('flutter.versionCode').toInteger()
+        versionName localProperties.getProperty('flutter.versionName')
         multiDexEnabled true
     }
     signingConfigs {

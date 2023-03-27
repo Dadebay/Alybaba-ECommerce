@@ -62,7 +62,7 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: kPrimaryColor1,
         body: Stack(
           children: [
             TabBarView(

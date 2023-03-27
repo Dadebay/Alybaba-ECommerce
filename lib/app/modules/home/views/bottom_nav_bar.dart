@@ -47,6 +47,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         currentIndex: selectedIndex,
         onTap: (index) async {
           setState(() {
+            homeController.videoSelectedIndex.value = index;
             selectedIndex = index;
           });
         },

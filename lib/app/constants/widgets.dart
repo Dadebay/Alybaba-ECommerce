@@ -525,7 +525,9 @@ void changeColor(BuildContext context) {
           ListTile(
             onTap: () async {
               homeController.saveColorInt(0);
-              await Restart.restartApp();
+              Get.back();
+              homeController.returnMainColor();
+              await Get.to(() => ConnectionCheckView());
             },
             leading: Container(
               width: 35,
@@ -544,8 +546,9 @@ void changeColor(BuildContext context) {
           ListTile(
             onTap: () async {
               homeController.saveColorInt(1);
-
-              await Restart.restartApp();
+              Get.back();
+              homeController.returnMainColor();
+              await Get.to(() => ConnectionCheckView());
             },
             leading: Container(
               width: 35,
@@ -564,8 +567,9 @@ void changeColor(BuildContext context) {
           ListTile(
             onTap: () async {
               homeController.saveColorInt(2);
-
-              await Restart.restartApp();
+              Get.back();
+              homeController.returnMainColor();
+              await Get.to(() => ConnectionCheckView());
             },
             leading: Container(
               width: 35,

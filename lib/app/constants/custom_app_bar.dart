@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, file_names, use_key_in_widget_constructors, avoid_implementing_value_types
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
@@ -32,9 +33,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
   Widget build(BuildContext context) {
     final double sizeWidth = MediaQuery.of(context).size.width;
     return AppBar(
-      
       elevation: 0,
       centerTitle: true,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
+      ),
       leadingWidth: 40,
       leading: backArrow
           ? Padding(

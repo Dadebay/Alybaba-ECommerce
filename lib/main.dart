@@ -5,19 +5,26 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/modules/auth/views/connection_check_view.dart';
 
 import 'app/constants/utils.dart';
+import 'app/modules/auth/views/connection_check_view.dart';
 import 'app/modules/home/controllers/color_controller.dart';
+import 'dart:io' show Platform;
+
 import 'main_dart_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp();
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp();
+    mainDartImports();
+  }
   await GetStorage.init();
-  mainDartImports();
 
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -34,9 +41,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    FirebaseMessaging.instance.getToken().then((value) {});
-    myAppOnInit();
+    if (Platform.isAndroid) {
+      FirebaseMessaging.instance.getToken().then((value) {});
+      myAppOnInit();
+    } else if (Platform.isIOS) {
+      // iOS-specific code
+    }
     colorController.returnMainColor();
+
     super.initState();
   }
 

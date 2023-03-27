@@ -50,7 +50,9 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     super.initState();
     userNameController.text = Get.find<UserProfilController>().userName.toString();
-    phoneController.text = Get.find<UserProfilController>().userPhoneNumber.toString();
+    if (Get.find<UserProfilController>().userPhoneNumber.isNotEmpty && Get.find<UserProfilController>().userPhoneNumber.toString() != ' ') {
+      phoneController.text = Get.find<UserProfilController>().userPhoneNumber.toString();
+    }
     orderModel = CreateOrderService().getOrderInfo();
   }
 
@@ -131,7 +133,7 @@ class _OrderPageState extends State<OrderPage> {
                     orderTypeNum = 1;
                   });
                 },
-                activeColor:  colorController.findMainColor.value == 0
+                activeColor: colorController.findMainColor.value == 0
                     ? kPrimaryColor
                     : colorController.findMainColor.value == 1
                         ? kPrimaryColor1
@@ -146,57 +148,61 @@ class _OrderPageState extends State<OrderPage> {
                 ),
               )
             : const SizedBox.shrink(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: RadioListTile<OrderType>(
-            contentPadding: EdgeInsets.zero,
-            value: OrderType.plain,
-            groupValue: orderType,
-            onChanged: (OrderType? value) {
-              setState(() {
-                orderType = value!;
-                orderTypeNum = 2;
-              });
-            },
-            activeColor:  colorController.findMainColor.value == 0
+        model.transports![1].minWeek == 0 && model.transports![1].maxWeek == 0
+            ? const SizedBox.shrink()
+            : Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: RadioListTile<OrderType>(
+                  contentPadding: EdgeInsets.zero,
+                  value: OrderType.plain,
+                  groupValue: orderType,
+                  onChanged: (OrderType? value) {
+                    setState(() {
+                      orderType = value!;
+                      orderTypeNum = 2;
+                    });
+                  },
+                  activeColor: colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2,
+                  title: Text(
+                    'train'.tr,
+                    style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+                  ),
+                  subtitle: Text(
+                    '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
+                    style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
+                  ),
+                ),
+              ),
+        model.transports![2].minWeek == 0 && model.transports![2].maxWeek == 0
+            ? const SizedBox.shrink()
+            : RadioListTile<OrderType>(
+                contentPadding: EdgeInsets.zero,
+                value: OrderType.container,
+                groupValue: orderType,
+                onChanged: (OrderType? value) {
+                  setState(() {
+                    orderType = value!;
+                    orderTypeNum = 3;
+                  });
+                },
+                activeColor: colorController.findMainColor.value == 0
                     ? kPrimaryColor
                     : colorController.findMainColor.value == 1
                         ? kPrimaryColor1
                         : kPrimaryColor2,
-            title: Text(
-              'train'.tr,
-              style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-            ),
-            subtitle: Text(
-              '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
-              style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
-            ),
-          ),
-        ),
-        RadioListTile<OrderType>(
-          contentPadding: EdgeInsets.zero,
-          value: OrderType.container,
-          groupValue: orderType,
-          onChanged: (OrderType? value) {
-            setState(() {
-              orderType = value!;
-              orderTypeNum = 3;
-            });
-          },
-          activeColor:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
-          title: Text(
-            'container'.tr,
-            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-          ),
-          subtitle: Text(
-            '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
-            style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
-          ),
-        ),
+                title: Text(
+                  'container'.tr,
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+                ),
+                subtitle: Text(
+                  '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
+                  style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
+                ),
+              ),
       ],
     );
   }
@@ -311,7 +317,15 @@ class _OrderPageState extends State<OrderPage> {
             AgreeButton(
               onTap: () {
                 if (_orderPage.currentState!.validate()) {
-                  CreateOrderService().createOrder(userName: userNameController.text, userPhoneNumber: phoneController.text, address: '$name + ${addressController.text}', note: noteController.text, transport: orderTypeNum).then((value) {
+                  CreateOrderService()
+                      .createOrder(
+                    userName: userNameController.text,
+                    userPhoneNumber: phoneController.text,
+                    address: '$name + ${addressController.text}',
+                    note: noteController.text,
+                    transport: orderTypeNum,
+                  )
+                      .then((value) {
                     if (value == 200) {
                       Get.back();
                       cartController.cartListToCompare.clear();

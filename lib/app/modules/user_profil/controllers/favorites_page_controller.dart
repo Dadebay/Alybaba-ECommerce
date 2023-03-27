@@ -32,7 +32,6 @@ class FavoritesPageController extends GetxController {
   }
 
   dynamic returnFavList() async {
-    print(storage.read('mainColor'));
     final a = storage.read('favList');
     if (storage.read('favList') != null) {
       final result = storage.read('favList') ?? '[]';
@@ -43,7 +42,6 @@ class FavoritesPageController extends GetxController {
           toggleFav(int.parse(element['id'].toString()));
         }
       }
-      print(favList);
     }
   }
 

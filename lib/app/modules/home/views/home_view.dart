@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
@@ -92,6 +93,13 @@ class _HomeViewState extends State<HomeView> {
               : kPrimaryColor2,
       titleTextStyle: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
       centerTitle: true,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
+      ),
       leading: IconButton(
         onPressed: () {
           defaultBottomSheet(

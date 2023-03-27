@@ -30,46 +30,44 @@ class _VideosViewState extends State<VideosView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar:  CustomAppBar(backArrow: false, actionIcon: false, name: 'videos'),
-        body: FutureBuilder<List<VideosModel>>(
-            future: videosFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: spinKit());
-              } else if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    'noData1'.tr,
-                    style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    'error'.tr,
-                    style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium),
-                  ),
-                );
-              }
-              snapshot.data!.shuffle();
-              return PageView.builder(
-                controller: _pageController,
-                physics: const ClampingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return VideoPlayerThisPage(
-                    videoURL: '$serverURL/${snapshot.data![index].videoURL!}',
-                    title: snapshot.data![index].title,
-                    subtitle: snapshot.data![index].description,
-                  );
-                },
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: CustomAppBar(backArrow: false, actionIcon: false, name: 'videos'),
+      body: FutureBuilder<List<VideosModel>>(
+        future: videosFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: spinKit());
+          } else if (snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                'noData1'.tr,
+                style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'error'.tr,
+                style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium),
+              ),
+            );
+          }
+          snapshot.data!.shuffle();
+          return PageView.builder(
+            controller: _pageController,
+            physics: const ClampingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: snapshot.data!.length,
+            itemBuilder: (BuildContext context, int index) {
+              return VideoPlayerThisPage(
+                videoURL: '$serverURL/${snapshot.data![index].videoURL!}',
+                title: snapshot.data![index].title,
+                subtitle: snapshot.data![index].description,
               );
-            },),
+            },
+          );
+        },
       ),
     );
   }
@@ -120,51 +118,53 @@ class _VideoPlayerThisPageState extends State<VideoPlayerThisPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        body: Center(
-          child: controller.value.isInitialized
-              ? Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: controller.value.aspectRatio,
-                      child: FlickVideoPlayer(
-                          flickVideoWithControls: FlickVideoWithControls(
-                            controls: FlickPortraitControls(
-                              progressBarSettings: FlickProgressBarSettings(),
-                            ),
-                          ),
-                          preferredDeviceOrientation: const [
-                            DeviceOrientation.portraitDown,
-                            DeviceOrientation.portraitUp,
-                          ],
-                          preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
-                          flickManager: flickManager,),
-                    ),
-                    Positioned(
-                      bottom: 70,
-                      left: 15,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.title!,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 20),
-                          ),
-                          Text(
-                            widget.subtitle!,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 20),
-                          ),
-                        ],
+      backgroundColor: Colors.black,
+      body: Center(
+        child: controller.value.isInitialized
+            ? Stack(
+                fit: StackFit.expand,
+                children: [
+                  AspectRatio(
+                    aspectRatio: controller.value.aspectRatio,
+                    child: FlickVideoPlayer(
+                      flickVideoWithControls: FlickVideoWithControls(
+                        controls: FlickPortraitControls(
+                          progressBarSettings: FlickProgressBarSettings(),
+                        ),
                       ),
+                      preferredDeviceOrientation: const [
+                        DeviceOrientation.portraitDown,
+                        DeviceOrientation.portraitUp,
+                      ],
+                      preferredDeviceOrientationFullscreen: const [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp],
+                      flickManager: flickManager,
                     ),
-                  ],
-                )
-              : Center(child: spinKit()),
-        ),);
+                  ),
+                  Positioned(
+                    bottom: 70,
+                    left: 15,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.title!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 20),
+                        ),
+                        Text(
+                          widget.subtitle!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Center(child: spinKit()),
+      ),
+    );
   }
 }

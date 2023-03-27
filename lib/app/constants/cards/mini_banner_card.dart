@@ -22,11 +22,13 @@ class MiniBannerCard extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         if (model.pathId == 1) {
-          await Get.to(() => BannerProfileView(
-                description: model.descriptionTM!,
-                image: '$serverURL/${model.destination!}-mini.webp',
-                pageName: model.titleTM!,
-              ),);
+          await Get.to(
+            () => BannerProfileView(
+              description: model.descriptionTM!,
+              image: '$serverURL/${model.destination!}-mini.webp',
+              pageName: model.titleTM!,
+            ),
+          );
         } else if (model.pathId == 2) {
           await Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${model.itemId}'}));
         } else if (model.pathId == 3) {
@@ -40,7 +42,20 @@ class MiniBannerCard extends StatelessWidget {
       child: Container(
         width: Get.size.width,
         margin: const EdgeInsets.only(left: 14, top: 25),
-        decoration: BoxDecoration(borderRadius: borderRadius20, color: Colors.grey.withOpacity(0.1)),
+        decoration: BoxDecoration(
+          borderRadius: borderRadius20,
+          boxShadow: [
+            BoxShadow(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor.withOpacity(0.2)
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1.withOpacity(0.2)
+                      : kPrimaryColor2.withOpacity(0.2),
+              blurRadius: 3,
+              spreadRadius: 1,
+            )
+          ],
+        ),
         child: ClipRRect(
           borderRadius: borderRadius20,
           child: CachedNetworkImage(
