@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -6,20 +8,32 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 
+import 'app/constants/notification_service.dart';
 import 'app/constants/utils.dart';
 import 'app/modules/auth/views/connection_check_view.dart';
 import 'app/modules/home/controllers/color_controller.dart';
-import 'dart:io' show Platform;
 
-import 'main_dart_helper.dart';
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
+Future<void> backgroundNotificationHandler(RemoteMessage message) async {
+  await FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
+  return;
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isAndroid) {
-    await Firebase.initializeApp();
-    mainDartImports();
-  }
+  HttpOverrides.global = MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await GetStorage.init();
+  await FCMConfig().requestPermission();
+  await FCMConfig().initAwesomeNotification();
+  FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -41,14 +55,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    if (Platform.isAndroid) {
-      FirebaseMessaging.instance.getToken().then((value) {});
-      myAppOnInit();
-    } else if (Platform.isIOS) {
-      // iOS-specific code
-    }
+    FCMConfig().requestPermission();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
+    });
     colorController.returnMainColor();
-
     super.initState();
   }
 
