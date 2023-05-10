@@ -10,11 +10,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/agree_button_view.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
+import 'package:nabelli_ecommerce/app/data/services/auth_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/text_fields/custom_text_field.dart';
 import '../../../constants/text_fields/phone_number.dart';
+import '../../auth/views/connection_check_view.dart';
 import '../controllers/user_profil_controller.dart';
 import 'local_widgets.dart';
 
@@ -166,6 +168,31 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               onTap: () {
                 Get.back();
               },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: Get.size.width,
+              child: ElevatedButton(
+                onPressed: () {
+                  Auth().logout();
+                  showSnackBar('deleteAccountTitle', 'deleteAccountSubtitle', Colors.red);
+
+                  Get.find<UserProfilController>().userLogin.value = false;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const ConnectionCheckView(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, elevation: 0, shape: RoundedRectangleBorder(borderRadius: borderRadius20), padding: EdgeInsets.symmetric(vertical: 15)),
+                child: Text(
+                  'deleteAccount'.tr,
+                  style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold),
+                ),
+              ),
             )
           ],
         ),

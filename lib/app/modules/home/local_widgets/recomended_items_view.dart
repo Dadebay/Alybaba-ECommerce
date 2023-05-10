@@ -28,7 +28,7 @@ class RecomendedItems extends GetView {
           Get.to(() => ShowAllProducts(pageName: 'recomendedItems', filter: false, parametrs: parametrs));
         }),
         SizedBox(
-          height: 300,
+          height: size.width >= 800 ? 400 : 300,
           child: FutureBuilder<List<ProductModel>>(
             future: future,
             builder: (context, snapshot) {

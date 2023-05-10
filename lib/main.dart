@@ -52,14 +52,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final storage = GetStorage();
   final ColorController colorController = Get.put(ColorController());
+  int colorCode = 0;
+  changeColor() async {
+    final a = await storage.read('mainColor');
+    if (a != null) {
+      final String a = await storage.read('mainColor').toString();
+      colorCode = int.parse(a.toString());
+      colorController.findMainColor.value = colorCode;
+      setState(() {});
+    }
+  }
 
   @override
   void initState() {
+    FirebaseMessaging.instance.getToken().then((value) {});
     FCMConfig().requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
     });
+    print(storage.read('mainColor'));
     colorController.returnMainColor();
+    changeColor();
     super.initState();
   }
 
@@ -71,22 +84,22 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: gilroyRegular,
-        colorSchemeSeed: colorController.findMainColor.value == 0
+        colorSchemeSeed: colorCode == 0
             ? kPrimaryColor
-            : colorController.findMainColor.value == 1
+            : colorCode == 1
                 ? kPrimaryColor1
                 : kPrimaryColor2,
         useMaterial3: true,
         appBarTheme: AppBarTheme(
-          backgroundColor: colorController.findMainColor.value == 0
+          backgroundColor: colorCode == 0
               ? kPrimaryColor
-              : colorController.findMainColor.value == 1
+              : colorCode == 1
                   ? kPrimaryColor1
                   : kPrimaryColor2,
           systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: colorController.findMainColor.value == 0
+            statusBarColor: colorCode == 0
                 ? kPrimaryColor
-                : colorController.findMainColor.value == 1
+                : colorCode == 1
                     ? kPrimaryColor1
                     : kPrimaryColor2,
             statusBarBrightness: Brightness.dark,

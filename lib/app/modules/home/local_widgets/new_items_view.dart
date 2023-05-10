@@ -26,7 +26,7 @@ class NewItemsView extends GetView {
           Get.to(() => ShowAllProducts(pageName: 'newItems', filter: false, parametrs: parametrs));
         }),
         SizedBox(
-          height: 300,
+          height: size.width >= 800 ? 400 : 300,
           child: FutureBuilder<List<ProductModel>>(
             future: future,
             builder: (context, snapshot) {

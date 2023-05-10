@@ -38,8 +38,6 @@ class BannerCard extends StatelessWidget {
           await ProductsService().getProductByID(model.itemId!).then((value) {
             Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: '$serverURL/${value.images!.first}-mini.webp', price: value.price!));
           });
-        } else {
-          showSnackBar('errorTitle', 'error', Colors.red);
         }
       },
       child: Container(

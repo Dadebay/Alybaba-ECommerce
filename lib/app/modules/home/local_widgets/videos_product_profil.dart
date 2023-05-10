@@ -3,7 +3,6 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 import 'package:video_player/video_player.dart';
@@ -115,8 +114,7 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                 ),
                 Container(
                   padding: const EdgeInsets.only(top: 75),
-                  child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 2,
+                  child: GridView.builder(
                     itemCount: widget.products.length,
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
@@ -130,10 +128,7 @@ class _VideoPLayerMineState extends State<VideoPLayerMine> {
                       name: widget.products[index].name!,
                       price: widget.products[index].price!,
                     ),
-                    staggeredTileBuilder: (index) => StaggeredTile.count(
-                      1,
-                      index % 2 == 0 ? 1.5 : 1.6,
-                    ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
                   ),
                 )
               ],

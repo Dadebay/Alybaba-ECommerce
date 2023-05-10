@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../constants/widgets.dart';
+import '../../../data/models/aboust_us_model.dart';
+import '../../../data/services/abous_us_service.dart';
 import '../../home/controllers/color_controller.dart';
 import '../controllers/user_profil_controller.dart';
 import 'local_widgets.dart';
@@ -33,6 +38,62 @@ class _UserProfilViewState extends State<UserProfilView> {
                   : kPrimaryColor2,
         ),
         elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            defaultBottomSheet(
+              child: FutureBuilder<AboutUsModel>(
+                future: AboutUsService().getAboutUs(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Center(child: spinKit()),
+                    );
+                  } else if (snapshot.data == null) {
+                    return const Text('Empty');
+                  } else if (snapshot.hasError) {
+                    return const Text('Error');
+                  }
+                  return Wrap(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          launchUrlString('tel://8-${snapshot.data!.phone1!}');
+                        },
+                        title: Text(
+                          '+993-${snapshot.data!.phone1!}',
+                          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                        ),
+                        trailing: const Icon(
+                          IconlyBroken.arrowRightCircle,
+                          color: Colors.black,
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          launchUrlString('tel://8-${snapshot.data!.phone2!}');
+                        },
+                        title: Text(
+                          '+993-${snapshot.data!.phone2!}',
+                          style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+                        ),
+                        trailing: const Icon(
+                          IconlyBroken.arrowRightCircle,
+                          color: Colors.black,
+                        ),
+                      )
+                    ],
+                  );
+                },
+              ),
+              name: 'callNumber'.tr,
+            );
+          },
+          icon: const Icon(
+            IconlyBroken.call,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: colorController.findMainColor.value == 0
             ? kPrimaryColor
             : colorController.findMainColor.value == 1

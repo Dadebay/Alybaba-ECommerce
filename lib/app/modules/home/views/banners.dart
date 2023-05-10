@@ -44,7 +44,7 @@ class Banners extends StatelessWidget {
                 onPageChanged: (index, CarouselPageChangedReason a) {
                   controller.bannerDotsIndex.value = index;
                 },
-                height: size.width >= 800 ? 320 : 220,
+                height: size.width >= 800 ? 420 : 220,
                 viewportFraction: 1.0,
                 autoPlay: true,
                 scrollPhysics: const BouncingScrollPhysics(),

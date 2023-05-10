@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
@@ -131,7 +130,10 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     // LengthLimitingTextInputFormatter(9),
                   ],
                   decoration: InputDecoration(
-                    suffixIcon: Padding(padding: const EdgeInsets.only(right: 8), child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: gilroySemiBold, fontSize: 14, color: Colors.grey.shade400))),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: gilroySemiBold, fontSize: 14, color: Colors.grey.shade400)),
+                    ),
                     suffixIconConstraints: const BoxConstraints(minHeight: 15),
                     isDense: true,
                     hintText: 'maxPrice'.tr,
@@ -163,33 +165,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
 
   GestureDetector filterWidget() {
     return GestureDetector(
-      onTap: () {
-        // if(getDataMine['sub_category_id']!=null)
-        //       defaultBottomSheet(
-        //         name: 'Filter'.tr,
-        //         child: Padding(
-        //           padding: const EdgeInsets.symmetric(horizontal: 15),
-        //           child: FutureBuilder<List<ProductModel>>(
-        // future: SpecServices().getCatSpecs(subCategoryID: ),
-        // builder: (context, snapshot) {
-        //   if (snapshot.connectionState == ConnectionState.waiting) {
-        //     return Center(child: spinKit());
-        //   } else if (snapshot.data.toString() == '[]') {
-        //     return Center(child: Lottie.asset(noData));
-        //   } else if (snapshot.hasError) {
-        //     return Center(child: Text("Error"));
-        //   }
-        //               return Column(
-        //                 mainAxisSize: MainAxisSize.min,
-        //                 children: [
-
-        //                 ],
-        //               );
-        //             }
-        //           ),
-        //         ),
-        //       );
-      },
+      onTap: () {},
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -399,8 +375,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
           }
           return homeController.showAllList.isEmpty
               ? referalPageEmptyData()
-              : StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
+              : GridView.builder(
                   itemCount: homeController.showAllList.length,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
@@ -414,10 +389,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     name: homeController.showAllList[index]['name'],
                     price: homeController.showAllList[index]['price'],
                   ),
-                  staggeredTileBuilder: (index) => StaggeredTile.count(
-                    1,
-                    index % 2 == 0 ? 1.5 : 1.6,
-                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
                 );
         }),
       ),

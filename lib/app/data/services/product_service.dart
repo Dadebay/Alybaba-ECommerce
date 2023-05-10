@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -40,6 +39,8 @@ class ProductsService {
     if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
+    print(parametrs);
+    print(parametrs);
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-products',
@@ -48,6 +49,8 @@ class ProductsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       homeController.loading.value = 3;
       final responseJson = jsonDecode(response.body)['products'] as List;

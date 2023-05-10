@@ -15,6 +15,8 @@ class ShopByBrand extends StatelessWidget {
   final Future<List<ProducersModel>> producers;
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -31,7 +33,7 @@ class ShopByBrand extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 100,
+                height: size.width >= 800 ? 200 : 100,
                 child: FutureBuilder<List<ProducersModel>>(
                   future: producers,
                   builder: (context, snapshot) {
@@ -52,7 +54,7 @@ class ShopByBrand extends StatelessWidget {
                             Get.to(() => ShowAllProducts(pageName: snapshot.data![index].name!, filter: false, parametrs: {'producer_id': snapshot.data![index].id!.toString()}));
                           },
                           child: Container(
-                            width: 140,
+                            width: size.width >= 800 ? 240 : 140,
                             margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.all(12),
                             decoration: const BoxDecoration(

@@ -47,6 +47,7 @@ class CreateOrderService {
       lang = 'tm';
     }
     final List<ProductModel> productsList = [];
+    print(list);
     final response = await http.get(
       Uri.parse('$serverURL/api/$lang/get-selected-products').replace(
         queryParameters: {
@@ -57,6 +58,8 @@ class CreateOrderService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)['rows'] as List;
       for (final Map product in responseJson) {

@@ -11,6 +11,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:restart_app/restart_app.dart';
 
 import '../data/services/auth_service.dart';
+import '../modules/other_pages/show_all_products.dart';
 
 final ColorController colorController = Get.put(ColorController());
 
@@ -20,6 +21,80 @@ dynamic noBannerImage() {
 
 dynamic spinKit() {
   return Lottie.asset(loading1Lottie, animate: true, width: 150, height: 150);
+}
+
+Widget searchField(TextEditingController controller, BuildContext context) {
+  final ColorController colorController = Get.put(ColorController());
+  return Padding(
+    padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+    child: TextFormField(
+      style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      cursorColor: Colors.black,
+      controller: controller,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'errorEmpty'.tr;
+        }
+        return null;
+      },
+      onEditingComplete: () async {
+        await Get.to(() => ShowAllProducts(pageName: 'search', filter: false, parametrs: {'search': controller.text}));
+        controller.clear();
+        FocusScope.of(context).unfocus();
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        errorStyle: const TextStyle(fontFamily: gilroyMedium),
+        hintText: 'search'.tr,
+        prefixIcon: const Padding(
+          padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
+          child: Icon(
+            IconlyLight.search,
+            color: Colors.black,
+          ),
+        ),
+        fillColor: backgroundColor,
+        filled: true,
+        hintStyle: const TextStyle(color: Colors.grey, fontFamily: gilroyMedium),
+        contentPadding: const EdgeInsets.only(left: 25, top: 14, bottom: 14, right: 10),
+        border: const OutlineInputBorder(
+          borderRadius: borderRadius15,
+          borderSide: BorderSide(color: Colors.grey, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: borderRadius15,
+          borderSide: BorderSide(color: Colors.grey.shade200, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: borderRadius15,
+          borderSide: BorderSide(
+            color: colorController.findMainColor.value == 0
+                ? kPrimaryColor
+                : colorController.findMainColor.value == 1
+                    ? kPrimaryColor1
+                    : kPrimaryColor2,
+            width: 2,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: borderRadius15,
+          borderSide: BorderSide(
+            color: colorController.findMainColor.value == 0
+                ? kPrimaryColor
+                : colorController.findMainColor.value == 1
+                    ? kPrimaryColor1
+                    : kPrimaryColor2,
+            width: 2,
+          ),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: borderRadius15,
+          borderSide: BorderSide(color: Colors.red, width: 2),
+        ),
+      ),
+    ),
+  );
 }
 
 SnackbarController showSnackBar(String title, String subtitle, Color color) {

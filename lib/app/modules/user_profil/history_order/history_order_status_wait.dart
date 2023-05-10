@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/services/history_order_service.dart';
@@ -24,7 +23,7 @@ class OrderStatusWait extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar:  CustomAppBar(backArrow: true, actionIcon: false, name: 'orders'),
+      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: 'orders'),
       body: FutureBuilder<List<HistoryOrdersModel>>(
         future: HistoryOrdersService().getHistoryOrders(),
         builder: (context, snapshot) {
@@ -38,6 +37,8 @@ class OrderStatusWait extends StatelessWidget {
           return ListView.builder(
             itemCount: snapshot.data!.length,
             itemExtent: 210,
+            // reverse: true,
+            // shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
@@ -54,7 +55,7 @@ class OrderStatusWait extends StatelessWidget {
                   decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 3, spreadRadius: 3)]),
                   child: Column(
                     children: [
-                      topPart(snapshot.data!.length - index - 1, snapshot),
+                      topPart(index, snapshot),
                       Expanded(
                         flex: 2,
                         child: SizedBox(
@@ -88,9 +89,9 @@ class OrderStatusWait extends StatelessWidget {
                                       ),
                                     ),
                                     placeholder: (context, url) => Center(child: spinKit()),
-                                    errorWidget: (context, url, error) =>  Center(
-                    child: Text('noImage'.tr),
-                  ),
+                                    errorWidget: (context, url, error) => Center(
+                                      child: Text('noImage'.tr),
+                                    ),
                                   ),
                                 ),
                               );
@@ -102,7 +103,7 @@ class OrderStatusWait extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          bottomPart1('products', '15 haryt '),
+                          bottomPart1('products', '${snapshot.data![index].items!.length} haryt '),
                           bottomPart1('status', snapshot.data![index].statusText!),
                           bottomPart1('sum', '${snapshot.data![index].total.toString().substring(0, snapshot.data![index].total!.length - 3)} TMT'),
                         ],
@@ -194,8 +195,7 @@ class HistoryOrderProductProfil extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                child: StaggeredGridView.countBuilder(
-                  crossAxisCount: 2,
+                child: GridView.builder(
                   itemCount: snapshot.data!.items!.length,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
@@ -209,10 +209,7 @@ class HistoryOrderProductProfil extends StatelessWidget {
                     name: snapshot.data!.items![index].name!,
                     price: snapshot.data!.items![index].price!,
                   ),
-                  staggeredTileBuilder: (index) => StaggeredTile.count(
-                    1,
-                    index % 2 == 0 ? 1.3 : 1.4,
-                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
                 ),
               ),
               Container(

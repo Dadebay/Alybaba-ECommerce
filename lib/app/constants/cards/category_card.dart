@@ -37,7 +37,7 @@ class CategoryCard extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.only(left: 10, top: 15, right: 10),
-            decoration: BoxDecoration(borderRadius: borderRadius40, color: Colors.red, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: 1, blurRadius: 5)]),
+            decoration: BoxDecoration(borderRadius: borderRadius40, color: Colors.grey, boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: 1, blurRadius: 5)]),
             child: ClipRRect(
               borderRadius: borderRadius40,
               child: CachedNetworkImage(

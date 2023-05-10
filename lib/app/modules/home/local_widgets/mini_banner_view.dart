@@ -15,34 +15,37 @@ class MiniBannersView extends GetView {
   final Future<List<BannerModel>> miniBannerFuture;
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return FutureBuilder<List<BannerModel>>(
-        future: miniBannerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return miniBannerLoader();
-          } else if (snapshot.hasError) {
-            return miniBannerErrorWidget();
-          } else if (snapshot.data!.isEmpty) {
-            return miniBannerEmptyWidget();
-          }
-          return CarouselSlider.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index, count) {
-              return MiniBannerCard(
-                model: snapshot.data![index],
-              );
-            },
-            options: CarouselOptions(
-              onPageChanged: (index, CarouselPageChangedReason a) {},
-              height: 170,
-              viewportFraction: 0.65,
-              autoPlay: true,
-              enableInfiniteScroll: true,
-              scrollPhysics: const BouncingScrollPhysics(),
-              autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-              autoPlayAnimationDuration: const Duration(milliseconds: 2000),
-            ),
-          );
-        },);
+      future: miniBannerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return miniBannerLoader();
+        } else if (snapshot.hasError) {
+          return miniBannerErrorWidget();
+        } else if (snapshot.data!.isEmpty) {
+          return miniBannerEmptyWidget();
+        }
+        return CarouselSlider.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index, count) {
+            return MiniBannerCard(
+              model: snapshot.data![index],
+            );
+          },
+          options: CarouselOptions(
+            onPageChanged: (index, CarouselPageChangedReason a) {},
+            height: size.width >= 800 ? 300 : 170,
+            viewportFraction: 0.65,
+            autoPlay: true,
+            enableInfiniteScroll: true,
+            scrollPhysics: const BouncingScrollPhysics(),
+            autoPlayCurve: Curves.fastLinearToSlowEaseIn,
+            autoPlayAnimationDuration: const Duration(milliseconds: 2000),
+          ),
+        );
+      },
+    );
   }
 }

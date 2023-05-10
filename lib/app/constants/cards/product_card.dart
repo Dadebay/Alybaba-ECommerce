@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
-      width: 180,
+      width: size.width >= 800 ? 280 : 180,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: borderRadius15,

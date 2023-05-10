@@ -63,7 +63,7 @@ class _HomePageVideosState extends State<HomePageVideos> {
                     child: Container(
                       margin: const EdgeInsets.only(left: 15, top: 8, right: 8, bottom: 8),
                       width: 180,
-                      decoration: const BoxDecoration(color: Colors.red, borderRadius: borderRadius20),
+                      decoration: const BoxDecoration(color: Colors.grey, borderRadius: borderRadius20),
                       child: Stack(
                         children: [
                           Positioned.fill(
@@ -84,7 +84,11 @@ class _HomePageVideosState extends State<HomePageVideos> {
                                 ),
                                 placeholder: (context, url) => Center(child: spinKit()),
                                 errorWidget: (context, url, error) => Center(
-                                  child: Text('noImage'.tr),
+                                  child: Icon(
+                                    Icons.error_outline,
+                                    color: Colors.white,
+                                    size: 80,
+                                  ),
                                 ),
                               ),
                             ),

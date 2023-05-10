@@ -23,37 +23,36 @@ class InOurHands extends GetView {
         listViewName('inOurHands', true, size, () {
           Get.to(() => ShowAllProducts(pageName: 'inOurHands', filter: false, parametrs: parametrs));
         }),
-        SizedBox(
-          height: 300,
-          child: FutureBuilder<List<ProductModel>>(
-            future: future,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: spinKit());
-              } else if (snapshot.data == null) {
-                return const SizedBox.shrink();
-              } else if (snapshot.hasError) {
-                return const SizedBox.shrink();
-              }
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCard(
-                    discountValue: snapshot.data![index].discountValue!,
-                    discountValueType: snapshot.data![index].discountValueType!,
-                    historyOrder: false,
-                    id: snapshot.data![index].id!,
-                    createdAt: snapshot.data![index].createdAt!,
-                    image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
-                    name: snapshot.data![index].name!,
-                    price: snapshot.data![index].price!,
-                  );
-                },
-              );
-            },
-          ),
+        FutureBuilder<List<ProductModel>>(
+          future: future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: spinKit());
+            } else if (snapshot.data == null) {
+              return const SizedBox.shrink();
+            } else if (snapshot.hasError) {
+              return const SizedBox.shrink();
+            }
+            return GridView.builder(
+              itemCount: snapshot.data!.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              itemBuilder: (BuildContext context, int index) {
+                return ProductCard(
+                  discountValue: snapshot.data![index].discountValue!,
+                  discountValueType: snapshot.data![index].discountValueType!,
+                  historyOrder: false,
+                  id: snapshot.data![index].id!,
+                  createdAt: snapshot.data![index].createdAt!,
+                  image: '$serverURL/${snapshot.data![index].image!}-mini.webp',
+                  name: snapshot.data![index].name!,
+                  price: snapshot.data![index].price!,
+                );
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
+            );
+          },
         )
       ],
     );
