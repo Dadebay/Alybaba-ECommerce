@@ -166,7 +166,7 @@ class MyTranslations extends Translations {
           'orderDeleted': 'Pozuldy',
           'orderDeletedSubtitle': 'Harytlar Sebetden aýyryldy',
           'paymentMethod': 'Töleg görnüşi',
-          'recomendedItems': 'Maslahat berilýän önümler',
+          'recomendedItems': 'Maslahat berilýän harytlar',
           'sameProducts': 'Meňzeş harytlar',
           'search': 'Gözleg',
           'shopByBrand': 'Brand boýunça söwda',

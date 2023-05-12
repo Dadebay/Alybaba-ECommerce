@@ -15,8 +15,7 @@ class BrandCard extends StatelessWidget {
     required this.name,
     required this.id,
     required this.image,
-    Key? key,
-    required this.productCount,
+    required this.productCount, Key? key,
   }) : super(key: key);
 
   @override

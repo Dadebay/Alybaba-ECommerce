@@ -13,7 +13,6 @@ import '../controllers/home_controller.dart';
 import '../local_widgets/home_videos.dart';
 import '../local_widgets/in_our_hand_products.dart';
 import '../local_widgets/recomended_items_view.dart';
-import '../local_widgets/shop_by_brand.dart';
 import 'banners.dart';
 
 class HomeView extends StatefulWidget {
@@ -65,9 +64,9 @@ class _HomeViewState extends State<HomeView> {
             const SizedBox(
               height: 30,
             ),
-            ShopByBrand(
-              producers: homeController.producersFuture,
-            ),
+            // ShopByBrand(
+            // producers: homeController.producersFuture,
+            // ),
             InOurHands(const {'on_hand': 'true'}, homeController.productsFutureInOurHands),
           ],
         ),

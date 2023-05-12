@@ -63,6 +63,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       setState(() {
         selectedImage = imageTemporary;
         userProfilController.userImage = imageTemporary;
+        userProfilController.update();
         storage.write('userImage', selectedImage);
       });
     } catch (error) {
@@ -190,7 +191,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, elevation: 0, shape: RoundedRectangleBorder(borderRadius: borderRadius20), padding: EdgeInsets.symmetric(vertical: 15)),
                 child: Text(
                   'deleteAccount'.tr,
-                  style: TextStyle(color: Colors.white, fontFamily: gilroySemiBold),
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: gilroySemiBold),
                 ),
               ),
             )

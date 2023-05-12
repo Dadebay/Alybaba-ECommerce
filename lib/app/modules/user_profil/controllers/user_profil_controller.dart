@@ -34,7 +34,7 @@ class UserProfilController extends GetxController {
     findUserLogin();
   }
 
- dynamic findUserLogin() async {
+  dynamic findUserLogin() async {
     final token = await Auth().getToken();
     if (token != null) {
       userLogin.value = true;
@@ -76,7 +76,7 @@ class UserProfilController extends GetxController {
     update();
   }
 
- dynamic returnUserAddresses() {
+  dynamic returnUserAddresses() {
     final result = storage.read('userAddressesList') ?? '[]';
     final List jsonData = jsonDecode(result);
     if (jsonData.isNotEmpty) {
@@ -86,7 +86,7 @@ class UserProfilController extends GetxController {
     }
   }
 
- dynamic clearUserAddresses() {
+  dynamic clearUserAddresses() {
     userAddressesList.clear();
     final String jsonString = jsonEncode(userAddressesList);
     storage.write('userAddressesList', jsonString);

@@ -4,6 +4,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/views/profile_settings.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../constants/widgets.dart';
@@ -107,7 +108,98 @@ class _UserProfilViewState extends State<UserProfilView> {
         return ListView(
           children: [
             userProfilController.userLogin.value
-                ? topPart(userImage: userProfilController.userImage, userMoney: userProfilController.userMoney.value, userName: userProfilController.userName.value)
+                ? GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => const ProfileSettings(),
+                      );
+                    },
+                    child: Container(
+                      height: 150,
+                      margin: const EdgeInsets.only(bottom: 15),
+                      color: Colors.white,
+                      padding: const EdgeInsets.only(top: 10, left: 10),
+                      width: Get.size.width,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            margin: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: backgroundColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.grey.shade200, width: 3),
+                              boxShadow: const [BoxShadow(color: backgroundColor, blurRadius: 8, spreadRadius: 8)],
+                            ),
+                            child: ClipOval(
+                              child: userProfilController.userImage.path == ''
+                                  ? const Icon(
+                                      Icons.info_outline,
+                                      color: Colors.black,
+                                    )
+                                  : Image.file(
+                                      userProfilController.userImage,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                userProfilController.userName.value,
+                                style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8, top: 8),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      IconlyBroken.wallet,
+                                      size: 28,
+                                      color: Colors.grey,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          ' - ${userProfilController.userMoney.value}',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 19,
+                                            fontFamily: gilroySemiBold,
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: 6),
+                                          child: Text(
+                                            ' TMT',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                              fontFamily: gilroySemiBold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                 : const SizedBox.shrink(),
             thirdPart(userLogin: userProfilController.userLogin.value),
             secondPart(userProfilController.userLogin.value),

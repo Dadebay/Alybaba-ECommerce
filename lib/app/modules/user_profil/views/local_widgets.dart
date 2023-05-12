@@ -13,7 +13,6 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/views/locations.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/profile_settings.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/referal_code_page.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
-import 'package:vibration/vibration.dart';
 
 import '../../../constants/constants.dart';
 import '../../../constants/buttons/user_profil_icon_button.dart';
@@ -48,7 +47,6 @@ Container thirdPart({required bool userLogin}) {
                   );
                 } else {
                   showSnackBar('loginError', 'loginError1', Colors.red);
-                  Vibration.vibrate();
                 }
               },
             ),
@@ -99,7 +97,6 @@ Container fourthPart(bool userLogin) {
                   Get.to(() => ReferalPage());
                 } else {
                   showSnackBar('loginError', 'loginError1', Colors.red);
-                  Vibration.vibrate();
                 }
               },
             ),
@@ -156,7 +153,6 @@ Container secondPart(bool userLogin) {
                   );
                 } else {
                   showSnackBar('loginError', 'loginError1', Colors.red);
-                  Vibration.vibrate();
                 }
               },
             ),

@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/category_card.dart';
+import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/widgets.dart';
@@ -26,7 +26,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: appBAr(context),
+      appBar: CustomAppBar(backArrow: false, actionIcon: false, name: 'category'),
       body: FutureBuilder<List<CategoryModel>>(
         future: homeController.category,
         builder: (context, snapshot) {
@@ -52,45 +52,6 @@ class _CategoriesViewState extends State<CategoriesView> {
             },
           );
         },
-      ),
-    );
-  }
-
-  TextEditingController textEditingController = TextEditingController();
-  AppBar appBAr(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      toolbarHeight: 80,
-      backgroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      centerTitle: true,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: colorController.findMainColor.value == 0
-            ? kPrimaryColor
-            : colorController.findMainColor.value == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
-      ),
-      leadingWidth: 0.0,
-      titleSpacing: 0.0,
-      shadowColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      foregroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      scrolledUnderElevation: 0.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomRight: Radius.circular(20), bottomLeft: Radius.circular(20))),
-      title: Container(
-        width: Get.size.width,
-        child: searchField(textEditingController, context),
       ),
     );
   }

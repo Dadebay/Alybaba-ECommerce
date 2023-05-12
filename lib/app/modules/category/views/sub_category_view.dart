@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -30,7 +30,7 @@ class SubCategoryView extends StatefulWidget {
 }
 
 class _SubCategoryViewState extends State<SubCategoryView> {
-  int selecetedIndex = 0;
+  int selecetedIndex = -1;
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
   void _onLoading() async {
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -51,9 +51,20 @@ class _SubCategoryViewState extends State<SubCategoryView> {
   void _onRefresh() async {
     _refreshController.refreshCompleted();
     homeController.showAllList.clear();
+    homeController.loading.value = 0;
+    homeController.page.value = 0;
+    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString()});
+
+    getData();
+  }
+
+  void _onTapRefresh() async {
+    _refreshController.refreshCompleted();
+    homeController.showAllList.clear();
+    homeController.loading.value = 0;
+    homeController.page.value = 0;
     getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}', 'main_category_id': widget.categoryID.toString()});
 
-    homeController.loading.value = 0;
     getData();
   }
 
@@ -67,7 +78,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
   }
 
   dynamic addDataToMap() {
-    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}', 'main_category_id': widget.categoryID.toString()});
+    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString()});
     setState(() {});
     getData();
   }
@@ -76,11 +87,49 @@ class _SubCategoryViewState extends State<SubCategoryView> {
     await ProductsService().getShowAllProducts(parametrs: getDataMine);
   }
 
+  TextEditingController textEditingController = TextEditingController();
+  AppBar appBAr(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      toolbarHeight: 80,
+      backgroundColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
+      centerTitle: true,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
+      ),
+      leadingWidth: 0.0,
+      titleSpacing: 0.0,
+      shadowColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
+      foregroundColor: colorController.findMainColor.value == 0
+          ? kPrimaryColor
+          : colorController.findMainColor.value == 1
+              ? kPrimaryColor1
+              : kPrimaryColor2,
+      scrolledUnderElevation: 0.0,
+      title: Container(
+        width: Get.size.width,
+        child: searchField(textEditingController, context),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: widget.categoryName),
+      appBar: appBAr(context),
       body: Column(
         children: [
           Container(
@@ -95,7 +144,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                   onTap: () {
                     setState(() {
                       selecetedIndex = index;
-                      _onRefresh();
+                      _onTapRefresh();
                     });
                   },
                   child: Container(

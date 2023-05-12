@@ -1,5 +1,5 @@
 name: nabelli_ecommerce
-version: 1.0.6+6
+version: 1.0.7+7
 publish_to: none
 description: A new Flutter project.
 environment:
@@ -29,10 +29,9 @@ dependencies:
   restart_app: ^1.1.0
   share: any
   url_launcher: 6.1.6
-  vibration: ^1.7.5
   video_player:
   flick_video_player: ^0.5.0
-  photo_view: ^0.13.0
+  photo_view: ^0.14.0
   firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
