@@ -40,7 +40,6 @@ class ProductsService {
       lang = 'tm';
     }
     print(parametrs);
-    print(parametrs);
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-products',

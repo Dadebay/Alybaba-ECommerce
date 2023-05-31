@@ -57,12 +57,16 @@ class ProductCard extends StatelessWidget {
         onPressed: () {
           if (historyOrder) {
           } else {
-            Get.to(
-              () => ProductProfilView(
-                name: name,
-                image: image,
-                id: id,
-                price: price,
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ProductProfilView(
+                    name: name,
+                    image: image,
+                    id: id,
+                    price: price,
+                  );
+                },
               ),
             );
           }

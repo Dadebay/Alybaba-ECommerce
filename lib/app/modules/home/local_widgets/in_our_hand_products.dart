@@ -8,11 +8,10 @@ import '../../../data/models/product_model.dart';
 import '../../../constants/cards/product_card.dart';
 import '../../other_pages/show_all_products.dart';
 
-class InOurHands extends GetView {
-  final Map<String, String> parametrs;
-  final Future<List<ProductModel>> future;
+class InOurHands extends StatelessWidget {
+  final Future<List<ProductModel>> data;
 
-  const InOurHands(this.parametrs, this.future, {Key? key}) : super(key: key);
+  const InOurHands({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +20,10 @@ class InOurHands extends GetView {
     return Wrap(
       children: [
         listViewName('inOurHands', true, size, () {
-          Get.to(() => ShowAllProducts(pageName: 'inOurHands', filter: false, parametrs: parametrs));
+          Get.to(() => ShowAllProducts(pageName: 'inOurHands', filter: false, parametrs: {'on_hand': 'true', 'sort_column': 'random', 'sort_direction': 'ASC'}));
         }),
         FutureBuilder<List<ProductModel>>(
-          future: future,
+          future: data,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: spinKit());

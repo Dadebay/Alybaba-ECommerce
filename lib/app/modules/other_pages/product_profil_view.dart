@@ -36,7 +36,9 @@ class _ProductProfilViewState extends State<ProductProfilView> {
   void initState() {
     super.initState();
     productProfil = ProductsService().getProductByID(widget.id).then((value) {
-      getSameProducts = ProductsService().getProducts(parametrs: {'category_id': value.mainCategoryId.toString()});
+      print(value.mainCategoryId);
+      getSameProducts = ProductsService().getProducts(parametrs: {'main_category_id': value.mainCategoryId.toString(), 'sort_column': 'random', 'sort_direction': 'ASC'});
+
       return value;
     });
   }
@@ -74,7 +76,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                       children: [
                         productProfilImagePart(snapshot.data!.images!),
                         productProfilNamePricePart(name: snapshot.data!.name!, kargoIncluded: snapshot.data!.kargoIncluded!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
-                        productProfildescriptionPart(brand: snapshot.data!.producerName!, category: snapshot.data!.mainCategoryName!, createdAt: snapshot.data!.createdAt!.substring(0, 10), description: snapshot.data!.description!, viewCount: snapshot.data!.viewCount!.toString()),
+                        productProfildescriptionPart(
+                          brand: snapshot.data!.producerName!,
+                          category: snapshot.data!.mainCategoryName!,
+                          createdAt: snapshot.data!.createdAt!.substring(0, 10),
+                          description: snapshot.data!.description!,
+                          viewCount: snapshot.data!.viewCount!.toString(),
+                        ),
                         Container(
                           color: Colors.white,
                           padding: EdgeInsets.only(

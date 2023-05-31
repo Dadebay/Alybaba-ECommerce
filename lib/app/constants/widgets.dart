@@ -218,19 +218,22 @@ void changeLanguage() {
             ),
           ),
           dividerr(),
-          button('Türkmen', tmIcon, () {
+          button('Türkmen', tmIcon, () async {
             userProfilController.switchLang('tm');
             Get.back();
+            await Restart.restartApp();
           }),
           dividerr(),
-          button('Русский', ruIcon, () {
+          button('Русский', ruIcon, () async {
             userProfilController.switchLang('ru');
             Get.back();
+            await Restart.restartApp();
           }),
           dividerr(),
-          button('English', engIcon, () {
+          button('English', engIcon, () async {
             userProfilController.switchLang('en');
             Get.back();
+            await Restart.restartApp();
           }),
         ],
       ),
@@ -347,7 +350,7 @@ CustomFooter footer() {
     builder: (BuildContext context, LoadStatus? mode) {
       Widget body;
       if (mode == LoadStatus.idle) {
-        body = const Text('Garasyn...');
+        body = const Text('Garaşyň...');
       } else if (mode == LoadStatus.loading) {
         body = CircularProgressIndicator(
           color: colorController.findMainColor.value == 0

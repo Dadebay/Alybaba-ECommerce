@@ -53,7 +53,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
     homeController.showAllList.clear();
     homeController.loading.value = 0;
     homeController.page.value = 0;
-    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString()});
+    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString(), 'sort_column': 'random', 'sort_direction': 'ASC'});
 
     getData();
   }
@@ -63,7 +63,14 @@ class _SubCategoryViewState extends State<SubCategoryView> {
     homeController.showAllList.clear();
     homeController.loading.value = 0;
     homeController.page.value = 0;
-    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}', 'main_category_id': widget.categoryID.toString()});
+    getDataMine.addAll({
+      'limit': '10',
+      'page': '${homeController.page.value}',
+      'sort_column': 'random',
+      'sort_direction': 'ASC',
+      'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}',
+      'main_category_id': widget.categoryID.toString()
+    });
 
     getData();
   }
@@ -78,7 +85,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
   }
 
   dynamic addDataToMap() {
-    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString()});
+    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'sort_column': 'random', 'sort_direction': 'ASC', 'main_category_id': widget.categoryID.toString()});
     setState(() {});
     getData();
   }

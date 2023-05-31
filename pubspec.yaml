@@ -1,5 +1,5 @@
 name: nabelli_ecommerce
-version: 1.0.7+7
+version: 1.0.8+8
 publish_to: none
 description: A new Flutter project.
 environment:
@@ -11,6 +11,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: any
   firebase_messaging: ^11.2.6
+  cloud_firestore:
   flutter:
     sdk: flutter
   flutter_iconly: ^1.0.2
@@ -32,7 +33,7 @@ dependencies:
   video_player:
   flick_video_player: ^0.5.0
   photo_view: ^0.14.0
-  firebase_core_platform_interface: 4.5.1
+  firebase_core_platform_interface:
 
 dev_dependencies:
   flutter_test:
