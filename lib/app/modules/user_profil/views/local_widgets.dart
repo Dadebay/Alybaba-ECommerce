@@ -11,7 +11,6 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/history_order/history_
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/favorites_page_view.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/locations.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/profile_settings.dart';
-import 'package:nabelli_ecommerce/app/modules/user_profil/views/referal_code_page.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
 
 import '../../../constants/constants.dart';
@@ -89,17 +88,17 @@ Container fourthPart(bool userLogin) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            UserProfilIconButton(
-              icon: IconlyBroken.ticket,
-              name: 'referal_Code',
-              onTap: () {
-                if (userLogin) {
-                  Get.to(() => ReferalPage());
-                } else {
-                  showSnackBar('loginError', 'loginError1', Colors.red);
-                }
-              },
-            ),
+            // UserProfilIconButton(
+            //   icon: IconlyBroken.ticket,
+            //   name: 'referal_Code',
+            //   onTap: () {
+            //     if (userLogin) {
+            //       Get.to(() => ReferalPage());
+            //     } else {
+            //       showSnackBar('loginError', 'loginError1', Colors.red);
+            //     }
+            //   },
+            // ),
             UserProfilIconButton(
               icon: IconlyBroken.document,
               name: 'terms_and_conditions',

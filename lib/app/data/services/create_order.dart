@@ -27,6 +27,10 @@ class CreateOrderService {
       },
       body: jsonEncode(<String, dynamic>{'note': note, 'phone': userPhoneNumber, 'name': userName, 'address': address, 'transport': transport, 'products': products}),
     );
+    print(response.body);
+    print(response.statusCode);
+    print(response.statusCode);
+    print(response.statusCode);
     return response.statusCode;
   }
 

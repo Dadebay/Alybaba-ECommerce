@@ -25,6 +25,7 @@ class AddCartButton extends StatefulWidget {
 
 class _AddCartButtonState extends State<AddCartButton> {
   bool addCartBool = false;
+  bool agreeButtonLoading = false;
   int quantity = 1;
 
   final CartPageController cartController = Get.put(CartPageController());
@@ -55,32 +56,50 @@ class _AddCartButtonState extends State<AddCartButton> {
   GestureDetector buttonPart() {
     return GestureDetector(
       onTap: () {
-        ProductsService().getProductByID(widget.id).then((value) {
-          addCartBool = !addCartBool;
-          if (value.sizes!.isEmpty && value.colors!.isEmpty) {
-            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: 0, colorID: 0, airplane: value.airPlane!);
-            showSnackBar(
-              'added',
-              'addedSubtitle',
-              colorController.findMainColor.value == 0
-                  ? kPrimaryColor
-                  : colorController.findMainColor.value == 1
-                      ? kPrimaryColor1
-                      : kPrimaryColor2,
-            );
-          } else {
-            const int sizeId = 0;
-            const int colorId = 0;
-            if (value.sizes!.isEmpty) {
-              colorEmptyOnlySize(value, colorId, sizeId);
-            } else if (value.sizes!.isEmpty) {
-              sizeEmptyOnlyColor(value, sizeId, colorId);
+        agreeButtonLoading = !agreeButtonLoading;
+        setState(() {});
+        if (agreeButtonLoading == true) {
+          ProductsService().getProductByID(widget.id).then((value) {
+            addCartBool = !addCartBool;
+            if (value.sizes!.isEmpty && value.colors!.isEmpty) {
+              cartController.addToCard(
+                id: widget.id,
+                name: value.name!,
+                image: "$serverURL/${value.images!.first['destination']}-mini.webp",
+                createdAt: value.createdAt!,
+                price: value.price!,
+                sizeID: 0,
+                colorID: 0,
+                airplane: value.airPlane!,
+              );
+              showSnackBar(
+                'added',
+                'addedSubtitle',
+                colorController.findMainColor.value == 0
+                    ? kPrimaryColor
+                    : colorController.findMainColor.value == 1
+                        ? kPrimaryColor1
+                        : kPrimaryColor2,
+              );
             } else {
-              sizeAndColorNotEmpty(value, sizeId, colorId);
+              const int sizeId = 0;
+              const int colorId = 0;
+              agreeButtonLoading = !agreeButtonLoading;
+              setState(() {});
+
+              if (value.sizes!.isEmpty) {
+                colorEmptyOnlySize(value, colorId, sizeId);
+              } else if (value.sizes!.isEmpty) {
+                sizeEmptyOnlyColor(value, sizeId, colorId);
+              } else {
+                sizeAndColorNotEmpty(value, sizeId, colorId);
+              }
             }
-          }
-          setState(() {});
-        });
+            setState(() {});
+          });
+        } else {
+          showSnackBar('waitMyMan', 'waitMyManSubtitle', Colors.red);
+        }
       },
       child: Container(
         width: widget.productProfil ? null : Get.size.width,
@@ -115,7 +134,17 @@ class _AddCartButtonState extends State<AddCartButton> {
                   ),
                 ],
               )
-            : Text('addCart'.tr, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 16)),
+            : agreeButtonLoading
+                ? Center(
+                    child: SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : Text('addCart'.tr, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 16)),
       ),
     );
   }
@@ -134,7 +163,16 @@ class _AddCartButtonState extends State<AddCartButton> {
             child: ElevatedButton(
               onPressed: () {
                 colorId = value.colors![index].id!;
-                cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                cartController.addToCard(
+                  id: widget.id,
+                  name: value.name!,
+                  image: "$serverURL/${value.images!.first['destination']}-mini.webp",
+                  createdAt: value.createdAt!,
+                  price: value.price!,
+                  sizeID: sizeId,
+                  colorID: colorId,
+                  airplane: value.airPlane!,
+                );
                 Get.back();
                 showSnackBar(
                   'added',
@@ -180,7 +218,16 @@ class _AddCartButtonState extends State<AddCartButton> {
             child: ElevatedButton(
               onPressed: () {
                 sizeId = value.sizes![index].id!;
-                cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                cartController.addToCard(
+                  id: widget.id,
+                  name: value.name!,
+                  image: "$serverURL/${value.images!.first['destination']}-mini.webp",
+                  createdAt: value.createdAt!,
+                  price: value.price!,
+                  sizeID: sizeId,
+                  colorID: colorId,
+                  airplane: value.airPlane!,
+                );
                 Get.back();
 
                 showSnackBar(
@@ -241,7 +288,16 @@ class _AddCartButtonState extends State<AddCartButton> {
                         child: ElevatedButton(
                           onPressed: () {
                             colorId = value.colors![index].id!;
-                            cartController.addToCard(id: widget.id, name: value.name!, image: "$serverURL/${value.images!.first['destination']}-mini.webp", createdAt: value.createdAt!, price: value.price!, sizeID: sizeId, colorID: colorId, airplane: value.airPlane!);
+                            cartController.addToCard(
+                              id: widget.id,
+                              name: value.name!,
+                              image: "$serverURL/${value.images!.first['destination']}-mini.webp",
+                              createdAt: value.createdAt!,
+                              price: value.price!,
+                              sizeID: sizeId,
+                              colorID: colorId,
+                              airplane: value.airPlane!,
+                            );
                             Get.back();
                             showSnackBar(
                               'added',

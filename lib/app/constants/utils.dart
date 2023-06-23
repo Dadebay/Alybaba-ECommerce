@@ -206,6 +206,8 @@ class MyTranslations extends Translations {
           'appColor2': 'Reňk 1',
           'appColor3': 'Reňk 2',
           'appColor4': 'Reňk 3',
+          'waitMyMan':'Garaşyň',
+          'waitMyManSubtitle':'Maglumat ýüklenýänça garaşyň',
         },
         'ru': {
           'deleteAccountTitle': 'Удалено',

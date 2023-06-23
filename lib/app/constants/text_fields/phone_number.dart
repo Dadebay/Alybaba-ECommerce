@@ -13,7 +13,8 @@ class PhoneNumber extends StatelessWidget {
   final FocusNode requestFocus;
   final bool style;
   final bool? disabled;
-   PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled});
+  final bool unFocus;
+  PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled, required this.unFocus});
   final ColorController colorController = Get.put(ColorController());
 
   @override
@@ -40,7 +41,7 @@ class PhoneNumber extends StatelessWidget {
           LengthLimitingTextInputFormatter(8),
         ],
         onEditingComplete: () {
-          requestFocus.requestFocus();
+          unFocus ? FocusScope.of(context).unfocus() : requestFocus.requestFocus();
         },
         enableSuggestions: false,
         autocorrect: false,
@@ -61,44 +62,60 @@ class PhoneNumber extends StatelessWidget {
           isDense: true,
           hintText: '65 656565 ',
           filled: style,
-          fillColor:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+          fillColor: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
           alignLabelWithHint: true,
           hintStyle: TextStyle(color: Colors.grey.shade400, fontFamily: gilroyMedium),
           border: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: style ?  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2 : Colors.grey, width: 2,),
+            borderSide: BorderSide(
+              color: style
+                  ? colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2
+                  : Colors.grey,
+              width: 2,
+            ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide: BorderSide(color: style ?  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2 : Colors.grey.shade200, width: 2,),
+            borderSide: BorderSide(
+              color: style
+                  ? colorController.findMainColor.value == 0
+                      ? kPrimaryColor
+                      : colorController.findMainColor.value == 1
+                          ? kPrimaryColor1
+                          : kPrimaryColor2
+                  : Colors.grey.shade200,
+              width: 2,
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide:  BorderSide(color:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2, width: 2,),
+            borderSide: BorderSide(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              width: 2,
+            ),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,
-            borderSide:  BorderSide(color:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2, width: 2,),
+            borderSide: BorderSide(
+              color: colorController.findMainColor.value == 0
+                  ? kPrimaryColor
+                  : colorController.findMainColor.value == 1
+                      ? kPrimaryColor1
+                      : kPrimaryColor2,
+              width: 2,
+            ),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: style ? borderRadius10 : borderRadius20,

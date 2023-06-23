@@ -159,6 +159,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               mineFocus: phoneFocusNode,
               controller: phoneController,
               requestFocus: userNameFocusNode,
+              unFocus: false,
               style: false,
               disabled: false,
             ),

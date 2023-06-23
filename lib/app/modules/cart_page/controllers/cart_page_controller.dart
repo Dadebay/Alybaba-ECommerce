@@ -48,17 +48,6 @@ class CartPageController extends GetxController {
     }
   }
 
-  void updateCartQuantity(int id) {
-    for (var element in list) {
-      if (element['id'] == id) {
-        element['quantity'] += 1;
-      }
-    }
-    list.refresh();
-    final String jsonString = jsonEncode(list);
-    storage.write('cartList', jsonString);
-  }
-
   void minusCardElement(int id) {
     for (final element in list) {
       if (element['id'] == id) {
@@ -72,6 +61,17 @@ class CartPageController extends GetxController {
     list.removeWhere((element) => element['quantity'] == 0);
     list.refresh();
     cartListToCompare.refresh();
+    final String jsonString = jsonEncode(list);
+    storage.write('cartList', jsonString);
+  }
+
+  void updateCartQuantity(int id) {
+    for (var element in list) {
+      if (element['id'] == id) {
+        element['quantity'] += 1;
+      }
+    }
+    list.refresh();
     final String jsonString = jsonEncode(list);
     storage.write('cartList', jsonString);
   }

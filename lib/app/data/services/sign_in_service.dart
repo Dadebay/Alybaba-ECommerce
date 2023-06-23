@@ -103,6 +103,7 @@ class SignInService {
         'phone': phone,
       }),
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);

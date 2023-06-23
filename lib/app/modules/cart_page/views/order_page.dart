@@ -10,6 +10,7 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profi
 import '../../../constants/text_fields/custom_text_field.dart';
 import '../../../constants/text_fields/phone_number.dart';
 import '../../../data/models/get_order_info_model.dart';
+import '../../home/controllers/home_controller.dart';
 import '../controllers/cart_page_controller.dart';
 
 class OrderPage extends StatefulWidget {
@@ -50,9 +51,7 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     super.initState();
     userNameController.text = Get.find<UserProfilController>().userName.toString();
-    if (Get.find<UserProfilController>().userPhoneNumber.isNotEmpty && Get.find<UserProfilController>().userPhoneNumber.toString() != ' ') {
-      phoneController.text = Get.find<UserProfilController>().userPhoneNumber.toString();
-    }
+    phoneController.clear();
     orderModel = CreateOrderService().getOrderInfo();
   }
 
@@ -83,7 +82,7 @@ class _OrderPageState extends State<OrderPage> {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 15),
-            child: PhoneNumber(mineFocus: orderPhoneNumber, controller: phoneController, requestFocus: orderAdressFocusNode, style: false),
+            child: PhoneNumber(mineFocus: orderPhoneNumber, controller: phoneController, unFocus: false, requestFocus: orderAdressFocusNode, style: false),
           ),
           selectCity(),
           CustomTextField(
@@ -255,6 +254,8 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
+  final HomeController homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -317,6 +318,7 @@ class _OrderPageState extends State<OrderPage> {
             AgreeButton(
               onTap: () {
                 if (_orderPage.currentState!.validate()) {
+                  homeController.agreeButton.value = !homeController.agreeButton.value;
                   CreateOrderService()
                       .createOrder(
                     userName: userNameController.text,
@@ -331,8 +333,10 @@ class _OrderPageState extends State<OrderPage> {
                       cartController.cartListToCompare.clear();
                       cartController.removeAllCartElements();
                       showSnackBar('orderComplete', 'orderCompletedTrue', Colors.green);
+                      homeController.agreeButton.value = !homeController.agreeButton.value;
                     } else {
-                      showSnackBar('errorTitle', 'error', Colors.red);
+                      showSnackBar('errorTitle $value', 'error', Colors.red);
+                      homeController.agreeButton.value = !homeController.agreeButton.value;
                     }
                   });
                 } else {

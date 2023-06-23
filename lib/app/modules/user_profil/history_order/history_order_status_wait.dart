@@ -36,9 +36,7 @@ class OrderStatusWait extends StatelessWidget {
           }
           return ListView.builder(
             itemCount: snapshot.data!.length,
-            itemExtent: 210,
-            // reverse: true,
-            // shrinkWrap: true,
+            itemExtent: 240,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
@@ -71,7 +69,7 @@ class OrderStatusWait extends StatelessWidget {
                                 width: 60,
                                 decoration: const BoxDecoration(
                                   borderRadius: borderRadius10,
-                                  color: Colors.amber,
+                                  color: Colors.grey,
                                 ),
                                 child: ClipRRect(
                                   borderRadius: borderRadius10,
@@ -132,7 +130,8 @@ class OrderStatusWait extends StatelessWidget {
           ),
           Text(
             name2.tr,
-            maxLines: 1,
+            maxLines: 2,
+            textAlign: TextAlign.start,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.black, fontSize: 15, fontFamily: gilroySemiBold),
           ),

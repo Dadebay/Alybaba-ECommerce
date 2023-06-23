@@ -72,31 +72,32 @@ class SignInView extends GetView {
                     controller: phoneNumberController,
                     requestFocus: referalCodeFocusNode,
                     style: false,
+                    unFocus: true,
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: CustomTextField(
-                labelName: 'referalKod',
-                controller: referalCodeController,
-                focusNode: referalCodeFocusNode,
-                requestfocusNode: fullNameFocusNode,
-                borderRadius: true,
-                isNumber: false,
-                unFocus: true,
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 10),
+            //   child: CustomTextField(
+            //     labelName: 'referalKod',
+            //     controller: referalCodeController,
+            //     focusNode: referalCodeFocusNode,
+            //     requestfocusNode: fullNameFocusNode,
+            //     borderRadius: true,
+            //     isNumber: false,
+            //     unFocus: true,
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),
             Center(
               child: AgreeButton(
                 onTap: () {
-                  homeController.agreeButton.value = !homeController.agreeButton.value;
-
                   if (_signUp.currentState!.validate()) {
+                    homeController.agreeButton.value = !homeController.agreeButton.value;
+
                     SignInService().sendCode(phone: phoneNumberController.text).then((value) {
                       if (value == 200) {
                         Get.to(
@@ -107,16 +108,18 @@ class SignInView extends GetView {
                             userName: '${fullNameController.text} ${idController.text} ',
                           ),
                         );
+                        homeController.agreeButton.value = !homeController.agreeButton.value;
                       } else if (value == 409) {
                         showSnackBar('noConnection3', 'alreadyExist', Colors.red);
+                        homeController.agreeButton.value = !homeController.agreeButton.value;
                       } else {
                         showSnackBar('noConnection3', 'errorData', Colors.red);
+                        homeController.agreeButton.value = !homeController.agreeButton.value;
                       }
                     });
                   } else {
                     showSnackBar('noConnection3', 'errorEmpty', Colors.red);
                   }
-                  homeController.agreeButton.value = !homeController.agreeButton.value;
                 },
               ),
             )

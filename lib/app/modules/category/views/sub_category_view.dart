@@ -155,7 +155,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                     });
                   },
                   child: Container(
-                    width: Get.size.width / 3,
+                    // width: Get.size.width / 3,
                     margin: EdgeInsets.all(8),
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     decoration: BoxDecoration(

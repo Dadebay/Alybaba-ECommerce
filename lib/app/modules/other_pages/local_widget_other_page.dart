@@ -66,8 +66,8 @@ Container productProfilImagePart(List images) {
         return GestureDetector(
           onTap: () {
             Get.to(
-              () => PhotoViewPage(
-                image: "$serverURL/${images[index]['destination']}-big.webp",
+              () => PhotoViewPageMoreImage(
+                images: images,
               ),
             );
           },
@@ -84,9 +84,9 @@ Container productProfilImagePart(List images) {
               ),
             ),
             placeholder: (context, url) => Center(child: spinKit()),
-            errorWidget: (context, url, error) =>  Center(
-                    child: Text('noImage'.tr),
-                  ),
+            errorWidget: (context, url, error) => Center(
+              child: Text('noImage'.tr),
+            ),
           ),
         );
       },

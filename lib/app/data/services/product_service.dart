@@ -22,6 +22,8 @@ class ProductsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)['products'] as List;
       for (final Map product in responseJson) {

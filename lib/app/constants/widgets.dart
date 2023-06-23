@@ -115,10 +115,10 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
       subtitle.tr,
       style: const TextStyle(fontFamily: gilroyRegular, fontSize: 16, color: Colors.white),
     ),
-    snackPosition: SnackPosition.BOTTOM,
+    snackPosition: SnackPosition.TOP,
     backgroundColor: color,
     borderRadius: 20.0,
-    animationDuration: const Duration(milliseconds: 500),
+    animationDuration: const Duration(seconds: 2),
     margin: const EdgeInsets.all(8),
   );
 }
