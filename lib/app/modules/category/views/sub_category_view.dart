@@ -69,7 +69,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
       'sort_column': 'random',
       'sort_direction': 'ASC',
       'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}',
-      'main_category_id': widget.categoryID.toString()
+      'main_category_id': widget.categoryID.toString(),
     });
 
     getData();
@@ -140,8 +140,8 @@ class _SubCategoryViewState extends State<SubCategoryView> {
       body: Column(
         children: [
           Container(
-            height: 60,
-            child: ListView.builder(
+            height: 90,
+            child: GridView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: widget.subCategoryList.length,
               shrinkWrap: true,
@@ -155,8 +155,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                     });
                   },
                   child: Container(
-                    // width: Get.size.width / 3,
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.only(top: 8, left: 8),
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     decoration: BoxDecoration(
                       borderRadius: borderRadius20,
@@ -173,6 +172,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                   ),
                 );
               },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisExtent: 180),
             ),
           ),
           Expanded(
@@ -219,7 +219,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
                       );
               }),
             ),
-          )
+          ),
         ],
       ),
     );

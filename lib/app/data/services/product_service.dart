@@ -14,6 +14,7 @@ class ProductsService {
     if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
+    print('------------------------------------Mana geldi');
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-products',
@@ -22,7 +23,7 @@ class ProductsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
+    print(response.body.toString());
     print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)['products'] as List;
@@ -86,6 +87,7 @@ class ProductsService {
     if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
+    print('----------------ID$id');
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-product/$id',
@@ -97,6 +99,7 @@ class ProductsService {
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       final responseJson = json.decode(decoded);
+      print(responseJson);
       return ProductByIDModel.fromJson(responseJson[0]);
     } else {
       return ProductByIDModel();

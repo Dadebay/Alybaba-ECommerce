@@ -8,9 +8,7 @@ import '../../../constants/constants.dart';
 import '../../cart_page/views/cart_view.dart';
 import '../../category/views/category_view.dart';
 import '../../user_profil/views/user_profil_view.dart';
-import '../../videos/views/videos_view.dart';
 import '../controllers/color_controller.dart';
-import '../controllers/home_controller.dart';
 import 'home_view.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -24,9 +22,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex = 0;
   final ColorController colorController = Get.put(ColorController());
 
-  var homeController = HomeController();
-  List page = [const HomeView(), const CategoriesView(), const CartView(), const VideosView(), const UserProfilView()];
-  List page2 = [const HomeView(), const CategoriesView(), const CartView(), const SizedBox.shrink(), const UserProfilView()];
+  List page = [const HomeView(), const CategoriesView(), const CartView(), const UserProfilView()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +43,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
         currentIndex: selectedIndex,
         onTap: (index) async {
           setState(() {
-            homeController.videoSelectedIndex.value = index;
             selectedIndex = index;
           });
         },
@@ -71,12 +66,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
             tooltip: 'cart'.tr,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(IconlyLight.discovery),
-            activeIcon: const Icon(IconlyBold.discovery),
-            label: 'Videos'.tr,
-            tooltip: 'Videos'.tr,
-          ),
-          BottomNavigationBarItem(
             icon: const Icon(
               IconlyLight.profile,
             ),
@@ -86,11 +75,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ],
       ),
-      body: Obx(() {
-        return Center(
-          child: homeController.videoSelectedIndex.value == 3 ? page[selectedIndex] : page2[selectedIndex],
-        );
-      }),
+      body: Center(
+        child: page[selectedIndex],
+      ),
     );
   }
 }

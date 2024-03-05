@@ -28,7 +28,9 @@ Future<void> backgroundNotificationHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(apiKey: 'AIzaSyCfzBIvElHvwHcsv5hhw-d5B-g9L6tSS10', appId: '1:356389098157:android:e6af87857c717281062c24', messagingSenderId: '356389098157', projectId: 'alybaba-a3ccb'),
+  ).then((value) {});
   await GetStorage.init();
   await FCMConfig().requestPermission();
   await FCMConfig().initAwesomeNotification();
@@ -49,22 +51,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final storage = GetStorage();
-  final ColorController colorController = Get.put(ColorController());
   int colorCode = 0;
-  changeColor() async {
-    final a = await storage.read('mainColor');
-    if (a != null) {
-      final String a = await storage.read('mainColor').toString();
-      colorCode = int.parse(a.toString());
-      colorController.findMainColor.value = colorCode;
-      setState(() {});
-    }
-  }
+  final ColorController colorController = Get.put(ColorController());
+  final storage = GetStorage();
 
   @override
   void initState() {
-    FirebaseMessaging.instance.getToken().then((value) {});
+    FirebaseMessaging.instance.getToken().then((value) {
+      print('Iam here------------------------------------------');
+      print(value);
+      print(value.toString());
+    });
     FCMConfig().requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
@@ -73,6 +70,16 @@ class _MyAppState extends State<MyApp> {
     colorController.returnMainColor();
     changeColor();
     super.initState();
+  }
+
+  changeColor() async {
+    final a = await storage.read('mainColor');
+    if (a != null) {
+      final String a = await storage.read('mainColor').toString();
+      colorCode = int.parse(a.toString());
+      colorController.findMainColor.value = colorCode;
+      setState(() {});
+    }
   }
 
   @override

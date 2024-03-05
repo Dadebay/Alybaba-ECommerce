@@ -57,16 +57,13 @@ class _HomeViewState extends State<HomeView> {
             Banners(future: homeController.bannersFuture),
             MiniBannersView(homeController.minibannerFuture),
             NewItemsView(parametrs: const {'new_in_come': 'true', 'sort_column': 'created_at', 'sort_direction': 'DESC'}, future: homeController.productsFuture),
-            HomePageVideos(
-              videosFuture: homeController.videosFuture,
-            ),
+            // HomePageVideos(
+            //   videosFuture: homeController.videosFuture,
+            // ),
             RecomendedItems(parametrs: const {'recomended': 'true', 'sort_column': 'random', 'sort_direction': 'ASC'}, future: homeController.productsFutureRecomended),
             const SizedBox(
               height: 30,
             ),
-            // ShopByBrand(
-            // producers: homeController.producersFuture,
-            // ),
             InOurHands(
               data: homeController.productsFutureInOurHands,
             ),

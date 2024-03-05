@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String serverURL = 'http://216.250.11.255:5001';
+String serverURL = 'http://216.250.12.49:5001';
 const Color kPrimaryColor = Color(0xfffd7e15);
 const Color kPrimaryColor1 = Color(0xff1f2123);
 const Color kPrimaryColor2 = Color(0xff6366f1);

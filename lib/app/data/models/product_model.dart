@@ -19,7 +19,26 @@ class ProductModel {
 
   final List<ColorModel>? colors;
 
-  ProductModel({this.id, this.airplane, this.name, this.price, this.kargoIncluded, this.createdAt, this.mainCategoryName, this.subCategoryName, this.producerName, this.newInCome, this.recomended, this.onHand, this.image, this.discountId, this.discountValue, this.discountValueType, this.sizes, this.colors});
+  ProductModel({
+    this.id,
+    this.airplane,
+    this.name,
+    this.price,
+    this.kargoIncluded,
+    this.createdAt,
+    this.mainCategoryName,
+    this.subCategoryName,
+    this.producerName,
+    this.newInCome,
+    this.recomended,
+    this.onHand,
+    this.image,
+    this.discountId,
+    this.discountValue,
+    this.discountValueType,
+    this.sizes,
+    this.colors,
+  });
 
   factory ProductModel.fromJson(Map<dynamic, dynamic> json) {
     return ProductModel(
@@ -63,21 +82,46 @@ class ProductByIDModel {
   final String? barcode;
   final bool? kargoIncluded;
 
+  final int? categoryID;
   final int? viewCount;
   final String? createdAt;
   final List? images;
   final List<SizeModel>? sizes;
   final List<ColorModel>? colors;
-  ProductByIDModel({this.id, this.sizes, this.name, this.kargoIncluded, this.price, this.viewCount, this.createdAt, this.barcode, this.mainCategoryName, this.subCategoryName, this.producerName, this.newInCome, this.recomended, this.onHand, this.images, this.airPlane, this.description, this.colors, this.mainCategoryId, this.producerId, this.subCategoryId});
+  ProductByIDModel({
+    this.id,
+    this.categoryID,
+    this.sizes,
+    this.name,
+    this.kargoIncluded,
+    this.price,
+    this.viewCount,
+    this.createdAt,
+    this.barcode,
+    this.mainCategoryName,
+    this.subCategoryName,
+    this.producerName,
+    this.newInCome,
+    this.recomended,
+    this.onHand,
+    this.images,
+    this.airPlane,
+    this.description,
+    this.colors,
+    this.mainCategoryId,
+    this.producerId,
+    this.subCategoryId,
+  });
 
   factory ProductByIDModel.fromJson(Map<dynamic, dynamic> json) {
-    final List image = json['images'] as List;
+    List image = [];
     List<dynamic> images = [];
-    if (image == null) {
-      images = [''];
-    } else {
+
+    if (json['images'] != null) {
+      image = json['images'] as List;
       images = image.map((value) => value).toList();
     }
+
     return ProductByIDModel(
       id: json['id'],
       airPlane: json['airplane'] ?? false,
@@ -91,6 +135,7 @@ class ProductByIDModel {
       newInCome: json['new_in_come'] ?? false,
       recomended: json['recomended'] ?? false,
       subCategoryId: json['sub_category_id'],
+      categoryID: json['category_id'] ?? 0,
       mainCategoryId: json['main_category_id'],
       producerId: json['producer_id'],
       onHand: json['on_hand'] ?? false,

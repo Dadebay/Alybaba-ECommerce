@@ -9,10 +9,11 @@ import '../models/category_model.dart';
 class CategoryService {
   Future<List<CategoryModel>> getCategories() async {
     String lang = Get.locale!.languageCode;
-     if (lang == 'tr' || lang == 'en') {
+    if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
     final List<CategoryModel> categoryList = [];
+    print('comes here');
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-categories',
@@ -21,6 +22,8 @@ class CategoryService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.statusCode);
+    print(response.body.toString());
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body)['rows'];
       for (final Map product in responseJson) {

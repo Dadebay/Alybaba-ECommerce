@@ -30,14 +30,13 @@ class ProductProfilView extends StatefulWidget {
 class _ProductProfilViewState extends State<ProductProfilView> {
   int selectedColor = -1;
   int selectedSize = -1;
-  late Future<ProductByIDModel> productProfil;
   late Future<List<ProductModel>> getSameProducts;
+  late Future<ProductByIDModel> productProfil;
   @override
   void initState() {
     super.initState();
     productProfil = ProductsService().getProductByID(widget.id).then((value) {
-      print(value.mainCategoryId);
-      getSameProducts = ProductsService().getProducts(parametrs: {'main_category_id': value.mainCategoryId.toString(), 'sort_column': 'random', 'sort_direction': 'ASC'});
+      getSameProducts = ProductsService().getProducts(parametrs: {'main_category_id': value.mainCategoryId.toString(), 'page': '1', 'limit': '10', 'sort_column': 'random', 'sort_direction': 'ASC'});
 
       return value;
     });
@@ -58,10 +57,11 @@ class _ProductProfilViewState extends State<ProductProfilView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(color: Colors.white, child: Center(child: spinKit()));
           } else if (snapshot.data == null) {
-            return Container(color: Colors.white, child: Center(child: referalPageEmptyData()));
+            return Container(color: Colors.red, child: Center(child: referalPageEmptyData()));
           } else if (snapshot.hasError) {
-            return Container(color: Colors.white, child: Center(child: referalPageError()));
+            return Container(color: Colors.amber, child: Center(child: referalPageError()));
           }
+
           return Column(
             children: [
               Expanded(
@@ -101,7 +101,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   ),
                 ),
               ),
-              addCartButtonPart()
+              addCartButtonPart(),
             ],
           );
         },
@@ -157,7 +157,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                         colorss[index].name.toString(),
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: Colors.black, fontSize: 16, fontFamily: gilroyMedium),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -289,7 +289,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
               id: widget.id,
               productProfil: true,
             ),
-          )
+          ),
         ],
       ),
     );
