@@ -1,10 +1,10 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/category_card.dart';
+import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
-import 'package:nabelli_ecommerce/app/data/services/category_service.dart';
+
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
 import '../../../constants/widgets.dart';
@@ -30,13 +30,6 @@ class _CategoriesViewState extends State<CategoriesView> {
       appBar: CustomAppBar(
         backArrow: false,
         actionIcon: true,
-        icon: GestureDetector(
-          onTap: () async {
-            print('i tapped');
-            await CategoryService().getCategories();
-          },
-          child: Icon(Icons.search),
-        ),
         name: 'category',
       ),
       body: FutureBuilder<List<CategoryModel>>(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -78,8 +79,6 @@ class SignInService {
         'phone': phone,
       }),
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       if (phone == '62990344') {
@@ -105,7 +104,6 @@ class SignInService {
         'phone': phone,
       }),
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);

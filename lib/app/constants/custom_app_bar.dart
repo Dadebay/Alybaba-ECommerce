@@ -34,6 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
     final double sizeWidth = MediaQuery.of(context).size.width;
     return AppBar(
       elevation: 0,
+      scrolledUnderElevation: 0.0,
       centerTitle: true,
       systemOverlayStyle: SystemUiOverlayStyle(
         statusBarColor: colorController.findMainColor.value == 0
@@ -68,7 +69,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
             child: icon,
           )
         else
-          SizedBox.shrink()
+          SizedBox.shrink(),
       ],
       automaticallyImplyLeading: false,
       backgroundColor: colorController.findMainColor.value == 0
@@ -83,7 +84,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
-          fontFamily: gilroyMedium,
+          fontFamily: gilroyBold,
           fontSize: sizeWidth > 800 ? 35 : 22,
         ),
       ),

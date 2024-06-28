@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
@@ -27,10 +28,6 @@ class CreateOrderService {
       },
       body: jsonEncode(<String, dynamic>{'note': note, 'phone': userPhoneNumber, 'name': userName, 'address': address, 'transport': transport, 'products': products}),
     );
-    print(response.body);
-    print(response.statusCode);
-    print(response.statusCode);
-    print(response.statusCode);
     return response.statusCode;
   }
 
@@ -51,7 +48,6 @@ class CreateOrderService {
       lang = 'tm';
     }
     final List<ProductModel> productsList = [];
-    print(list);
     final response = await http.get(
       Uri.parse('$serverURL/api/$lang/get-selected-products').replace(
         queryParameters: {
@@ -62,8 +58,6 @@ class CreateOrderService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)['rows'] as List;
       for (final Map product in responseJson) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/modules/home/local_widgets/mini_banner_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -9,7 +8,6 @@ import '../../../constants/constants.dart';
 import '../../../constants/widgets.dart';
 import '../controllers/color_controller.dart';
 import '../controllers/home_controller.dart';
-import '../local_widgets/home_videos.dart';
 import '../local_widgets/in_our_hand_products.dart';
 import '../local_widgets/new_items_view.dart';
 import '../local_widgets/recomended_items_view.dart';
@@ -57,9 +55,6 @@ class _HomeViewState extends State<HomeView> {
             Banners(future: homeController.bannersFuture),
             MiniBannersView(homeController.minibannerFuture),
             NewItemsView(parametrs: const {'new_in_come': 'true', 'sort_column': 'created_at', 'sort_direction': 'DESC'}, future: homeController.productsFuture),
-            // HomePageVideos(
-            //   videosFuture: homeController.videosFuture,
-            // ),
             RecomendedItems(parametrs: const {'recomended': 'true', 'sort_column': 'random', 'sort_direction': 'ASC'}, future: homeController.productsFutureRecomended),
             const SizedBox(
               height: 30,

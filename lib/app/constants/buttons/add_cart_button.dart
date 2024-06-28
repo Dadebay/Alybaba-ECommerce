@@ -57,6 +57,7 @@ class _AddCartButtonState extends State<AddCartButton> {
     return GestureDetector(
       onTap: () {
         agreeButtonLoading = !agreeButtonLoading;
+        print('tapped');
         setState(() {});
         if (agreeButtonLoading == true) {
           ProductsService().getProductByID(widget.id).then((value) {

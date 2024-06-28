@@ -36,7 +36,7 @@ class TermsAndConditions extends StatelessWidget {
                 Text(
                   lang == 'tm' ? snapshot.data!['privacy_tm'] : snapshot.data!['privacy_ru'],
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-                )
+                ),
               ],
             ),
           );

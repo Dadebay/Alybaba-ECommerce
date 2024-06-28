@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/constants/widgets.dart';
-import 'package:nabelli_ecommerce/app/data/services/create_order.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/agree_button_view.dart';
+import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/empty_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/widgets.dart';
+import 'package:nabelli_ecommerce/app/data/services/abous_us_service.dart';
+import 'package:nabelli_ecommerce/app/data/services/create_order.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/views/local_widget.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
+
 import '../../../constants/text_fields/custom_text_field.dart';
 import '../../../constants/text_fields/phone_number.dart';
 import '../../../data/models/get_order_info_model.dart';
@@ -33,11 +37,10 @@ class _OrderPageState extends State<OrderPage> {
   final TextEditingController addressController = TextEditingController();
   final CartPageController cartController = Get.put(CartPageController());
   final TextEditingController cityController = TextEditingController();
+  final HomeController homeController = Get.put(HomeController());
   String name = 'Asgabat';
-  final TextEditingController noteController = TextEditingController();
   final FocusNode orderAdressFocusNode = FocusNode();
   late final Future<GetOrderInfoModel> orderModel;
-  final FocusNode orderNote = FocusNode();
   final FocusNode orderPhoneNumber = FocusNode();
   OrderType orderType = OrderType.train;
   int orderTypeNum = -1;
@@ -57,7 +60,6 @@ class _OrderPageState extends State<OrderPage> {
 
   Container userInfo() {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
       child: Column(
@@ -89,21 +91,11 @@ class _OrderPageState extends State<OrderPage> {
             labelName: 'orderAdress',
             controller: addressController,
             focusNode: orderAdressFocusNode,
-            requestfocusNode: orderNote,
+            requestfocusNode: orderUserName,
             isNumber: false,
             borderRadius: true,
             maxline: 4,
             unFocus: false,
-          ),
-          CustomTextField(
-            labelName: 'note',
-            controller: noteController,
-            focusNode: orderNote,
-            requestfocusNode: orderUserName,
-            isNumber: false,
-            maxline: 4,
-            borderRadius: true,
-            unFocus: true,
           ),
         ],
       ),
@@ -254,8 +246,6 @@ class _OrderPageState extends State<OrderPage> {
     );
   }
 
-  final HomeController homeController = Get.put(HomeController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -312,6 +302,33 @@ class _OrderPageState extends State<OrderPage> {
                 );
               },
             ),
+            FutureBuilder<dynamic>(
+              future: AboutUsService().getRules(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: spinKit());
+                } else if (snapshot.hasError) {
+                  return referalPageError();
+                } else if (snapshot.data == null) {
+                  return referalPageEmptyData();
+                }
+                String lang = Get.locale!.languageCode;
+                if (lang == 'tr' || lang == 'en') {
+                  lang = 'tm';
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
+                    children: [
+                      Text(
+                        lang == 'tm' ? snapshot.data!['privacy_tm'] : snapshot.data!['privacy_ru'],
+                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
             const SizedBox(
               height: 40,
             ),
@@ -324,7 +341,7 @@ class _OrderPageState extends State<OrderPage> {
                     userName: userNameController.text,
                     userPhoneNumber: phoneController.text,
                     address: '$name + ${addressController.text}',
-                    note: noteController.text,
+                    note: '',
                     transport: orderTypeNum,
                   )
                       .then((value) {
@@ -343,7 +360,7 @@ class _OrderPageState extends State<OrderPage> {
                   showSnackBar('noConnection3', 'errorEmpty', Colors.red);
                 }
               },
-            )
+            ),
           ],
         ),
       ),

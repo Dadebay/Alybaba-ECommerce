@@ -57,27 +57,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    FirebaseMessaging.instance.getToken().then((value) {
-      print('Iam here------------------------------------------');
-      print(value);
-      print(value.toString());
-    });
     FCMConfig().requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       FCMConfig().sendNotification(body: message.notification!.body!, title: message.notification!.title!);
     });
-    print(storage.read('mainColor'));
     colorController.returnMainColor();
     changeColor();
     super.initState();
   }
 
-  changeColor() async {
+  dynamic changeColor() async {
     final a = await storage.read('mainColor');
     if (a != null) {
       final String a = await storage.read('mainColor').toString();
       colorCode = int.parse(a.toString());
       colorController.findMainColor.value = colorCode;
+      colorController.getMainColor();
       setState(() {});
     }
   }
@@ -90,24 +85,12 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.light,
         fontFamily: gilroyRegular,
-        colorSchemeSeed: colorCode == 0
-            ? kPrimaryColor
-            : colorCode == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
+        colorSchemeSeed: colorController.mainColor,
         useMaterial3: true,
         appBarTheme: AppBarTheme(
-          backgroundColor: colorCode == 0
-              ? kPrimaryColor
-              : colorCode == 1
-                  ? kPrimaryColor1
-                  : kPrimaryColor2,
+          backgroundColor: colorController.mainColor,
           systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: colorCode == 0
-                ? kPrimaryColor
-                : colorCode == 1
-                    ? kPrimaryColor1
-                    : kPrimaryColor2,
+            statusBarColor: colorController.mainColor,
             statusBarBrightness: Brightness.dark,
           ),
           titleTextStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),

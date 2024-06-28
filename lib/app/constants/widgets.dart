@@ -16,11 +16,11 @@ import '../modules/other_pages/show_all_products.dart';
 final ColorController colorController = Get.put(ColorController());
 
 dynamic noBannerImage() {
-  return Text('noImage'.tr);
+  return Center(child: Text('noImage'.tr));
 }
 
 dynamic spinKit() {
-  return Lottie.asset(loading1Lottie, animate: true, width: 150, height: 150);
+  return Center(child: Lottie.asset(loading1Lottie, animate: true, width: 150, height: 150));
 }
 
 Widget searchField(TextEditingController controller, BuildContext context) {
@@ -154,7 +154,7 @@ Padding namePart({required String text, required bool removeIcon, required Funct
                           : kPrimaryColor2,
                   size: 25,
                 ),
-              )
+              ),
       ],
     ),
   );
@@ -213,7 +213,7 @@ void changeLanguage() {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
-                )
+                ),
               ],
             ),
           ),
@@ -262,7 +262,7 @@ void logOut() {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.white),
-                )
+                ),
               ],
             ),
           ),
@@ -339,7 +339,7 @@ Padding listViewName(String text, bool icon, Size size, Function() onTap) {
                   size: size.width >= 800 ? 35 : 25,
                 ),
               )
-            : const SizedBox.shrink()
+            : const SizedBox.shrink(),
       ],
     ),
   );
@@ -407,7 +407,7 @@ void defaultBottomSheet({required String name, required Widget child}) {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
-                )
+                ),
               ],
             ),
           ),
@@ -417,7 +417,7 @@ void defaultBottomSheet({required String name, required Widget child}) {
           ),
           Center(
             child: child,
-          )
+          ),
         ],
       ),
     ),
@@ -563,7 +563,7 @@ dynamic customDialogToUse({required String title, required String subtitle, requ
               ),
             ],
           ),
-        )
+        ),
       ],
     ),
   );
@@ -595,7 +595,7 @@ void changeColor(BuildContext context) {
                     Get.back();
                   },
                   child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
-                )
+                ),
               ],
             ),
           ),

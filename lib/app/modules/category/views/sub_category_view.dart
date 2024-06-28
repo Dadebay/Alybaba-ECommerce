@@ -1,9 +1,8 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -95,48 +94,12 @@ class _SubCategoryViewState extends State<SubCategoryView> {
   }
 
   TextEditingController textEditingController = TextEditingController();
-  AppBar appBAr(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      toolbarHeight: 80,
-      backgroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      centerTitle: true,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: colorController.findMainColor.value == 0
-            ? kPrimaryColor
-            : colorController.findMainColor.value == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
-      ),
-      leadingWidth: 0.0,
-      titleSpacing: 0.0,
-      shadowColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      foregroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      scrolledUnderElevation: 0.0,
-      title: Container(
-        width: Get.size.width,
-        child: searchField(textEditingController, context),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: appBAr(context),
+      appBar: CustomAppBar(backArrow: true, actionIcon: false, name: widget.categoryName),
       body: Column(
         children: [
           Container(

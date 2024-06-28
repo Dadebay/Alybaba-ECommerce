@@ -13,8 +13,8 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/views/locations.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/profile_settings.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
 
-import '../../../constants/constants.dart';
 import '../../../constants/buttons/user_profil_icon_button.dart';
+import '../../../constants/constants.dart';
 import 'about_us.dart';
 import 'settings.dart';
 
@@ -73,7 +73,7 @@ Container thirdPart({required bool userLogin}) {
 Container fourthPart(bool userLogin) {
   return Container(
     padding: const EdgeInsets.all(15),
-    decoration: BoxDecoration(color: Colors.white, border: Border.all(color: backgroundColor)),
+    color: Colors.white,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -88,17 +88,6 @@ Container fourthPart(bool userLogin) {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // UserProfilIconButton(
-            //   icon: IconlyBroken.ticket,
-            //   name: 'referal_Code',
-            //   onTap: () {
-            //     if (userLogin) {
-            //       Get.to(() => ReferalPage());
-            //     } else {
-            //       showSnackBar('loginError', 'loginError1', Colors.red);
-            //     }
-            //   },
-            // ),
             UserProfilIconButton(
               icon: IconlyBroken.document,
               name: 'terms_and_conditions',
@@ -264,7 +253,7 @@ Widget topPart({required File userImage, required String userMoney, required Str
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     ),

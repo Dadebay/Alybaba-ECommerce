@@ -32,11 +32,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        selectedItemColor: colorController.findMainColor.value == 0
-            ? kPrimaryColor
-            : colorController.findMainColor.value == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
+        selectedItemColor: colorController.mainColor,
         useLegacyColorScheme: true,
         selectedLabelStyle: const TextStyle(fontFamily: gilroySemiBold, fontSize: 13),
         unselectedLabelStyle: const TextStyle(fontFamily: gilroyMedium, fontSize: 12),

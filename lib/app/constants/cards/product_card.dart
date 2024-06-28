@@ -3,12 +3,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/add_cart_button.dart';
+import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/modules/category/views/category_view.dart';
 
-import '../widgets.dart';
-import '../buttons/fav_button_view.dart';
 import '../../modules/other_pages/product_profil_view.dart';
+import '../buttons/fav_button_view.dart';
+import '../widgets.dart';
 
 class ProductCard extends StatelessWidget {
   final String image;
@@ -57,6 +58,8 @@ class ProductCard extends StatelessWidget {
         onPressed: () {
           if (historyOrder) {
           } else {
+            Get.to(() => CategoriesView());
+
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
@@ -83,7 +86,7 @@ class ProductCard extends StatelessWidget {
                       id: id,
                       productProfil: false,
                     ),
-                  )
+                  ),
           ],
         ),
       ),
@@ -97,25 +100,22 @@ class ProductCard extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Positioned.fill(
-            child: ClipRRect(
-              borderRadius: borderRadius20,
-              child: CachedNetworkImage(
-                fadeInCurve: Curves.ease,
-                imageUrl: image,
-                imageBuilder: (context, imageProvider) => Container(
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: borderRadius20,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                    ),
+            child: CachedNetworkImage(
+              fadeInCurve: Curves.ease,
+              imageUrl: image,
+              imageBuilder: (context, imageProvider) => Container(
+                width: size.width,
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius15,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => Center(
-                  child: Text('noImage'.tr),
-                ),
+              ),
+              placeholder: (context, url) => Center(child: spinKit()),
+              errorWidget: (context, url, error) => Center(
+                child: Text('noImage'.tr),
               ),
             ),
           ),
@@ -146,7 +146,7 @@ class ProductCard extends StatelessWidget {
                     name: name,
                     image: image,
                   ),
-                )
+                ),
         ],
       ),
     );
