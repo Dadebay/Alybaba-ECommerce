@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
-import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
@@ -34,7 +34,7 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar:  CustomAppBar(
+      appBar: CustomAppBar(
         backArrow: true,
         actionIcon: false,
         name: 'favorites',
@@ -43,7 +43,7 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
         future: products,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return spinKit();
           } else if (snapshot.data.toString() == '[]') {
             return emptyPageImage(lottie: heartLottie, text1: 'emptyFavT', text2: 'emptyFavS');
           } else if (snapshot.hasError) {

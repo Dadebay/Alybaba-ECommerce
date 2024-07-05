@@ -3,10 +3,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/empty_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/models/banner_model.dart';
@@ -38,14 +42,13 @@ class _ConnectionCheckViewState extends State {
     checkConnection();
     cartPageController.returnCartList();
     favPageController.returnFavList();
-    colorController.returnMainColor();
   }
 
   void checkConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result.first.rawAddress.isNotEmpty) {
-        await Future.delayed(const Duration(seconds: 4), () {
+        await Future.delayed(const Duration(seconds: 2), () {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {
@@ -83,11 +86,7 @@ class _ConnectionCheckViewState extends State {
                       'noConnection1'.tr,
                       style: TextStyle(
                         fontSize: 24.0,
-                        color: colorController.findMainColor.value == 0
-                            ? kPrimaryColor
-                            : colorController.findMainColor.value == 1
-                                ? kPrimaryColor1
-                                : kPrimaryColor2,
+                        color: colorController.mainColor,
                         fontFamily: gilroyMedium,
                       ),
                     ),
@@ -111,11 +110,7 @@ class _ConnectionCheckViewState extends State {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: colorController.findMainColor.value == 0
-                            ? kPrimaryColor
-                            : colorController.findMainColor.value == 1
-                                ? kPrimaryColor1
-                                : kPrimaryColor2,
+                        backgroundColor: colorController.mainColor,
                         shape: const RoundedRectangleBorder(
                           borderRadius: borderRadius10,
                         ),
@@ -128,7 +123,7 @@ class _ConnectionCheckViewState extends State {
                     ),
                     const SizedBox(
                       height: 20,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -163,11 +158,7 @@ class _ConnectionCheckViewState extends State {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
+      backgroundColor: colorController.mainColor,
       body: Column(
         children: [
           Expanded(
@@ -175,11 +166,11 @@ class _ConnectionCheckViewState extends State {
               future: BannerService().getBanners(1),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
+                  return spinKit();
                 } else if (snapshot.hasError) {
-                  return const Text('Error');
+                  return referalPageError();
                 } else if (snapshot.data!.isEmpty) {
-                  return const Text('Empty');
+                  return referalPageEmptyData();
                 }
                 final Random rand = Random();
                 final int random = rand.nextInt(snapshot.data!.length);
@@ -194,7 +185,7 @@ class _ConnectionCheckViewState extends State {
                         ),
                       );
                     } else if (snapshot.data![random].pathId == 2) {
-                      await Get.to(() => ShowAllProducts(pageName: 'banner', filter: false, parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
+                      await Get.to(() => ShowAllProducts(pageName: 'banner', parametrs: {'main_category_id': '${snapshot.data![random].itemId}'}));
                     } else if (snapshot.data![random].pathId == 3) {
                       await ProductsService().getProductByID(snapshot.data![random].itemId!).then((value) {
                         Get.to(() => ProductProfilView(name: value.name!, id: value.id!, image: '$serverURL/${value.images!.first}-mini.webp', price: value.price!));
@@ -216,16 +207,14 @@ class _ConnectionCheckViewState extends State {
                         ),
                       ),
                     ),
-                    placeholder: (context, url) => Center(child: spinKit()),
-                    errorWidget: (context, url, error) => Center(
-                      child: noBannerImage(),
-                    ),
+                    placeholder: (context, url) => spinKit(),
+                    errorWidget: (context, url, error) => noBannerImage(),
                   ),
                 );
               },
             ),
           ),
-          const LinearProgressIndicator()
+          const LinearProgressIndicator(),
         ],
       ),
     );

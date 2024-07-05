@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class FCMConfig {
@@ -19,29 +18,19 @@ class FCMConfig {
           channelShowBadge: true,
           locked: true,
           defaultRingtoneType: DefaultRingtoneType.Ringtone,
-        )
+        ),
       ],
       channelGroups: [
         NotificationChannelGroup(
           channelGroupKey: 'basic_channel_group',
           channelGroupName: 'Basic group',
-        )
+        ),
       ],
       debug: false,
     );
   }
 
   Future<void> requestPermission() async {
-    final messaging = FirebaseMessaging.instance;
-    final settings = messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
     await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications();

@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 
+import '../../modules/other_pages/show_all_products.dart';
 import '../constants.dart';
 import '../widgets.dart';
-import '../../modules/other_pages/show_all_products.dart';
 
 class BrandCard extends StatelessWidget {
   final String name;
@@ -15,7 +17,8 @@ class BrandCard extends StatelessWidget {
     required this.name,
     required this.id,
     required this.image,
-    required this.productCount, Key? key,
+    required this.productCount,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -26,7 +29,6 @@ class BrandCard extends StatelessWidget {
           () => ShowAllProducts(
             parametrs: {'producer_id': '$id'},
             pageName: name,
-            filter: false,
           ),
         );
       },
@@ -52,10 +54,8 @@ class BrandCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => Center(child: spinKit()),
-                errorWidget: (context, url, error) => Center(
-                  child: noBannerImage(),
-                ),
+                placeholder: (context, url) => spinKit(),
+                errorWidget: (context, url, error) => noBannerImage(),
               ),
             ),
             Positioned(
@@ -64,12 +64,12 @@ class BrandCard extends StatelessWidget {
               right: 0,
               child: Column(
                 children: [
-                   Divider(
-                    color:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                  Divider(
+                    color: colorController.findMainColor.value == 0
+                        ? kPrimaryColor
+                        : colorController.findMainColor.value == 1
+                            ? kPrimaryColor1
+                            : kPrimaryColor2,
                     thickness: 1,
                     height: 1,
                   ),
@@ -92,7 +92,7 @@ class BrandCard extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

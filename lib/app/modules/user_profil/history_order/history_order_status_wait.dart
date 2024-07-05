@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/data/services/history_order_service.dart';
 
 import '../../../constants/cards/product_card.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
-import '../../../constants/widgets.dart';
 import '../../../data/models/history_orders_model.dart';
 
 class OrderStatusWait extends StatelessWidget {
@@ -86,10 +86,8 @@ class OrderStatusWait extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    placeholder: (context, url) => Center(child: spinKit()),
-                                    errorWidget: (context, url, error) => Center(
-                                      child: Text('noImage'.tr),
-                                    ),
+                                    placeholder: (context, url) => spinKit(),
+                                    errorWidget: (context, url, error) => noBannerImage(),
                                   ),
                                 ),
                               );
@@ -105,7 +103,7 @@ class OrderStatusWait extends StatelessWidget {
                           bottomPart1('status', snapshot.data![index].statusText!),
                           bottomPart1('sum', '${snapshot.data![index].total.toString().substring(0, snapshot.data![index].total!.length - 3)} TMT'),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -165,7 +163,7 @@ class OrderStatusWait extends StatelessWidget {
             color: Colors.black,
             size: 25,
           ),
-        )
+        ),
       ],
     );
   }

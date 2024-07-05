@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-
 import 'package:get/get.dart';
 
 import '../../../constants/constants.dart';
-
 import '../../home/controllers/color_controller.dart';
 import 'log_in_view.dart';
 import 'sign_in_view.dart';
@@ -86,7 +84,7 @@ class AuthView extends StatelessWidget {
                             ),
                             Tab(
                               text: 'login'.tr,
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -94,7 +92,7 @@ class AuthView extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: TabBarView(
-                        children: [SignInView(), LogInView()],
+                        children: [SignInView(), LoginPageView()],
                       ),
                     ),
                   ],

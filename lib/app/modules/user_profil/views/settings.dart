@@ -1,15 +1,17 @@
 // ignore_for_file: file_names, deprecated_member_use
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/change_color_button.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/change_lang_button.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants/buttons/settings_button.dart';
 import '../../../constants/constants.dart';
-import '../../../constants/widgets.dart';
 import '../../home/controllers/color_controller.dart';
 
 class Settings extends StatefulWidget {
@@ -71,8 +73,7 @@ class _SettingsState extends State<Settings> {
           SettingButton(
             name: 'appColor',
             onTap: () {
-              changeColor(context);
-              setState(() {});
+              changeColor();
             },
             icon: Container(
               width: 35,
@@ -120,5 +121,84 @@ class _SettingsState extends State<Settings> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void changeLanguage() {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.only(bottom: 20),
+        decoration: const BoxDecoration(color: Colors.white),
+        child: Wrap(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15, right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox.shrink(),
+                  Text(
+                    'select_language'.tr,
+                    style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 20),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+            ChangeLangButton(index: 0),
+            ChangeLangButton(index: 1),
+            ChangeLangButton(index: 2),
+          ],
+        ),
+      ),
+    );
+  }
+
+  dynamic changeColor() {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.only(bottom: 20),
+        decoration: const BoxDecoration(color: Colors.white),
+        child: Wrap(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 5,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox.shrink(),
+                  Text(
+                    'appColor1'.tr,
+                    style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+            ChangeColorButton(
+              index: 0,
+            ),
+            ChangeColorButton(
+              index: 1,
+            ),
+            ChangeColorButton(
+              index: 2,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

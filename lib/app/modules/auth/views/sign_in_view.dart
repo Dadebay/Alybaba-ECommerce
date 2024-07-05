@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
+import '../../../constants/buttons/agree_button_view.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/text_fields/custom_text_field.dart';
 import '../../../constants/text_fields/phone_number.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/sign_in_service.dart';
-import '../../../constants/buttons/agree_button_view.dart';
 import 'otp_check.dart';
 
+// ignore: must_be_immutable
 class SignInView extends GetView {
   TextEditingController fullNameController = TextEditingController();
   FocusNode fullNameFocusNode = FocusNode();
@@ -77,18 +77,6 @@ class SignInView extends GetView {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 10),
-            //   child: CustomTextField(
-            //     labelName: 'referalKod',
-            //     controller: referalCodeController,
-            //     focusNode: referalCodeFocusNode,
-            //     requestfocusNode: fullNameFocusNode,
-            //     borderRadius: true,
-            //     isNumber: false,
-            //     unFocus: true,
-            //   ),
-            // ),
             const SizedBox(
               height: 10,
             ),
@@ -122,7 +110,7 @@ class SignInView extends GetView {
                   }
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -40,7 +40,7 @@ class UserProfilIconButton extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontFamily: gilroyMedium, color: Colors.grey),
                 ),
-              )
+              ),
             ],
           ),
         ),

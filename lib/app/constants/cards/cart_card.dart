@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/add_cart_button.dart';
+import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
 import 'package:nabelli_ecommerce/app/modules/other_pages/product_profil_view.dart';
 
@@ -69,10 +71,8 @@ class CardCart extends StatelessWidget {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => Center(child: spinKit()),
-                  errorWidget: (context, url, error) => Center(
-                    child: Text('noImage'.tr),
-                  ),
+                  placeholder: (context, url) => spinKit(),
+                  errorWidget: (context, url, error) => noBannerImage(),
                 ),
               ),
             ),
@@ -111,7 +111,7 @@ class CardCart extends StatelessWidget {
                               size: 30,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     Row(
@@ -153,7 +153,7 @@ class CardCart extends StatelessWidget {
                     AddCartButton(
                       id: id,
                       productProfil: false,
-                    )
+                    ),
                   ],
                 ),
               ),

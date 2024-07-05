@@ -37,11 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
       scrolledUnderElevation: 0.0,
       centerTitle: true,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: colorController.findMainColor.value == 0
-            ? kPrimaryColor
-            : colorController.findMainColor.value == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
+        statusBarColor: colorController.mainColor,
       ),
       leadingWidth: 40,
       leading: backArrow
@@ -57,7 +53,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
                   size: 22,
                 ),
                 onPressed: () {
-                  Get.back();
+                  Navigator.of(context).pop();
                 },
               ),
             )
@@ -72,11 +68,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSize {
           SizedBox.shrink(),
       ],
       automaticallyImplyLeading: false,
-      backgroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
+      backgroundColor: colorController.mainColor,
       title: Text(
         name.tr,
         maxLines: 1,

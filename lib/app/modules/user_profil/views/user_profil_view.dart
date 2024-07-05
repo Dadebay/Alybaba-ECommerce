@@ -1,18 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/modules/user_profil/views/profile_settings.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/profile_button.dart';
+import 'package:nabelli_ecommerce/app/constants/widgets.dart';
+import 'package:nabelli_ecommerce/app/modules/auth/views/auth_view.dart';
+import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/history_order/history_order_status_wait.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/views/about_us.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/views/favorites_page_view.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/views/locations.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/views/settings.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/views/terms_and_conditions_page.dart';
 
-import '../../../constants/widgets.dart';
-import '../../../data/models/aboust_us_model.dart';
-import '../../../data/services/abous_us_service.dart';
 import '../../home/controllers/color_controller.dart';
 import '../controllers/user_profil_controller.dart';
-import 'local_widgets.dart';
 
 class UserProfilView extends StatefulWidget {
   const UserProfilView({Key? key}) : super(key: key);
@@ -27,192 +29,74 @@ class _UserProfilViewState extends State<UserProfilView> {
   final UserProfilController userProfilController = Get.put(UserProfilController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      appBar: appBar(),
-      body: Obx(() {
-        return ListView(
-          children: [
-            userProfilController.userLogin.value ? userImageField() : const SizedBox.shrink(),
-            thirdPart(userLogin: userProfilController.userLogin.value),
-            secondPart(userProfilController.userLogin.value),
-            fourthPart(userProfilController.userLogin.value),
-          ],
-        );
-      }),
-    );
-  }
-
-  GestureDetector userImageField() {
-    return GestureDetector(
-      onTap: () {
-        Get.to(
-          () => const ProfileSettings(),
-        );
-      },
-      child: Container(
-        height: 150,
-        margin: const EdgeInsets.only(bottom: 15),
-        color: Colors.white,
-        padding: const EdgeInsets.only(top: 10, left: 10),
-        width: Get.size.width,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              margin: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey.shade200, width: 3),
-                boxShadow: const [BoxShadow(color: backgroundColor, blurRadius: 8, spreadRadius: 8)],
-              ),
-              child: ClipOval(
-                child: userProfilController.userImage.path == ''
-                    ? const Icon(
-                        Icons.info_outline,
-                        color: Colors.black,
-                      )
-                    : Image.file(
-                        userProfilController.userImage,
-                        fit: BoxFit.cover,
-                      ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  userProfilController.userName.value,
-                  style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8, top: 8),
-                  child: Row(
-                    children: [
-                      const Icon(
-                        IconlyBroken.wallet,
-                        size: 28,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            ' - ${userProfilController.userMoney.value}',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 19,
-                              fontFamily: gilroySemiBold,
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 6),
-                            child: Text(
-                              ' TMT',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                                fontFamily: gilroySemiBold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+    return Obx(() {
+      return ListView(
+        children: [
+          ProfilButton(
+            name: 'orders',
+            onTap: () {
+              if (userProfilController.userLogin.value) {
+                Get.to(
+                  () => const OrderStatusWait(
+                    whichStatus: 1,
                   ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  AppBar appBar() {
-    return AppBar(
-      title: Text('profil'.tr),
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: colorController.findMainColor.value == 0
-            ? kPrimaryColor
-            : colorController.findMainColor.value == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
-      ),
-      elevation: 0,
-      leading: IconButton(
-        onPressed: () {
-          defaultBottomSheet(
-            child: FutureBuilder<AboutUsModel>(
-              future: AboutUsService().getAboutUs(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Center(child: spinKit()),
-                  );
-                } else if (snapshot.data == null) {
-                  return const Text('Empty');
-                } else if (snapshot.hasError) {
-                  return const Text('Error');
-                }
-                return Wrap(
-                  children: [
-                    ListTile(
-                      onTap: () {
-                        launchUrlString('tel://8-${snapshot.data!.phone1!}');
-                      },
-                      title: Text(
-                        '+993-${snapshot.data!.phone1!}',
-                        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
-                      ),
-                      trailing: const Icon(
-                        IconlyBroken.arrowRightCircle,
-                        color: Colors.black,
-                      ),
-                    ),
-                    ListTile(
-                      onTap: () {
-                        launchUrlString('tel://8-${snapshot.data!.phone2!}');
-                      },
-                      title: Text(
-                        '+993-${snapshot.data!.phone2!}',
-                        style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
-                      ),
-                      trailing: const Icon(
-                        IconlyBroken.arrowRightCircle,
-                        color: Colors.black,
-                      ),
-                    )
-                  ],
                 );
-              },
-            ),
-            name: 'callNumber'.tr,
-          );
-        },
-        icon: const Icon(
-          IconlyBroken.call,
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: colorController.findMainColor.value == 0
-          ? kPrimaryColor
-          : colorController.findMainColor.value == 1
-              ? kPrimaryColor1
-              : kPrimaryColor2,
-      automaticallyImplyLeading: false,
-      titleTextStyle: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 24),
-      centerTitle: true,
-    );
+              } else {
+                showSnackBar('loginError', 'loginError1', Colors.red);
+              }
+            },
+            icon: CupertinoIcons.cube_box,
+          ),
+          ProfilButton(
+            name: 'favorites',
+            onTap: () {
+              Get.to(() => const FavoritesPageView());
+            },
+            icon: IconlyBroken.heart,
+          ),
+          ProfilButton(
+            name: 'locations',
+            onTap: () {
+              Get.to(() => const Locations());
+            },
+            icon: IconlyBroken.location,
+          ),
+          divider2(),
+
+          ProfilButton(
+            name: 'settings',
+            onTap: () {
+              Get.to(() => const Settings());
+            },
+            icon: IconlyBroken.setting,
+          ),
+
+          divider2(),
+          ProfilButton(
+            name: 'aboutUs',
+            onTap: () {
+              Get.to(() => const AboutUs());
+            },
+            icon: CupertinoIcons.chat_bubble_2,
+          ),
+          //
+          ProfilButton(
+            name: 'terms_and_conditions',
+            onTap: () {
+              Get.to(() => const TermsAndConditions());
+            },
+            icon: IconlyBroken.document,
+          ),
+          ProfilButton(
+            icon: userProfilController.userLogin.value ? IconlyBroken.logout : IconlyBroken.login,
+            name: userProfilController.userLogin.value ? 'log_out' : 'login',
+            onTap: () {
+              Get.find<HomeController>().agreeButton.value = false;
+              userProfilController.userLogin.value ? logOut() : Get.to(() => AuthView());
+            },
+          ),
+        ],
+      );
+    });
   }
 }

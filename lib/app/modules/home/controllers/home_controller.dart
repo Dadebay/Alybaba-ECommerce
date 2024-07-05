@@ -1,20 +1,12 @@
 import 'dart:ui';
 
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../data/models/banner_model.dart';
-import '../../../data/models/category_model.dart';
-import '../../../data/models/producer_model.dart';
 import '../../../data/models/product_model.dart';
-import '../../../data/models/video_model.dart';
 import '../../../data/services/banner_service.dart';
-import '../../../data/services/category_service.dart';
-import '../../../data/services/producers_service.dart';
 import '../../../data/services/product_service.dart';
-import '../../../data/services/video_services.dart';
 
 class HomeController extends GetxController {
   RxInt bannerDotsIndex = 0.obs;
@@ -23,35 +15,35 @@ class HomeController extends GetxController {
   RxInt loading = 0.obs;
   RxInt page = 0.obs;
   RxList showAllList = [].obs;
-  late Future<List<CategoryModel>> category;
-  late Future<List<ProducersModel>> producer;
+
   late Future<List<BannerModel>> bannersFuture;
   late Future<List<BannerModel>> minibannerFuture;
-  late Future<List<ProductModel>> productsFuture;
+  late Future<List<ProductModel>> newItemsProducts;
+  List parameters = [
+    {'new_in_come': 'true', 'page': '0', 'limit': '15', 'sort_column': 'created_at', 'sort_direction': 'DESC'},
+    {'recomended': 'true', 'page': '0', 'limit': '15', 'sort_column': 'random', 'sort_direction': 'ASC'},
+    {'on_hand': 'true', 'page': '0', 'limit': '15', 'sort_column': 'random', 'sort_direction': 'ASC'},
+  ];
+
+  //
   late Future<List<ProductModel>> productsFutureInOurHands;
   late Future<List<ProductModel>> productsFutureRecomended;
-  late Future<List<VideosModel>> videosFuture;
   dynamic getData() {
     minibannerFuture = BannerService().getBanners(3);
     bannersFuture = BannerService().getBanners(2);
-    productsFuture = ProductsService().getProducts(parametrs: {'new_in_come': 'true', 'sort_column': 'created_at', 'sort_direction': 'DESC'});
+    newItemsProducts = ProductsService().getProducts(parametrs: parameters[0]);
+    productsFutureRecomended = ProductsService().getProducts(parametrs: parameters[1]);
     productsFutureInOurHands = ProductsService().getProducts(
-      parametrs: {'on_hand': 'true', 'limit': '20', 'page': '0', 'sort_column': 'random', 'sort_direction': 'ASC'},
+      parametrs: parameters[2],
     );
-    productsFutureRecomended = ProductsService().getProducts(parametrs: {'recomended': 'true', 'sort_column': 'random', 'sort_direction': 'ASC'});
-    videosFuture = VideosService().getVideos();
   }
 
   @override
   void onInit() {
     super.onInit();
-    category = CategoryService().getCategories();
-    producer = ProducersService().getProducers();
     getData();
   }
 
-  late VideoPlayerController controller;
-  late FlickManager flickManager;
   final storage = GetStorage();
 
   var tm = const Locale(

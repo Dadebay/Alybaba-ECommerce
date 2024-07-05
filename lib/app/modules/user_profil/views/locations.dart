@@ -74,13 +74,9 @@ class _LocationsState extends State<Locations> {
                           minLeadingWidth: 15.0,
                           leading: Container(
                             padding: const EdgeInsets.all(10),
-                            decoration:  BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                              color: colorController.mainColor,
                             ),
                             child: Text(
                               '${index + 1}',
@@ -155,11 +151,7 @@ class _LocationsState extends State<Locations> {
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: borderRadius10,
                                 ),
-                                backgroundColor:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                                backgroundColor: colorController.mainColor,
                               ),
                               child: Text(
                                 'add'.tr,
@@ -188,18 +180,14 @@ class _LocationsState extends State<Locations> {
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+              backgroundColor: colorController.mainColor,
               shape: const RoundedRectangleBorder(borderRadius: borderRadius10),
             ),
             child: Row(

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
+import '../../../constants/buttons/agree_button_view.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/text_fields/phone_number.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/sign_in_service.dart';
-import '../../../constants/buttons/agree_button_view.dart';
 import 'otp_check.dart';
 
-class LogInView extends GetView {
+// ignore: must_be_immutable
+class LoginPageView extends GetView {
   TextEditingController phoneNumberController = TextEditingController();
   FocusNode phoneNumberFocusNode = FocusNode();
   final login = GlobalKey<FormState>();
   final HomeController homeController = Get.put(HomeController());
 
-  LogInView({Key? key}) : super(key: key);
+  LoginPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -6,10 +6,10 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
+import '../../../constants/buttons/agree_button_view.dart';
 import '../../../constants/text_fields/custom_text_field.dart';
 import '../../../constants/widgets.dart';
 import '../../../data/services/sign_in_service.dart';
-import '../../../constants/buttons/agree_button_view.dart';
 import '../../user_profil/controllers/user_profil_controller.dart';
 import 'connection_check_view.dart';
 
@@ -57,16 +57,17 @@ class OtpCheck extends StatelessWidget {
               ),
             ),
             Form(
-                key: otpCheck,
-                child: CustomTextField(
-                  labelName: 'otp',
-                  controller: otpController,
-                  focusNode: otpFocusNode,
-                  requestfocusNode: otpFocusNode,
-                  borderRadius: true,
-                  isNumber: true,
-                  unFocus: true,
-                )),
+              key: otpCheck,
+              child: CustomTextField(
+                labelName: 'otp',
+                controller: otpController,
+                focusNode: otpFocusNode,
+                requestfocusNode: otpFocusNode,
+                borderRadius: true,
+                isNumber: true,
+                unFocus: true,
+              ),
+            ),
             const SizedBox(
               height: 15,
             ),
@@ -111,7 +112,7 @@ class OtpCheck extends StatelessWidget {
                   }
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

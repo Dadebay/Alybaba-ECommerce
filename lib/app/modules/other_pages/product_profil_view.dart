@@ -1,17 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 import 'package:nabelli_ecommerce/app/modules/other_pages/local_widget_other_page.dart';
-import 'package:nabelli_ecommerce/app/modules/other_pages/photo_view_page.dart';
 import 'package:share/share.dart';
 
-import '../../constants/buttons/add_cart_button.dart';
 import '../../constants/constants.dart';
 import '../../constants/errors/empty_widgets.dart';
 import '../../constants/errors/error_widgets.dart';
@@ -44,7 +40,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
     getData();
   }
 
-  getData() {
+  dynamic getData() {
     productProfil = ProductsService().getProductByID(widget.id).then((value) {
       ProductsService().getProducts(parametrs: {'main_category_id': value.mainCategoryId.toString(), 'page': '1', 'limit': '15', 'sort_column': 'random', 'sort_direction': 'ASC'}).then((value) {
         sameProductsList = value;
@@ -83,11 +79,11 @@ class _ProductProfilViewState extends State<ProductProfilView> {
         future: productProfil,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(color: Colors.white, child: Center(child: spinKit()));
+            return Container(color: Colors.white, child: spinKit());
           } else if (snapshot.data == null) {
-            return Container(color: Colors.red, child: Center(child: referalPageEmptyData()));
+            return Container(color: Colors.red, child: referalPageEmptyData());
           } else if (snapshot.hasError) {
-            return Container(color: Colors.amber, child: Center(child: referalPageError()));
+            return Container(color: Colors.amber, child: referalPageError());
           }
           final List images = snapshot.data!.images ?? [];
           return Column(
@@ -96,52 +92,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                 child: ListView(
                   shrinkWrap: true,
                   children: [
-                    Container(
-                      color: Colors.white,
-                      height: Get.size.height / 2.5,
-                      margin: const EdgeInsets.only(bottom: 15),
-                      child: images.isEmpty
-                          ? noBannerImage()
-                          : CarouselSlider.builder(
-                              itemCount: images.length,
-                              itemBuilder: (context, index, count) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => PhotoViewPageMoreImage(
-                                        images: images,
-                                      ),
-                                    );
-                                  },
-                                  child: CachedNetworkImage(
-                                    fadeInCurve: Curves.ease,
-                                    imageUrl: "$serverURL/${images[index]['destination']}-big.webp",
-                                    imageBuilder: (context, imageProvider) => Container(
-                                      width: Get.size.width,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    placeholder: (context, url) => spinKit(),
-                                    errorWidget: (context, url, error) => noBannerImage(),
-                                  ),
-                                );
-                              },
-                              options: CarouselOptions(
-                                onPageChanged: (index, CarouselPageChangedReason a) {},
-                                viewportFraction: 1.0,
-                                autoPlay: true,
-                                height: Get.size.height,
-                                aspectRatio: 4 / 2,
-                                scrollPhysics: const BouncingScrollPhysics(),
-                                autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                                autoPlayAnimationDuration: const Duration(milliseconds: 2000),
-                              ),
-                            ),
-                    ),
+                    imagesView(images),
                     productProfilNamePricePart(name: snapshot.data!.name!, kargoIncluded: snapshot.data!.kargoIncluded!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
                     productProfildescriptionPart(
                       brand: snapshot.data!.producerName!,
@@ -185,7 +136,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   ],
                 ),
               ),
-              addCartButtonPart(),
+              addCartButtonPart(price: widget.price, id: widget.id),
             ],
           );
         },
@@ -228,11 +179,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                           color: Color(int.parse(codeII)),
                           borderRadius: borderRadius15,
                           border: Border.all(
-                            color: colorController.findMainColor.value == 0
-                                ? kPrimaryColor
-                                : colorController.findMainColor.value == 1
-                                    ? kPrimaryColor1
-                                    : kPrimaryColor2,
+                            color: colorController.mainColor,
                             width: selectedColor == index ? 4 : 0,
                           ),
                         ),
@@ -281,13 +228,7 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   decoration: BoxDecoration(
                     borderRadius: borderRadius15,
                     border: Border.all(
-                      color: selectedSize == index
-                          ? colorController.findMainColor.value == 0
-                              ? kPrimaryColor
-                              : colorController.findMainColor.value == 1
-                                  ? kPrimaryColor1
-                                  : kPrimaryColor2
-                          : Colors.grey.withOpacity(0.8),
+                      color: selectedSize == index ? colorController.mainColor : Colors.grey.withOpacity(0.8),
                       width: selectedSize == index ? 3 : 1,
                     ),
                   ),
@@ -308,75 +249,4 @@ class _ProductProfilViewState extends State<ProductProfilView> {
 
   bool addCart = false;
   int quantity = 1;
-  Container addCartButtonPart() {
-    return Container(
-      color: kBlackColor,
-      height: 80,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'price'.tr,
-                style: TextStyle(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
-                  fontFamily: gilroyRegular,
-                  fontSize: 16,
-                ),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.price,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: gilroyBold,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 4, right: 6),
-                    child: Text(
-                      ' TMT',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: gilroyBold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Expanded(
-            flex: 1,
-            child: SizedBox.shrink(),
-          ),
-          Expanded(
-            flex: 4,
-            child: AddCartButton(
-              id: widget.id,
-              productProfil: true,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

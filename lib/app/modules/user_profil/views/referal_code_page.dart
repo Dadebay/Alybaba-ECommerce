@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/data/services/referal_service.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
@@ -48,7 +49,7 @@ class ReferalPage extends StatelessWidget {
               future: ReferalService().getReferrals(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
+                  return spinKit();
                 } else if (snapshot.hasError) {
                   return referalPageError();
                 } else if (snapshot.data.toString() == '[]') {
@@ -99,11 +100,7 @@ class ReferalPage extends StatelessWidget {
                       '${userProfilController.referalCodeSum.value} TMT',
                       textAlign: TextAlign.end,
                       style: TextStyle(
-                        color: colorController.findMainColor.value == 0
-                            ? kPrimaryColor
-                            : colorController.findMainColor.value == 1
-                                ? kPrimaryColor1
-                                : kPrimaryColor2,
+                        color: colorController.mainColor,
                         fontFamily: gilroySemiBold,
                         fontSize: 22,
                       ),
@@ -112,7 +109,7 @@ class ReferalPage extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -135,14 +132,10 @@ class ReferalPage extends StatelessWidget {
             },
             icon: Icon(
               Icons.copy,
-              color: colorController.findMainColor.value == 0
-                  ? kPrimaryColor
-                  : colorController.findMainColor.value == 1
-                      ? kPrimaryColor1
-                      : kPrimaryColor2,
+              color: colorController.mainColor,
               size: 20,
             ),
-          )
+          ),
         ],
       ),
     );

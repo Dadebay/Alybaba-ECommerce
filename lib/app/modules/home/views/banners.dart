@@ -5,7 +5,6 @@ import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/modules/home/controllers/home_controller.dart';
 
 import '../../../constants/cards/banner_card.dart';
-import '../../../constants/constants.dart';
 import '../../../constants/errors/empty_widgets.dart';
 import '../../../constants/errors/error_widgets.dart';
 import '../../../data/models/banner_model.dart';
@@ -13,23 +12,27 @@ import '../controllers/color_controller.dart';
 
 class Banners extends StatelessWidget {
   final Future<List<BannerModel>> future;
+  final bool miniBanner;
   Banners({
     required this.future,
+    required this.miniBanner,
     Key? key,
   }) : super(key: key);
-  final HomeController controller = Get.put(HomeController());
+  final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final bool sizeValue = size.width >= 800 ? true : false;
+
     return FutureBuilder<List<BannerModel>>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return bannerLoader();
+          return miniBanner ? miniBannerLoader() : bannerLoader();
         } else if (snapshot.hasError) {
-          return bannerErrorWidget();
+          return miniBanner ? miniBannerErrorWidget() : bannerErrorWidget();
         } else if (snapshot.data.toString() == '[]') {
-          return bannerEmptyWidget();
+          return miniBanner ? miniBannerEmptyWidget() : bannerEmptyWidget();
         }
         return Column(
           children: [
@@ -37,33 +40,38 @@ class Banners extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index, count) {
                 return BannerCard(
+                  miniBanner: false,
                   model: snapshot.data![index],
                 );
               },
               options: CarouselOptions(
                 onPageChanged: (index, CarouselPageChangedReason a) {
-                  controller.bannerDotsIndex.value = index;
+                  homeController.bannerDotsIndex.value = index;
                 },
-                height: size.width >= 800 ? 420 : 220,
-                viewportFraction: 1.0,
+                height: sizeValue
+                    ? miniBanner
+                        ? 300
+                        : 420
+                    : miniBanner
+                        ? 170
+                        : 220,
+                viewportFraction: miniBanner ? 0.65 : 1.0,
                 autoPlay: true,
                 scrollPhysics: const BouncingScrollPhysics(),
                 autoPlayCurve: Curves.fastLinearToSlowEaseIn,
                 autoPlayAnimationDuration: const Duration(milliseconds: 2000),
               ),
             ),
-            dots(snapshot, size)
+            miniBanner ? SizedBox.shrink() : dots(sizeValue, snapshot),
           ],
         );
       },
     );
   }
 
-  final ColorController colorController = Get.put(ColorController());
-
-  SizedBox dots(AsyncSnapshot<List<BannerModel>> snapshot, Size size) {
+  SizedBox dots(bool sizeValue, AsyncSnapshot<List<BannerModel>> snapshot) {
     return SizedBox(
-      height: size.width >= 800 ? 40 : 20,
+      height: sizeValue ? 40 : 20,
       width: Get.size.width,
       child: Center(
         child: ListView.builder(
@@ -73,33 +81,29 @@ class Banners extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Obx(() {
               return AnimatedContainer(
-                margin: EdgeInsets.symmetric(horizontal: size.width >= 800 ? 8 : 4),
+                margin: EdgeInsets.symmetric(horizontal: sizeValue ? 8 : 4),
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.decelerate,
-                height: controller.bannerDotsIndex.value == index
-                    ? size.width >= 800
+                height: homeController.bannerDotsIndex.value == index
+                    ? sizeValue
                         ? 22
                         : 16
-                    : size.width >= 800
+                    : sizeValue
                         ? 16
                         : 10,
-                width: controller.bannerDotsIndex.value == index
-                    ? size.width >= 800
+                width: homeController.bannerDotsIndex.value == index
+                    ? sizeValue
                         ? 21
                         : 15
-                    : size.width >= 800
+                    : sizeValue
                         ? 16
                         : 10,
                 decoration: BoxDecoration(
-                  color: controller.bannerDotsIndex.value == index ? Colors.transparent : Colors.grey,
+                  color: homeController.bannerDotsIndex.value == index ? Colors.transparent : Colors.grey,
                   shape: BoxShape.circle,
-                  border: controller.bannerDotsIndex.value == index
+                  border: homeController.bannerDotsIndex.value == index
                       ? Border.all(
-                          color: colorController.findMainColor.value == 0
-                              ? kPrimaryColor
-                              : colorController.findMainColor.value == 1
-                                  ? kPrimaryColor1
-                                  : kPrimaryColor2,
+                          color: colorController.mainColor,
                           width: 3,
                         )
                       : Border.all(color: Colors.white),
@@ -111,4 +115,6 @@ class Banners extends StatelessWidget {
       ),
     );
   }
+
+  final ColorController colorController = Get.put(ColorController());
 }

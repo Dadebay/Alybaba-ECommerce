@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 
 class BannerProfileView extends GetView {
@@ -37,18 +38,21 @@ class BannerProfileView extends GetView {
             color: Colors.black,
           ),
         ),
-        backgroundColor:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+        backgroundColor: colorController.findMainColor.value == 0
+            ? kPrimaryColor
+            : colorController.findMainColor.value == 1
+                ? kPrimaryColor1
+                : kPrimaryColor2,
         elevation: 0,
         centerTitle: true,
-        systemOverlayStyle:  SystemUiOverlayStyle(statusBarColor:  colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2, statusBarIconBrightness: Brightness.dark,),
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: colorController.findMainColor.value == 0
+              ? kPrimaryColor
+              : colorController.findMainColor.value == 1
+                  ? kPrimaryColor1
+                  : kPrimaryColor2,
+          statusBarIconBrightness: Brightness.dark,
+        ),
       ),
       body: Column(
         children: [
@@ -65,7 +69,7 @@ class BannerProfileView extends GetView {
                 ),
               ),
             ),
-            placeholder: (context, url) => Center(child: spinKit()),
+            placeholder: (context, url) => spinKit(),
             errorWidget: (context, url, error) => noBannerImage(),
           ),
           Padding(
@@ -74,7 +78,7 @@ class BannerProfileView extends GetView {
               description,
               style: const TextStyle(fontSize: 20, fontFamily: gilroyMedium),
             ),
-          )
+          ),
         ],
       ),
     );

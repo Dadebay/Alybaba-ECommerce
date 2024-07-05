@@ -179,7 +179,7 @@ class MyTranslations extends Translations {
           'sortCreatedAtHighToLow': 'Ilki Täzeler',
           'sortCreatedAtLowToHigh': 'Ilki Köneler',
           'sortDefault': 'Adaty',
-          'sortPriceHighToLow': 'Ilki Arzanlan',
+          'sortPriceHighToLow': 'Ilki Arzanlar',
           'sortPriceLowToHigh': 'Ilki Gymmatlar',
           'sortViewsASC': 'Köp görülenler',
           'sortViewsDESC': 'Az görülenler',

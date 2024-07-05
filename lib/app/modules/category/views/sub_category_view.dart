@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -148,15 +149,11 @@ class _SubCategoryViewState extends State<SubCategoryView> {
               enablePullUp: true,
               physics: const BouncingScrollPhysics(),
               header: MaterialClassicHeader(
-                color: colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                color: colorController.mainColor,
               ),
               child: Obx(() {
                 if (homeController.loading.value == 0) {
-                  return Center(child: spinKit());
+                  return spinKit();
                 } else if (homeController.loading.value == 1) {
                   return referalPageError();
                 } else if (homeController.loading.value == 2) {

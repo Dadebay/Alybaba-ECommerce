@@ -51,7 +51,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int colorCode = 0;
   final ColorController colorController = Get.put(ColorController());
   final storage = GetStorage();
 
@@ -70,8 +69,7 @@ class _MyAppState extends State<MyApp> {
     final a = await storage.read('mainColor');
     if (a != null) {
       final String a = await storage.read('mainColor').toString();
-      colorCode = int.parse(a.toString());
-      colorController.findMainColor.value = colorCode;
+      colorController.findMainColor.value = int.parse(a.toString());
       colorController.getMainColor();
       setState(() {});
     }

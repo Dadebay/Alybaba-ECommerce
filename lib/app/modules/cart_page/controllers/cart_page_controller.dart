@@ -42,7 +42,7 @@ class CartPageController extends GetxController {
           'quantity': element['quantity'],
           'sizeID': element['sizeID'],
           'colorID': element['colorID'],
-          'airplane': element['airplane']
+          'airplane': element['airplane'],
         });
       }
     }

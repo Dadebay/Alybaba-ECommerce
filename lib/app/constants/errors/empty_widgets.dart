@@ -6,62 +6,68 @@ import '../constants.dart';
 
 dynamic bannerEmptyWidget() {
   return Container(
-      margin: const EdgeInsets.all(8),
-      height: 220,
-      width: Get.size.width,
-      decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.2)),
-      child: Center(
-          child: Text(
+    margin: const EdgeInsets.all(8),
+    height: 220,
+    width: Get.size.width,
+    decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.2)),
+    child: Center(
+      child: Text(
         'noData1'.tr,
         textAlign: TextAlign.center,
         style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-      ),),);
+      ),
+    ),
+  );
 }
 
 dynamic miniBannerEmptyWidget() {
   return Container(
-      margin: const EdgeInsets.only(top: 14, left: 8, right: 8, bottom: 8),
-      height: 140,
-      width: Get.size.width,
-      decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.2)),
-      child: Center(
-          child: Text(
+    margin: const EdgeInsets.only(top: 14, left: 8, right: 8, bottom: 8),
+    height: 140,
+    width: Get.size.width,
+    decoration: BoxDecoration(borderRadius: borderRadius15, color: Colors.grey.withOpacity(0.2)),
+    child: Center(
+      child: Text(
         'noData1'.tr,
         textAlign: TextAlign.center,
         style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-      ),),);
+      ),
+    ),
+  );
 }
 
 dynamic referalPageEmptyData() {
   return Center(
-      child: Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Lottie.asset(noData),
-      Text(
-        'noData1'.tr,
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
-      )
-    ],
-  ),);
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(noData),
+        Text(
+          'noData1'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+        ),
+      ],
+    ),
+  );
 }
 
 dynamic orderPageEmpty() {
   return Center(
-      child: Column(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Lottie.asset(noData),
-      Text(
-        'noHistoryOrders'.tr,
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
-      )
-    ],
-  ),);
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Lottie.asset(noData),
+        Text(
+          'noHistoryOrders'.tr,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.black, fontSize: 20, fontFamily: gilroyMedium),
+        ),
+      ],
+    ),
+  );
 }
 
 dynamic emptyCart() {
@@ -85,7 +91,7 @@ dynamic emptyCart() {
         ),
         const SizedBox(
           height: 125,
-        )
+        ),
       ],
     ),
   );

@@ -14,7 +14,7 @@ class PhoneNumber extends StatelessWidget {
   final bool style;
   final bool? disabled;
   final bool unFocus;
-  PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, this.disabled, required this.unFocus});
+  PhoneNumber({required this.mineFocus, required this.controller, required this.requestFocus, required this.style, required this.unFocus, this.disabled});
   final ColorController colorController = Get.put(ColorController());
 
   @override

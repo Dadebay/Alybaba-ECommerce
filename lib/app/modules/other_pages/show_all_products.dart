@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
-import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
+import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../constants/errors/empty_widgets.dart';
@@ -15,12 +17,10 @@ import '../home/controllers/home_controller.dart';
 class ShowAllProducts extends StatefulWidget {
   const ShowAllProducts({
     required this.pageName,
-    required this.filter,
     required this.parametrs,
     Key? key,
   }) : super(key: key);
 
-  final bool filter;
   final String pageName;
   final Map<String, String> parametrs;
 
@@ -69,11 +69,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
               Expanded(
                 child: TextFormField(
                   style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
-                  cursorColor: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  cursorColor: colorController.mainColor,
                   controller: controller1,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -93,11 +89,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: borderRadius15,
                       borderSide: BorderSide(
-                        color: colorController.findMainColor.value == 0
-                            ? kPrimaryColor
-                            : colorController.findMainColor.value == 1
-                                ? kPrimaryColor1
-                                : kPrimaryColor2,
+                        color: colorController.mainColor,
                         width: 2,
                       ),
                     ),
@@ -117,11 +109,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
               Expanded(
                 child: TextFormField(
                   style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
-                  cursorColor: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  cursorColor: colorController.mainColor,
                   controller: controller2,
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -141,11 +129,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: borderRadius15,
                       borderSide: BorderSide(
-                        color: colorController.findMainColor.value == 0
-                            ? kPrimaryColor
-                            : colorController.findMainColor.value == 1
-                                ? kPrimaryColor1
-                                : kPrimaryColor2,
+                        color: colorController.mainColor,
                         width: 2,
                       ),
                     ),
@@ -158,32 +142,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
               ),
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  GestureDetector filterWidget() {
-    return GestureDetector(
-      onTap: () {},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: Icon(
-              IconlyBold.filter2,
-              color: Colors.white,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              'filter'.tr,
-              style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
-            ),
-          )
         ],
       ),
     );
@@ -203,11 +161,7 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                 value: index,
                 tileColor: Colors.black,
                 selectedTileColor: Colors.black,
-                activeColor: colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                activeColor: colorController.mainColor,
                 groupValue: value,
                 onChanged: (ind) {
                   final int a = int.parse(ind.toString());
@@ -236,55 +190,32 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
           ),
         );
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            IconlyBold.swap,
-            color: Colors.white,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              'sort'.tr,
-              style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18, color: Colors.white),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget sortFilter() {
-    return SizedBox(
-      width: Get.size.width,
       child: Container(
-        alignment: Alignment.bottomCenter,
-        height: 50,
-        margin: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        decoration: const BoxDecoration(color: kBlackColor, borderRadius: borderRadius15),
-        child: widget.filter
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: sortWidget(),
-                  ),
-                  const VerticalDivider(
-                    color: Colors.white,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: filterWidget(),
-                  ),
-                ],
-              )
-            : Center(child: sortWidget()),
+        width: Get.size.width,
+        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: colorController.mainColor,
+          borderRadius: borderRadius20,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Icon(
+              IconlyBold.swap,
+              color: Colors.white,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                'sort'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontFamily: gilroySemiBold, fontSize: 20, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -326,29 +257,11 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     return Scaffold(
       backgroundColor: backgroundColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: sortFilter(),
-      appBar: AppBar(
-        title: Text(
-          widget.pageName.tr,
-          maxLines: 1,
-          style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 22),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            IconlyBroken.arrowLeftCircle,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-        centerTitle: true,
-        backgroundColor: colorController.findMainColor.value == 0
-            ? kPrimaryColor
-            : colorController.findMainColor.value == 1
-                ? kPrimaryColor1
-                : kPrimaryColor2,
-        elevation: 0,
+      floatingActionButton: sortWidget(),
+      appBar: CustomAppBar(
+        backArrow: true,
+        actionIcon: false,
+        name: widget.pageName.tr,
       ),
       body: SmartRefresher(
         footer: footer(),
@@ -359,15 +272,11 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         enablePullUp: true,
         physics: const BouncingScrollPhysics(),
         header: MaterialClassicHeader(
-          color: colorController.findMainColor.value == 0
-              ? kPrimaryColor
-              : colorController.findMainColor.value == 1
-                  ? kPrimaryColor1
-                  : kPrimaryColor2,
+          color: colorController.mainColor,
         ),
         child: Obx(() {
           if (homeController.loading.value == 0) {
-            return Center(child: spinKit());
+            return spinKit();
           } else if (homeController.loading.value == 1) {
             return referalPageError();
           } else if (homeController.loading.value == 2) {

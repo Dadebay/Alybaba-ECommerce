@@ -7,7 +7,7 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 class ColorController extends GetxController {
   final RxInt findMainColor = 0.obs;
   final getStorage = GetStorage();
-  Color mainColor = kPrimaryColor;
+  Color mainColor = kPrimaryColor3;
   dynamic getMainColor() {
     if (findMainColor.value == 0) {
       mainColor = kPrimaryColor;

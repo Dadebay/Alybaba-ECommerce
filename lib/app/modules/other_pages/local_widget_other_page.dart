@@ -1,5 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nabelli_ecommerce/app/constants/buttons/add_cart_button.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
+import 'package:nabelli_ecommerce/app/modules/other_pages/photo_view_page.dart';
 
 import '../../constants/constants.dart';
 import '../../constants/widgets.dart';
@@ -54,7 +60,7 @@ Container productProfilNamePricePart({
           ],
         ),
         Text(
-          barCode,
+          'Barcode : ' + barCode,
           style: const TextStyle(color: Colors.grey, fontFamily: gilroyMedium, fontSize: 18),
         ),
         kargoIncluded
@@ -96,7 +102,7 @@ Container productProfildescriptionPart({
         const SizedBox(
           height: 30,
         ),
-        customDivider(),
+        divider(),
         Padding(
           padding: const EdgeInsets.only(top: 30, bottom: 10),
           child: Text(
@@ -129,6 +135,133 @@ Widget twoText({required String name1, required String name2}) {
         Text(
           name2,
           style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
+        ),
+      ],
+    ),
+  );
+}
+
+Container imagesView(List<dynamic> images) {
+  return Container(
+    color: Colors.white,
+    height: Get.size.height / 2.5,
+    margin: const EdgeInsets.only(bottom: 15),
+    child: images.isEmpty
+        ? noBannerImage()
+        : CarouselSlider.builder(
+            itemCount: images.length,
+            itemBuilder: (context, index, count) {
+              return GestureDetector(
+                onTap: () {
+                  Get.to(
+                    () => PhotoViewPageMoreImage(
+                      images: images,
+                    ),
+                  );
+                },
+                child: CachedNetworkImage(
+                  fadeInCurve: Curves.ease,
+                  imageUrl: "$serverURL/${images[index]['destination']}-big.webp",
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: Get.size.width,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => spinKit(),
+                  errorWidget: (context, url, error) => noBannerImage(),
+                ),
+              );
+            },
+            options: CarouselOptions(
+              onPageChanged: (index, CarouselPageChangedReason a) {},
+              viewportFraction: 1.0,
+              autoPlay: true,
+              height: Get.size.height,
+              aspectRatio: 4 / 2,
+              scrollPhysics: const BouncingScrollPhysics(),
+              autoPlayCurve: Curves.fastLinearToSlowEaseIn,
+              autoPlayAnimationDuration: const Duration(milliseconds: 2000),
+            ),
+          ),
+  );
+}
+
+Container addCartButtonPart({required String price, required int id}) {
+  return Container(
+    height: 80,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.5),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 3), // changes position of shadow
+        ),
+      ],
+    ),
+    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'price'.tr,
+              style: TextStyle(
+                color: colorController.mainColor,
+                fontFamily: gilroyMedium,
+                fontSize: 16,
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  price,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: gilroyBold,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 4, right: 6),
+                  child: Text(
+                    ' TMT',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: gilroyBold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const Expanded(
+          flex: 1,
+          child: SizedBox.shrink(),
+        ),
+        Expanded(
+          flex: 4,
+          child: AddCartButton(
+            id: id,
+            productProfil: true,
+          ),
         ),
       ],
     ),

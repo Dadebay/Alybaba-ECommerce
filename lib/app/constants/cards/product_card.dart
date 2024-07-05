@@ -2,10 +2,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/add_cart_button.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
-import 'package:nabelli_ecommerce/app/modules/category/views/category_view.dart';
+import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 
 import '../../modules/other_pages/product_profil_view.dart';
 import '../buttons/fav_button_view.dart';
@@ -47,19 +47,13 @@ class ProductCard extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           elevation: 1,
           backgroundColor: Colors.white,
-          shadowColor: colorController.findMainColor.value == 0
-              ? kPrimaryColor
-              : colorController.findMainColor.value == 1
-                  ? kPrimaryColor1
-                  : kPrimaryColor2,
+          shadowColor: colorController.mainColor,
           padding: const EdgeInsets.only(left: 6, right: 6, top: 6, bottom: 5),
           shape: const RoundedRectangleBorder(borderRadius: borderRadius15),
         ),
         onPressed: () {
           if (historyOrder) {
           } else {
-            Get.to(() => CategoriesView());
-
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (BuildContext context) {
@@ -113,10 +107,8 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
               ),
-              placeholder: (context, url) => Center(child: spinKit()),
-              errorWidget: (context, url, error) => Center(
-                child: Text('noImage'.tr),
-              ),
+              placeholder: (context, url) => spinKit(),
+              errorWidget: (context, url, error) => noBannerImage(),
             ),
           ),
           discountValueType == 1
@@ -212,11 +204,7 @@ class ProductCard extends StatelessWidget {
               Text(
                 pricee.toString(),
                 style: TextStyle(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  color: colorController.mainColor,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   fontFamily: gilroySemiBold,
@@ -229,11 +217,7 @@ class ProductCard extends StatelessWidget {
                     ' TMT',
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      color: colorController.findMainColor.value == 0
-                          ? kPrimaryColor
-                          : colorController.findMainColor.value == 1
-                              ? kPrimaryColor1
-                              : kPrimaryColor2,
+                      color: colorController.mainColor,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                       fontFamily: gilroySemiBold,
@@ -257,11 +241,7 @@ class ProductCard extends StatelessWidget {
         Text(
           pricee.toString(),
           style: TextStyle(
-            color: colorController.findMainColor.value == 0
-                ? kPrimaryColor
-                : colorController.findMainColor.value == 1
-                    ? kPrimaryColor1
-                    : kPrimaryColor2,
+            color: colorController.mainColor,
             fontSize: 22,
             fontWeight: FontWeight.bold,
             fontFamily: gilroySemiBold,
@@ -273,11 +253,7 @@ class ProductCard extends StatelessWidget {
             ' TMT',
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: colorController.findMainColor.value == 0
-                  ? kPrimaryColor
-                  : colorController.findMainColor.value == 1
-                      ? kPrimaryColor1
-                      : kPrimaryColor2,
+              color: colorController.mainColor,
               fontSize: 14,
               fontWeight: FontWeight.bold,
               fontFamily: gilroySemiBold,

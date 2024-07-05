@@ -3,12 +3,13 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/agree_button_view.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
+import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/constants/errors/empty_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
+import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
 import 'package:nabelli_ecommerce/app/data/services/abous_us_service.dart';
 import 'package:nabelli_ecommerce/app/data/services/create_order.dart';
-import 'package:nabelli_ecommerce/app/modules/cart_page/views/local_widget.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
 import '../../../constants/text_fields/custom_text_field.dart';
@@ -223,7 +224,7 @@ class _OrderPageState extends State<OrderPage> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   alignment: WrapAlignment.center,
                   children: [
-                    dividerr(),
+                    divider(),
                     TextButton(
                       onPressed: () {
                         name = cities[index];
@@ -250,7 +251,11 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: orderPgaeAppBar(),
+      appBar: CustomAppBar(
+        backArrow: true,
+        actionIcon: false,
+        name: 'orders',
+      ),
       body: Form(
         key: _orderPage,
         child: ListView(
@@ -261,7 +266,7 @@ class _OrderPageState extends State<OrderPage> {
               future: orderModel,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
+                  return spinKit();
                 } else if (snapshot.data == null) {
                   return const Text('Empty');
                 } else if (snapshot.hasError) {

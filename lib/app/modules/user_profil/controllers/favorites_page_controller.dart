@@ -32,7 +32,6 @@ class FavoritesPageController extends GetxController {
   }
 
   dynamic returnFavList() async {
-    final a = storage.read('favList');
     if (storage.read('favList') != null) {
       final result = storage.read('favList') ?? '[]';
       final List jsonData = jsonDecode(result);

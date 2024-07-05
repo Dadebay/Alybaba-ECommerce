@@ -57,7 +57,6 @@ class _AddCartButtonState extends State<AddCartButton> {
     return GestureDetector(
       onTap: () {
         agreeButtonLoading = !agreeButtonLoading;
-        print('tapped');
         setState(() {});
         if (agreeButtonLoading == true) {
           ProductsService().getProductByID(widget.id).then((value) {
@@ -76,11 +75,7 @@ class _AddCartButtonState extends State<AddCartButton> {
               showSnackBar(
                 'added',
                 'addedSubtitle',
-                colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                colorController.mainColor,
               );
             } else {
               const int sizeId = 0;
@@ -109,11 +104,7 @@ class _AddCartButtonState extends State<AddCartButton> {
         ),
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: widget.productProfil ? 8 : 4),
         decoration: BoxDecoration(
-          color: colorController.findMainColor.value == 0
-              ? kPrimaryColor
-              : colorController.findMainColor.value == 1
-                  ? kPrimaryColor1
-                  : kPrimaryColor2,
+          color: colorController.mainColor,
           borderRadius: widget.productProfil ? borderRadius10 : borderRadius5,
         ),
         child: widget.productProfil
@@ -126,12 +117,12 @@ class _AddCartButtonState extends State<AddCartButton> {
                     padding: EdgeInsets.only(bottom: 2, right: 8),
                     child: Icon(
                       IconlyBroken.bag,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                   Text(
                     'addCart'.tr,
-                    style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 18),
+                    style: const TextStyle(color: Colors.white, fontFamily: gilroyBold, fontSize: 18),
                   ),
                 ],
               )
@@ -178,22 +169,14 @@ class _AddCartButtonState extends State<AddCartButton> {
                 showSnackBar(
                   'added',
                   'addedSubtitle',
-                  colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  colorController.mainColor,
                 );
               },
               style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
               child: Text(
                 value.colors![index].name!,
                 style: TextStyle(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  color: colorController.mainColor,
                   fontFamily: gilroySemiBold,
                   fontSize: 18,
                 ),
@@ -234,22 +217,14 @@ class _AddCartButtonState extends State<AddCartButton> {
                 showSnackBar(
                   'added',
                   'addedSubtitle',
-                  colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  colorController.mainColor,
                 );
               },
               style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
               child: Text(
                 value.sizes![index].name!,
                 style: TextStyle(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  color: colorController.mainColor,
                   fontFamily: gilroySemiBold,
                   fontSize: 18,
                 ),
@@ -303,22 +278,14 @@ class _AddCartButtonState extends State<AddCartButton> {
                             showSnackBar(
                               'added',
                               'addedSubtitle',
-                              colorController.findMainColor.value == 0
-                                  ? kPrimaryColor
-                                  : colorController.findMainColor.value == 1
-                                      ? kPrimaryColor1
-                                      : kPrimaryColor2,
+                              colorController.mainColor,
                             );
                           },
                           style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
                           child: Text(
                             value.colors![index].name!,
                             style: TextStyle(
-                              color: colorController.findMainColor.value == 0
-                                  ? kPrimaryColor
-                                  : colorController.findMainColor.value == 1
-                                      ? kPrimaryColor1
-                                      : kPrimaryColor2,
+                              color: colorController.mainColor,
                               fontFamily: gilroySemiBold,
                               fontSize: 18,
                             ),
@@ -333,11 +300,7 @@ class _AddCartButtonState extends State<AddCartButton> {
               child: Text(
                 value.sizes![index].name!,
                 style: TextStyle(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  color: colorController.mainColor,
                   fontFamily: gilroySemiBold,
                   fontSize: 18,
                 ),
@@ -374,11 +337,7 @@ class _AddCartButtonState extends State<AddCartButton> {
               child: Container(
                 padding: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  color: colorController.mainColor,
                   borderRadius: borderRadius10,
                 ),
                 child: Icon(CupertinoIcons.minus, color: Colors.white, size: widget.productProfil ? 24 : 20),
@@ -397,13 +356,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                 '$quantity',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: widget.productProfil
-                      ? colorController.findMainColor.value == 0
-                          ? kPrimaryColor
-                          : colorController.findMainColor.value == 1
-                              ? kPrimaryColor1
-                              : kPrimaryColor2
-                      : Colors.black,
+                  color: widget.productProfil ? colorController.mainColor : Colors.black,
                   fontFamily: gilroyBold,
                   fontSize: 20,
                 ),
@@ -420,11 +373,7 @@ class _AddCartButtonState extends State<AddCartButton> {
               child: Container(
                 padding: const EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
-                  color: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  color: colorController.mainColor,
                   borderRadius: borderRadius10,
                 ),
                 child: Icon(CupertinoIcons.add, color: Colors.white, size: widget.productProfil ? 24 : 20),
