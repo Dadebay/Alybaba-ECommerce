@@ -11,6 +11,7 @@ import '../../constants/constants.dart';
 import '../../constants/widgets.dart';
 
 Container productProfilNamePricePart({
+  required String dostawkaPrice,
   required String name,
   required String price,
   required String barCode,
@@ -34,27 +35,57 @@ Container productProfilNamePricePart({
                 style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 24),
               ),
             ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  price,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 24,
-                    fontFamily: gilroyBold,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 6, top: 7),
-                  child: Text(
-                    ' TMT',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 14,
-                      fontFamily: gilroySemiBold,
+                Row(
+                  children: [
+                    Text(
+                      price,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 24,
+                        fontFamily: gilroyBold,
+                      ),
                     ),
-                  ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 6, top: 7),
+                      child: Text(
+                        ' TMT',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
+                          fontFamily: gilroySemiBold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+                dostawkaPrice != ''
+                    ? Row(
+                        children: [
+                          Text(
+                            'forKargo'.tr + ' +' + dostawkaPrice,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
+                              fontFamily: gilroyMedium,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 6, top: 3),
+                            child: Text(
+                              ' TMT',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                                fontFamily: gilroyMedium,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ],

@@ -8,7 +8,7 @@ import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profi
 
 import '../../../constants/errors/error_widgets.dart';
 import '../../../data/models/product_model.dart';
-import '../../../data/services/create_order.dart';
+import '../../../data/services/create_order_service.dart';
 
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -38,7 +38,6 @@ class _CartViewState extends State<CartView> {
             itemCount: cartController.cartListToCompare.length,
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
-            shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: EdgeInsets.only(bottom: cartController.cartListToCompare.length - 1 == index ? 80 : 0),

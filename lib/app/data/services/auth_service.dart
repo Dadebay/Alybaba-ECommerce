@@ -12,6 +12,7 @@ class Auth {
   Future<bool> logout() async {
     await storage.remove('AccessToken');
     await storage.remove('RefreshToken');
+
     return storage.read('AccessToken') == null ? true : false;
   }
 

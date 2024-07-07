@@ -105,7 +105,8 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
     snackPosition: SnackPosition.TOP,
     backgroundColor: color,
     borderRadius: 20.0,
-    animationDuration: const Duration(seconds: 2),
+    duration: const Duration(milliseconds: 800),
+    animationDuration: const Duration(milliseconds: 500),
     margin: const EdgeInsets.all(8),
   );
 }
@@ -173,7 +174,9 @@ void logOut() {
             onTap: () async {
               Get.find<UserProfilController>().userLogin.value = false;
               await Auth().logout();
+
               Get.back();
+              showSnackBar('log_out', 'logOutUser', Colors.red);
             },
             child: Container(
               width: Get.size.width,

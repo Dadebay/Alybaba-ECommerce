@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
@@ -7,7 +8,7 @@ import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 
 import '../../../constants/widgets.dart';
 import '../../../data/models/product_model.dart';
-import '../../../data/services/create_order.dart';
+import '../../../data/services/create_order_service.dart';
 import '../controllers/favorites_page_controller.dart';
 import '../controllers/user_profil_controller.dart';
 
@@ -36,8 +37,26 @@ class _FavoritesPageViewState extends State<FavoritesPageView> {
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         backArrow: true,
-        actionIcon: false,
+        actionIcon: favoritesController.favList.isEmpty ? false : true,
         name: 'favorites',
+        icon: IconButton(
+          onPressed: () {
+            customDialogToUse(
+              title: 'deleteFavProduct',
+              subtitle: 'deleteFavProductSubtitle',
+              onAgree: () {
+                Get.back();
+                showSnackBar('orderDeleted', 'orderDeletedSubtitle', Colors.red);
+                favoritesController.clearFavList();
+              },
+              changeColor: false,
+            );
+          },
+          icon: Icon(
+            IconlyLight.delete,
+            color: Colors.white,
+          ),
+        ),
       ),
       body: FutureBuilder<List<ProductModel>>(
         future: products,

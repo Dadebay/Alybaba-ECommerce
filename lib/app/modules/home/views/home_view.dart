@@ -74,7 +74,7 @@ class _HomeViewState extends State<HomeView> {
     return Wrap(
       children: [
         listViewName(pageName[index], true, size, () {
-          Get.to(() => ShowAllProducts(pageName: 'recomendedItems', parametrs: homeController.parameters[index]));
+          Get.to(() => ShowAllProducts(pageName: pageName[index], parametrs: homeController.parameters[index]));
         }),
         SizedBox(
           height: size.width >= 800 ? 400 : 300,

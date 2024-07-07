@@ -4,13 +4,9 @@ import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/buttons/agree_button_view.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
-import 'package:nabelli_ecommerce/app/constants/errors/empty_widgets.dart';
-import 'package:nabelli_ecommerce/app/constants/errors/error_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
-import 'package:nabelli_ecommerce/app/data/services/abous_us_service.dart';
-import 'package:nabelli_ecommerce/app/data/services/create_order.dart';
-import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
+import 'package:nabelli_ecommerce/app/data/services/create_order_service.dart';
 
 import '../../../constants/text_fields/custom_text_field.dart';
 import '../../../constants/text_fields/phone_number.dart';
@@ -54,7 +50,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     super.initState();
-    userNameController.text = Get.find<UserProfilController>().userName.toString();
+    userNameController.clear();
     phoneController.clear();
     orderModel = CreateOrderService().getOrderInfo();
   }
@@ -62,7 +58,7 @@ class _OrderPageState extends State<OrderPage> {
   Container userInfo() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-      decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
+      decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -125,11 +121,7 @@ class _OrderPageState extends State<OrderPage> {
                     orderTypeNum = 1;
                   });
                 },
-                activeColor: colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                activeColor: colorController.mainColor,
                 title: Text(
                   'plain'.tr,
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
@@ -154,11 +146,7 @@ class _OrderPageState extends State<OrderPage> {
                       orderTypeNum = 2;
                     });
                   },
-                  activeColor: colorController.findMainColor.value == 0
-                      ? kPrimaryColor
-                      : colorController.findMainColor.value == 1
-                          ? kPrimaryColor1
-                          : kPrimaryColor2,
+                  activeColor: colorController.mainColor,
                   title: Text(
                     'train'.tr,
                     style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
@@ -181,11 +169,7 @@ class _OrderPageState extends State<OrderPage> {
                     orderTypeNum = 3;
                   });
                 },
-                activeColor: colorController.findMainColor.value == 0
-                    ? kPrimaryColor
-                    : colorController.findMainColor.value == 1
-                        ? kPrimaryColor1
-                        : kPrimaryColor2,
+                activeColor: colorController.mainColor,
                 title: Text(
                   'container'.tr,
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
@@ -262,78 +246,7 @@ class _OrderPageState extends State<OrderPage> {
           padding: const EdgeInsets.all(15.0),
           children: [
             userInfo(),
-            FutureBuilder<GetOrderInfoModel>(
-              future: orderModel,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return spinKit();
-                } else if (snapshot.data == null) {
-                  return const Text('Empty');
-                } else if (snapshot.hasError) {
-                  return const Text('Error');
-                }
-                return Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                      decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
-                      child: orderTypeWidget(snapshot.data!),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25, bottom: 15),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 8,
-                            width: 8,
-                            margin: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(
-                              color: Colors.grey,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              snapshot.data!.info!.toString(),
-                              style: const TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            FutureBuilder<dynamic>(
-              future: AboutUsService().getRules(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: spinKit());
-                } else if (snapshot.hasError) {
-                  return referalPageError();
-                } else if (snapshot.data == null) {
-                  return referalPageEmptyData();
-                }
-                String lang = Get.locale!.languageCode;
-                if (lang == 'tr' || lang == 'en') {
-                  lang = 'tm';
-                }
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView(
-                    children: [
-                      Text(
-                        lang == 'tm' ? snapshot.data!['privacy_tm'] : snapshot.data!['privacy_ru'],
-                        style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+            orderInfowidget(),
             const SizedBox(
               height: 40,
             ),
@@ -369,6 +282,54 @@ class _OrderPageState extends State<OrderPage> {
           ],
         ),
       ),
+    );
+  }
+
+  FutureBuilder<GetOrderInfoModel> orderInfowidget() {
+    return FutureBuilder<GetOrderInfoModel>(
+      future: orderModel,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return spinKit();
+        } else if (snapshot.data == null) {
+          return const Text('Empty');
+        } else if (snapshot.hasError) {
+          return const Text('Error');
+        }
+        return Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+              decoration: const BoxDecoration(color: Colors.white, borderRadius: borderRadius10),
+              child: orderTypeWidget(snapshot.data!),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 25, bottom: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 8,
+                    width: 8,
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      snapshot.data!.info!.toString(),
+                      style: const TextStyle(color: Colors.grey, fontSize: 17, fontFamily: gilroyRegular),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

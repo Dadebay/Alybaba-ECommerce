@@ -103,11 +103,7 @@ class CardCart extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8),
                             child: Icon(
                               CupertinoIcons.xmark_circle,
-                              color: colorController.findMainColor.value == 0
-                                  ? kPrimaryColor
-                                  : colorController.findMainColor.value == 1
-                                      ? kPrimaryColor1
-                                      : kPrimaryColor2,
+                              color: colorController.mainColor,
                               size: 30,
                             ),
                           ),

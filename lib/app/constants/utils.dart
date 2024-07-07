@@ -6,6 +6,8 @@ class MyTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'tm': {
+          'logOutUser': 'Siz ulgamdan çykdyňyz',
+          'forKargo': 'Kargo üçin :',
           'totalProducts': 'Hemme harytlar',
           'stockInHand': 'Elimizdaki harytlar',
           'deleteAccount': 'Hasaby pozmak',
@@ -129,7 +131,7 @@ class MyTranslations extends Translations {
           'shareUs': 'Programmany paýlaş',
           'signIn1': 'Familýaňyz',
           'signIn2': 'Adyňyz',
-          'signInDialog': 'Ulgama girmek üçin ulanyjy maglumatlary doly we dogry şekilde dolduruň',
+          'signInDialog': 'Ulgama girmek üçin ulanyjy maglumatlary doly we dogry şekilde dolduruň.',
           'signUp': 'Hasaba al',
           'skip': 'Geç',
           'terms_and_conditions_to_order': 'Hormatly ulanyjy sargyt geçmek üçin ulanyş şertleri we düzgünlerini kabul ediň',
@@ -212,6 +214,9 @@ class MyTranslations extends Translations {
           'waitMyManSubtitle': 'Maglumat ýüklenýänça garaşyň',
         },
         'ru': {
+          'logOutUser': 'Вы вышли из системы', //translate this russian
+
+          'forKargo': 'Стоимость доставки :',
           'totalProducts': 'Все товары',
           'stockInHand': 'Запасы в наличии',
           'deleteAccountTitle': 'Удалено',
@@ -219,7 +224,7 @@ class MyTranslations extends Translations {
           'deleteAccount': 'Удалить аккаунт',
           'read': 'Читать',
           'product': 'Продукт',
-          'signInDialog': 'Заполните информацию о пользователе полностью и правильно, чтобы войти',
+          'signInDialog': 'Заполните информацию о пользователе полностью и правильно, чтобы войти.',
           'signIn1': 'Ваша фамилия',
           'signIn2': 'Ваше имя',
           'noImage': 'Нет изображения',
@@ -415,6 +420,9 @@ class MyTranslations extends Translations {
           'appColor4': 'Цвет  3',
         },
         'en': {
+          'logOutUser': 'You are logged out', //translate this russian
+
+          'forKargo': 'Kargo fee :',
           'totalProducts': 'Total Product',
           'stockInHand': 'Stock In Hand',
           'deleteAccountTitle': 'Deleted',
@@ -562,7 +570,7 @@ class MyTranslations extends Translations {
           'shareUs': 'Share the app',
           'signIn1': 'Your Surname',
           'signIn2': 'Your Name',
-          'signInDialog': 'Please fill in the user information completely and correctly to sign in to the device',
+          'signInDialog': 'Please fill in the user information completely and correctly to sign in to the device.',
           'signUp': 'Sign Up',
           'filter': 'Filter',
           'sort': 'Sort',

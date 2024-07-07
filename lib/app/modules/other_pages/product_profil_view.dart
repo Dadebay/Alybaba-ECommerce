@@ -93,7 +93,13 @@ class _ProductProfilViewState extends State<ProductProfilView> {
                   shrinkWrap: true,
                   children: [
                     imagesView(images),
-                    productProfilNamePricePart(name: snapshot.data!.name!, kargoIncluded: snapshot.data!.kargoIncluded!, price: snapshot.data!.price!, barCode: snapshot.data!.barcode.toString()),
+                    productProfilNamePricePart(
+                      name: snapshot.data!.name!,
+                      kargoIncluded: snapshot.data!.kargoIncluded!,
+                      price: snapshot.data!.price!,
+                      barCode: snapshot.data!.barcode.toString(),
+                      dostawkaPrice: snapshot.data!.weightPrice.toString(),
+                    ),
                     productProfildescriptionPart(
                       brand: snapshot.data!.producerName!,
                       category: snapshot.data!.mainCategoryName!,

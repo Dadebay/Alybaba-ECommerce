@@ -2,6 +2,7 @@ class ProductModel {
   final int? id;
   final String? name;
   final String? price;
+
   final String? mainCategoryName;
   final String? subCategoryName;
   final String? producerName;
@@ -67,6 +68,8 @@ class ProductModel {
 class ProductByIDModel {
   final int? id;
   final bool? airPlane;
+  final String? weight;
+  final String? weightPrice;
   final String? name;
   final String? description;
   final String? price;
@@ -109,6 +112,8 @@ class ProductByIDModel {
     this.description,
     this.colors,
     this.mainCategoryId,
+    this.weight,
+    this.weightPrice,
     this.producerId,
     this.subCategoryId,
   });
@@ -125,6 +130,8 @@ class ProductByIDModel {
     return ProductByIDModel(
       id: json['id'],
       airPlane: json['airplane'] ?? false,
+      weight: json['weight'] ?? '',
+      weightPrice: json['weight_price'] ?? '',
       name: json['name'],
       description: json['description'] ?? '',
       price: json['price'] ?? '',

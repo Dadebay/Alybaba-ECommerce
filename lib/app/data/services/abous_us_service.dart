@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:nabelli_ecommerce/app/data/models/aboust_us_model.dart';
@@ -42,6 +43,8 @@ class AboutUsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
+    print(response.body);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final decoded = utf8.decode(response.bodyBytes);
       return json.decode(decoded);

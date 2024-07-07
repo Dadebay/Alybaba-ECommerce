@@ -9,6 +9,8 @@ class ChangeColorButton extends StatelessWidget {
   ChangeColorButton({required this.index, Key? key}) : super(key: key);
   final ColorController colorController = Get.put(ColorController());
   final int index;
+  List colors = [kPrimaryColor, kPrimaryColor1, kPrimaryColor2];
+  List names = ['appColor2', 'appColor3', 'appColor4'];
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -24,13 +26,13 @@ class ChangeColorButton extends StatelessWidget {
           leading: Container(
             width: 35,
             height: 35,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: kPrimaryColor,
+              color: colors[index],
             ),
           ),
           title: Text(
-            'appColor2'.tr,
+            '${names[index]}'.tr,
             style: const TextStyle(color: Colors.black),
           ),
         ),

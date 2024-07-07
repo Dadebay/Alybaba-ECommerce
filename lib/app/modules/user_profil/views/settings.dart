@@ -63,8 +63,9 @@ class _SettingsState extends State<Settings> {
             name: 'versia',
             onTap: () {},
             icon: Text(
-              '1.0.0',
+              '2.0.0',
               style: TextStyle(
+                fontSize: 18,
                 color: colorController.mainColor,
                 fontFamily: gilroyMedium,
               ),
@@ -165,27 +166,21 @@ class _SettingsState extends State<Settings> {
         decoration: const BoxDecoration(color: Colors.white),
         child: Wrap(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 5,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox.shrink(),
-                  Text(
-                    'appColor1'.tr,
-                    style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox.shrink(),
+                Text(
+                  'appColor1'.tr,
+                  style: const TextStyle(color: Colors.black, fontFamily: gilroyBold, fontSize: 18),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: const Icon(CupertinoIcons.xmark_circle, size: 22, color: Colors.black),
+                ),
+              ],
             ),
             ChangeColorButton(
               index: 0,

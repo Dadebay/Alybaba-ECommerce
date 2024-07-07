@@ -42,6 +42,7 @@ class ProductsService {
     if (lang == 'tr' || lang == 'en') {
       lang = 'tm';
     }
+    homeController.loading.value = 0;
     final response = await http.get(
       Uri.parse(
         '$serverURL/api/$lang/get-products',
@@ -50,8 +51,7 @@ class ProductsService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.statusCode);
-    print(response.body);
+    print(parametrs);
     if (response.statusCode == 200) {
       homeController.loading.value = 3;
       final responseJson = jsonDecode(response.body)['products'] as List;

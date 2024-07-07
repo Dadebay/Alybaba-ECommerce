@@ -5,6 +5,7 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/data/models/category_model.dart';
+import 'package:nabelli_ecommerce/app/modules/home/controllers/color_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../constants/cards/product_card.dart';
@@ -21,59 +22,23 @@ class SubCategoryView extends StatefulWidget {
     required this.categoryName,
     Key? key,
   }) : super(key: key);
-  final List<SubCategoryModel> subCategoryList;
+
   final int categoryID;
   final String categoryName;
+  final List<SubCategoryModel> subCategoryList;
 
   @override
   State<SubCategoryView> createState() => _SubCategoryViewState();
 }
 
 class _SubCategoryViewState extends State<SubCategoryView> {
-  int selecetedIndex = -1;
-  final RefreshController _refreshController = RefreshController(initialRefresh: false);
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-    homeController.page.value += 1;
-    getDataMine.update(
-      'page',
-      (value) {
-        return value = homeController.page.value.toString();
-      },
-    );
-    getData();
-  }
-
-  Map<String, String> getDataMine = {};
-
+  Map<String, String> parametrs = {};
   final HomeController homeController = Get.put(HomeController());
-  void _onRefresh() async {
-    _refreshController.refreshCompleted();
-    homeController.showAllList.clear();
-    homeController.loading.value = 0;
-    homeController.page.value = 0;
-    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString(), 'sort_column': 'random', 'sort_direction': 'ASC'});
+  final ColorController colorController = Get.put(ColorController());
 
-    getData();
-  }
-
-  void _onTapRefresh() async {
-    _refreshController.refreshCompleted();
-    homeController.showAllList.clear();
-    homeController.loading.value = 0;
-    homeController.page.value = 0;
-    getDataMine.addAll({
-      'limit': '10',
-      'page': '${homeController.page.value}',
-      'sort_column': 'random',
-      'sort_direction': 'ASC',
-      'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}',
-      'main_category_id': widget.categoryID.toString(),
-    });
-
-    getData();
-  }
+  int selecetedIndex = -1;
+  TextEditingController textEditingController = TextEditingController();
+  final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -81,20 +46,51 @@ class _SubCategoryViewState extends State<SubCategoryView> {
     homeController.showAllList.clear();
     homeController.page.value = 0;
     homeController.loading.value = 0;
-    addDataToMap();
+    getProducts();
   }
 
-  dynamic addDataToMap() {
-    getDataMine.addAll({'limit': '10', 'page': '${homeController.page.value}', 'sort_column': 'random', 'sort_direction': 'ASC', 'main_category_id': widget.categoryID.toString()});
-    setState(() {});
-    getData();
+  dynamic getProducts() async {
+    parametrs.addAll({'limit': '10', 'page': '${homeController.page.value}', 'sort_column': 'random', 'sort_direction': 'ASC', 'main_category_id': widget.categoryID.toString()});
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
   }
 
-  dynamic getData() async {
-    await ProductsService().getShowAllProducts(parametrs: getDataMine);
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+    homeController.page.value += 1;
+    parametrs.update(
+      'page',
+      (value) {
+        return value = homeController.page.value.toString();
+      },
+    );
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
   }
 
-  TextEditingController textEditingController = TextEditingController();
+  void _onRefresh() async {
+    _refreshController.refreshCompleted();
+    homeController.showAllList.clear();
+    homeController.loading.value = 0;
+    homeController.page.value = 0;
+    parametrs.addAll({'limit': '10', 'page': '${homeController.page.value}', 'main_category_id': widget.categoryID.toString(), 'sort_column': 'random', 'sort_direction': 'ASC'});
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
+  }
+
+  void _onTapRefresh() async {
+    _refreshController.refreshCompleted();
+    homeController.showAllList.clear();
+    homeController.loading.value = 0;
+    homeController.page.value = 0;
+    parametrs.addAll({
+      'limit': '10',
+      'page': '${homeController.page.value}',
+      'sort_column': 'random',
+      'sort_direction': 'ASC',
+      'sub_category_id': '${widget.subCategoryList[selecetedIndex].id}',
+      'main_category_id': widget.categoryID.toString(),
+    });
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,42 +99,7 @@ class _SubCategoryViewState extends State<SubCategoryView> {
       appBar: CustomAppBar(backArrow: true, actionIcon: false, name: widget.categoryName),
       body: Column(
         children: [
-          Container(
-            height: 90,
-            child: GridView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: widget.subCategoryList.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selecetedIndex = index;
-                      _onTapRefresh();
-                    });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(top: 8, left: 8),
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                    decoration: BoxDecoration(
-                      borderRadius: borderRadius20,
-                      color: selecetedIndex == index ? kPrimaryColor : Colors.white,
-                      border: Border.all(color: selecetedIndex == index ? kPrimaryColor : Colors.white),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.subCategoryList[index].name.toString(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 16),
-                    ),
-                  ),
-                );
-              },
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisExtent: 180),
-            ),
-          ),
+          subCategoryView(),
           Expanded(
             child: SmartRefresher(
               footer: footer(),
@@ -153,34 +114,74 @@ class _SubCategoryViewState extends State<SubCategoryView> {
               ),
               child: Obx(() {
                 if (homeController.loading.value == 0) {
-                  return spinKit();
+                  return loaderShowAllProducts();
                 } else if (homeController.loading.value == 1) {
                   return referalPageError();
                 } else if (homeController.loading.value == 2) {
                   return referalPageEmptyData();
+                } else if (homeController.showAllList.isEmpty && homeController.loading.value == 3) {
+                  return referalPageEmptyData();
                 }
-                return homeController.showAllList.isEmpty
-                    ? referalPageEmptyData()
-                    : GridView.builder(
-                        itemCount: homeController.showAllList.length,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => ProductCard(
-                          id: homeController.showAllList[index]['id'],
-                          historyOrder: false,
-                          discountValue: int.parse(homeController.showAllList[index]['discountValue'].toString()),
-                          discountValueType: int.parse(homeController.showAllList[index]['discountValueType'].toString()),
-                          createdAt: homeController.showAllList[index]['createdAt'],
-                          image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
-                          name: homeController.showAllList[index]['name'],
-                          price: homeController.showAllList[index]['price'],
-                        ),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
-                      );
+                return GridView.builder(
+                  itemCount: homeController.showAllList.length,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => ProductCard(
+                    id: homeController.showAllList[index]['id'],
+                    historyOrder: false,
+                    discountValue: int.parse(homeController.showAllList[index]['discountValue'].toString()),
+                    discountValueType: int.parse(homeController.showAllList[index]['discountValueType'].toString()),
+                    createdAt: homeController.showAllList[index]['createdAt'],
+                    image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
+                    name: homeController.showAllList[index]['name'],
+                    price: homeController.showAllList[index]['price'],
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
+                );
               }),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget subCategoryView() {
+    return Container(
+      height: 90,
+      child: GridView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: widget.subCategoryList.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                selecetedIndex = index;
+                _onTapRefresh();
+              });
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 8, left: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+              decoration: BoxDecoration(
+                borderRadius: borderRadius20,
+                color: selecetedIndex == index ? colorController.mainColor : Colors.white,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                widget.subCategoryList[index].name.toString(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: selecetedIndex == index ? Colors.white : Colors.black, fontFamily: selecetedIndex == index ? gilroyBold : gilroyMedium, fontSize: 16),
+              ),
+            ),
+          );
+        },
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 1 / 5,
+        ),
       ),
     );
   }

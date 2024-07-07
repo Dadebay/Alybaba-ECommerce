@@ -36,7 +36,7 @@ class _LocationsState extends State<Locations> {
       backgroundColor: backgroundColor,
       appBar: CustomAppBar(
         backArrow: true,
-        actionIcon: userProfilController.userLogin.value,
+        actionIcon: userProfilController.userAddressesList.isEmpty ? false : true,
         icon: userProfilController.userAddressesList.isEmpty
             ? const SizedBox.shrink()
             : IconButton(
@@ -63,128 +63,14 @@ class _LocationsState extends State<Locations> {
         children: [
           Expanded(
             child: Obx(() {
-              return userProfilController.userAddressesList.isEmpty
-                  ? locationPageError()
-                  : ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: userProfilController.userAddressesList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          tileColor: Colors.white,
-                          minLeadingWidth: 15.0,
-                          leading: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: colorController.mainColor,
-                            ),
-                            child: Text(
-                              '${index + 1}',
-                              style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 14),
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                          title: Text(
-                            userProfilController.userAddressesList[index]['address'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
-                          ),
-                          subtitle: Text(
-                            userProfilController.userAddressesList[index]['note'],
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 18),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return divider();
-                      },
-                    );
+              return userProfilController.userAddressesList.isEmpty ? locationPageError() : showingLocations();
             }),
           ),
           ElevatedButton(
             onPressed: () {
               textEditingControllerNote.clear();
               textEditingControllerAddress.clear();
-              Get.defaultDialog(
-                title: 'addAddress'.tr,
-                radius: 8.0,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 14),
-                titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
-                titlePadding: const EdgeInsets.only(top: 15),
-                content: SizedBox(
-                  width: Get.size.width / 1.4,
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                        labelName: 'address',
-                        controller: textEditingControllerAddress,
-                        focusNode: titleFocusNode,
-                        requestfocusNode: subtitleFocusNode,
-                        isNumber: false,
-                        unFocus: false,
-                      ),
-                      CustomTextField(
-                        labelName: 'note',
-                        controller: textEditingControllerNote,
-                        focusNode: subtitleFocusNode,
-                        requestfocusNode: titleFocusNode,
-                        isNumber: false,
-                        maxline: 3,
-                        unFocus: true,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                userProfilController.addAddressesToList(address: textEditingControllerAddress.text, note: textEditingControllerNote.text);
-                                Get.back();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: borderRadius10,
-                                ),
-                                backgroundColor: colorController.mainColor,
-                              ),
-                              child: Text(
-                                'add'.tr,
-                                style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 18),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: borderRadius10,
-                                ),
-                                backgroundColor: Colors.white,
-                              ),
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text(
-                                'no'.tr,
-                                style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              addAddressDialog();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: colorController.mainColor,
@@ -213,6 +99,126 @@ class _LocationsState extends State<Locations> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<dynamic> addAddressDialog() {
+    return Get.defaultDialog(
+      title: 'addAddress'.tr,
+      radius: 8.0,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+      titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
+      titlePadding: const EdgeInsets.only(top: 15),
+      content: SizedBox(
+        width: Get.size.width / 1.4,
+        child: Column(
+          children: [
+            CustomTextField(
+              labelName: 'address',
+              controller: textEditingControllerAddress,
+              focusNode: titleFocusNode,
+              requestfocusNode: subtitleFocusNode,
+              isNumber: false,
+              unFocus: false,
+            ),
+            CustomTextField(
+              labelName: 'note',
+              controller: textEditingControllerNote,
+              focusNode: subtitleFocusNode,
+              requestfocusNode: titleFocusNode,
+              isNumber: false,
+              maxline: 3,
+              unFocus: true,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      userProfilController.addAddressesToList(address: textEditingControllerAddress.text, note: textEditingControllerNote.text);
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: borderRadius10,
+                      ),
+                      backgroundColor: colorController.mainColor,
+                    ),
+                    child: Text(
+                      'add'.tr,
+                      style: const TextStyle(color: Colors.white, fontFamily: gilroyMedium, fontSize: 18),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: borderRadius10,
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      'no'.tr,
+                      style: const TextStyle(color: Colors.black, fontFamily: gilroyRegular, fontSize: 18),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ListView showingLocations() {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemCount: userProfilController.userAddressesList.length,
+      itemBuilder: (BuildContext context, int index) {
+        return ListTile(
+          tileColor: Colors.white,
+          minLeadingWidth: 15.0,
+          leading: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colorController.mainColor,
+            ),
+            child: Text(
+              '${index + 1}',
+              style: const TextStyle(color: Colors.white, fontFamily: gilroySemiBold, fontSize: 14),
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+          title: Text(
+            userProfilController.userAddressesList[index]['address'],
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium, fontSize: 18),
+          ),
+          subtitle: Text(
+            userProfilController.userAddressesList[index]['note'],
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 18),
+          ),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return divider();
+      },
     );
   }
 }

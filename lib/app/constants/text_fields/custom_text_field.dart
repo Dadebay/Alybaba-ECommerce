@@ -93,11 +93,7 @@ class CustomTextField extends StatelessWidget {
                     ? borderRadius5
                     : borderRadius20,
             borderSide: BorderSide(
-              color: colorController.findMainColor.value == 0
-                  ? kPrimaryColor
-                  : colorController.findMainColor.value == 1
-                      ? kPrimaryColor1
-                      : kPrimaryColor2,
+              color: colorController.mainColor,
               width: 2,
             ),
           ),
@@ -108,11 +104,7 @@ class CustomTextField extends StatelessWidget {
                     ? borderRadius5
                     : borderRadius20,
             borderSide: BorderSide(
-              color: colorController.findMainColor.value == 0
-                  ? kPrimaryColor
-                  : colorController.findMainColor.value == 1
-                      ? kPrimaryColor1
-                      : kPrimaryColor2,
+              color: colorController.mainColor,
               width: 2,
             ),
           ),

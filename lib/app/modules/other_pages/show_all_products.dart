@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/cards/product_card.dart';
@@ -29,122 +28,54 @@ class ShowAllProducts extends StatefulWidget {
 }
 
 class _ShowAllProductsState extends State<ShowAllProducts> {
-  Map<String, String> getDataMine = {};
-  String name = 'Ashgabat';
-  int value = 0;
-
+  Map<String, String> parametrs = {};
+  final HomeController homeController = Get.put(HomeController());
+  int sortValue = 0;
   final RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    getDataMine.addAll(widget.parametrs);
+    parametrs.addAll(widget.parametrs);
     homeController.showAllList.clear();
     homeController.page.value = 0;
     homeController.loading.value = 0;
-    addDataToMap();
+    getproducts();
   }
 
-  dynamic addDataToMap() {
-    getDataMine.addAll({
+  dynamic getproducts() async {
+    parametrs.addAll({
       'limit': '10',
       'page': '${homeController.page.value}',
     });
-    setState(() {});
-    getData();
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
   }
 
-  Widget twoTextEditingField({required TextEditingController controller1, required TextEditingController controller2}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 20),
-            child: Text('priceRange'.tr, style: const TextStyle(fontSize: 19, color: Colors.black)),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
-                  cursorColor: colorController.mainColor,
-                  controller: controller1,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
-                  ],
-                  decoration: InputDecoration(
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: gilroyBold, fontSize: 14, color: Colors.grey.shade400)),
-                    ),
-                    suffixIconConstraints: const BoxConstraints(minHeight: 15),
-                    isDense: true,
-                    hintText: 'minPrice'.tr,
-                    hintStyle: TextStyle(fontFamily: gilroyMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(
-                        color: colorController.mainColor,
-                        width: 2,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 15,
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                height: 2,
-                color: Colors.grey,
-              ),
-              Expanded(
-                child: TextFormField(
-                  style: const TextStyle(fontFamily: gilroyMedium, fontSize: 18),
-                  cursorColor: colorController.mainColor,
-                  controller: controller2,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    // LengthLimitingTextInputFormatter(9),
-                  ],
-                  decoration: InputDecoration(
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: Text('TMT', textAlign: TextAlign.center, style: TextStyle(fontFamily: gilroySemiBold, fontSize: 14, color: Colors.grey.shade400)),
-                    ),
-                    suffixIconConstraints: const BoxConstraints(minHeight: 15),
-                    isDense: true,
-                    hintText: 'maxPrice'.tr,
-                    hintStyle: TextStyle(fontFamily: gilroyMedium, fontSize: 16, color: Colors.grey.shade400),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(
-                        color: colorController.mainColor,
-                        width: 2,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: borderRadius15,
-                      borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+  void _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.refreshCompleted();
+    homeController.showAllList.clear();
+    parametrs.update(
+      'page',
+      (value) {
+        return value = '0';
+      },
     );
+    homeController.loading.value = 0;
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
+  }
+
+  void _onLoading() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _refreshController.loadComplete();
+    homeController.page.value += 1;
+    parametrs.update(
+      'page',
+      (value) {
+        return value = homeController.page.value.toString();
+      },
+    );
+    await ProductsService().getShowAllProducts(parametrs: parametrs);
   }
 
   GestureDetector sortWidget() {
@@ -162,24 +93,24 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
                 tileColor: Colors.black,
                 selectedTileColor: Colors.black,
                 activeColor: colorController.mainColor,
-                groupValue: value,
-                onChanged: (ind) {
-                  final int a = int.parse(ind.toString());
-                  value = a;
+                groupValue: sortValue,
+                onChanged: (ind) async {
+                  sortValue = int.parse(ind.toString());
                   homeController.showAllList.clear();
                   homeController.page.value = 0;
-                  getDataMine.update(
+                  parametrs.update(
                     'page',
                     (value) {
                       return homeController.page.value.toString();
                     },
                   );
-                  getDataMine.addAll({
+                  parametrs.addAll({
                     'sort_column': sortData[index]['sort_column'],
                     'sort_direction': sortData[index]['sort_direction'],
                   });
-                  getData();
                   Get.back();
+
+                  await ProductsService().getShowAllProducts(parametrs: parametrs);
                 },
                 title: Text(
                   "${sortData[index]["sort_name"]}".tr,
@@ -220,38 +151,6 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
     );
   }
 
-  final HomeController homeController = Get.put(HomeController());
-  void _onRefresh() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.refreshCompleted();
-    homeController.showAllList.clear();
-    getDataMine.update(
-      'page',
-      (value) {
-        return value = '0';
-      },
-    );
-    homeController.loading.value = 0;
-    getData();
-  }
-
-  dynamic getData() async {
-    await ProductsService().getShowAllProducts(parametrs: getDataMine);
-  }
-
-  void _onLoading() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _refreshController.loadComplete();
-    homeController.page.value += 1;
-    getDataMine.update(
-      'page',
-      (value) {
-        return value = homeController.page.value.toString();
-      },
-    );
-    getData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -276,30 +175,30 @@ class _ShowAllProductsState extends State<ShowAllProducts> {
         ),
         child: Obx(() {
           if (homeController.loading.value == 0) {
-            return spinKit();
+            return loaderShowAllProducts();
           } else if (homeController.loading.value == 1) {
             return referalPageError();
           } else if (homeController.loading.value == 2) {
             return referalPageEmptyData();
+          } else if (homeController.showAllList.isEmpty && homeController.loading.value == 3) {
+            return referalPageEmptyData();
           }
-          return homeController.showAllList.isEmpty
-              ? referalPageEmptyData()
-              : GridView.builder(
-                  itemCount: homeController.showAllList.length,
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => ProductCard(
-                    id: homeController.showAllList[index]['id'],
-                    historyOrder: false,
-                    discountValue: int.parse(homeController.showAllList[index]['discountValue'].toString()),
-                    discountValueType: int.parse(homeController.showAllList[index]['discountValueType'].toString()),
-                    createdAt: homeController.showAllList[index]['createdAt'],
-                    image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
-                    name: homeController.showAllList[index]['name'],
-                    price: homeController.showAllList[index]['price'],
-                  ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
-                );
+          return GridView.builder(
+            itemCount: homeController.showAllList.length,
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) => ProductCard(
+              id: homeController.showAllList[index]['id'],
+              historyOrder: false,
+              discountValue: int.parse(homeController.showAllList[index]['discountValue'].toString()),
+              discountValueType: int.parse(homeController.showAllList[index]['discountValueType'].toString()),
+              createdAt: homeController.showAllList[index]['createdAt'],
+              image: "$serverURL/${homeController.showAllList[index]['image']}-mini.webp",
+              name: homeController.showAllList[index]['name'],
+              price: homeController.showAllList[index]['price'],
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
+          );
         }),
       ),
     );

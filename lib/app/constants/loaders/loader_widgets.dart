@@ -35,7 +35,7 @@ Widget loaderBanner() {
     height: 220,
     width: Get.size.width,
     decoration: const BoxDecoration(borderRadius: borderRadius15, color: backgroundColor),
-    child: Center(child: spinKit()),
+    child: spinKit(),
   );
 }
 
@@ -78,5 +78,22 @@ Widget loaderCollar() {
         child: spinKit(),
       );
     },
+  );
+}
+
+Widget loaderShowAllProducts() {
+  return GridView.builder(
+    itemCount: 10,
+    shrinkWrap: true,
+    physics: const BouncingScrollPhysics(),
+    itemBuilder: (context, index) => Container(
+      decoration: BoxDecoration(
+        borderRadius: borderRadius20,
+        color: Colors.grey.withOpacity(0.3),
+      ),
+      margin: const EdgeInsets.all(10),
+      child: spinKit(),
+    ),
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 3 / 5),
   );
 }

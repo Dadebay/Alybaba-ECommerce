@@ -59,6 +59,7 @@ class _AddCartButtonState extends State<AddCartButton> {
         agreeButtonLoading = !agreeButtonLoading;
         setState(() {});
         if (agreeButtonLoading == true) {
+          print('Comes herrr____________________________');
           ProductsService().getProductByID(widget.id).then((value) {
             addCartBool = !addCartBool;
             if (value.sizes!.isEmpty && value.colors!.isEmpty) {
@@ -78,24 +79,21 @@ class _AddCartButtonState extends State<AddCartButton> {
                 colorController.mainColor,
               );
             } else {
-              const int sizeId = 0;
-              const int colorId = 0;
-              agreeButtonLoading = !agreeButtonLoading;
-              setState(() {});
-
+              print(value.sizes);
+              print(value.colors);
               if (value.sizes!.isEmpty) {
-                colorEmptyOnlySize(value, colorId, sizeId);
-              } else if (value.sizes!.isEmpty) {
-                sizeEmptyOnlyColor(value, sizeId, colorId);
+                onlyColorsSelect(value);
+              } else if (value.colors!.isEmpty) {
+                onlySizesSelect(value);
               } else {
-                sizeAndColorNotEmpty(value, sizeId, colorId);
+                sizeAndColorSelect(value);
               }
             }
-            setState(() {});
           });
         } else {
           showSnackBar('waitMyMan', 'waitMyManSubtitle', Colors.red);
         }
+        setState(() {});
       },
       child: Container(
         width: widget.productProfil ? null : Get.size.width,
@@ -141,7 +139,7 @@ class _AddCartButtonState extends State<AddCartButton> {
     );
   }
 
-  void colorEmptyOnlySize(ProductByIDModel value, int colorId, int sizeId) {
+  void onlyColorsSelect(ProductByIDModel value) {
     Get.defaultDialog(
       title: 'selectColor'.tr,
       titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
@@ -154,15 +152,14 @@ class _AddCartButtonState extends State<AddCartButton> {
             width: Get.size.width,
             child: ElevatedButton(
               onPressed: () {
-                colorId = value.colors![index].id!;
                 cartController.addToCard(
                   id: widget.id,
                   name: value.name!,
                   image: "$serverURL/${value.images!.first['destination']}-mini.webp",
                   createdAt: value.createdAt!,
                   price: value.price!,
-                  sizeID: sizeId,
-                  colorID: colorId,
+                  sizeID: 0,
+                  colorID: value.colors![index].id!,
                   airplane: value.airPlane!,
                 );
                 Get.back();
@@ -188,7 +185,7 @@ class _AddCartButtonState extends State<AddCartButton> {
     );
   }
 
-  void sizeEmptyOnlyColor(ProductByIDModel value, int sizeId, int colorId) {
+  void onlySizesSelect(ProductByIDModel value) {
     Get.defaultDialog(
       title: 'selectSize'.tr,
       titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
@@ -201,15 +198,14 @@ class _AddCartButtonState extends State<AddCartButton> {
             width: Get.size.width,
             child: ElevatedButton(
               onPressed: () {
-                sizeId = value.sizes![index].id!;
                 cartController.addToCard(
                   id: widget.id,
                   name: value.name!,
                   image: "$serverURL/${value.images!.first['destination']}-mini.webp",
                   createdAt: value.createdAt!,
                   price: value.price!,
-                  sizeID: sizeId,
-                  colorID: colorId,
+                  sizeID: value.sizes![index].id!,
+                  colorID: 0,
                   airplane: value.airPlane!,
                 );
                 Get.back();
@@ -236,7 +232,7 @@ class _AddCartButtonState extends State<AddCartButton> {
     );
   }
 
-  void sizeAndColorNotEmpty(ProductByIDModel value, int sizeId, int colorId) {
+  void sizeAndColorSelect(ProductByIDModel value) {
     Get.defaultDialog(
       title: 'selectSize'.tr,
       titleStyle: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
@@ -245,11 +241,10 @@ class _AddCartButtonState extends State<AddCartButton> {
       content: Column(
         children: List.generate(
           value.sizes!.length,
-          (index) => SizedBox(
+          (indexx) => SizedBox(
             width: Get.size.width,
             child: ElevatedButton(
               onPressed: () {
-                sizeId = value.sizes![index].id!;
                 Get.back();
                 Get.defaultDialog(
                   title: 'selectColor'.tr,
@@ -263,15 +258,14 @@ class _AddCartButtonState extends State<AddCartButton> {
                         width: Get.size.width,
                         child: ElevatedButton(
                           onPressed: () {
-                            colorId = value.colors![index].id!;
                             cartController.addToCard(
                               id: widget.id,
                               name: value.name!,
                               image: "$serverURL/${value.images!.first['destination']}-mini.webp",
                               createdAt: value.createdAt!,
                               price: value.price!,
-                              sizeID: sizeId,
-                              colorID: colorId,
+                              sizeID: value.sizes![indexx].id!,
+                              colorID: value.colors![index].id!,
                               airplane: value.airPlane!,
                             );
                             Get.back();
@@ -298,7 +292,7 @@ class _AddCartButtonState extends State<AddCartButton> {
               },
               style: ElevatedButton.styleFrom(elevation: 0.6, shape: const RoundedRectangleBorder(borderRadius: borderRadius5)),
               child: Text(
-                value.sizes![index].name!,
+                value.sizes![indexx].name!,
                 style: TextStyle(
                   color: colorController.mainColor,
                   fontFamily: gilroySemiBold,
@@ -309,7 +303,7 @@ class _AddCartButtonState extends State<AddCartButton> {
           ),
         ),
       ),
-    ).then((value2) {});
+    );
   }
 
   Container numberPart() {
@@ -351,7 +345,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                 horizontal: 30,
               ),
               padding: const EdgeInsets.symmetric(vertical: 3),
-              decoration: BoxDecoration(color: widget.productProfil ? Colors.white : kPrimaryColor.withOpacity(0.1), borderRadius: borderRadius5),
+              decoration: BoxDecoration(color: widget.productProfil ? Colors.white : colorController.mainColor.withOpacity(0.1), borderRadius: borderRadius5),
               child: Text(
                 '$quantity',
                 textAlign: TextAlign.center,

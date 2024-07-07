@@ -79,6 +79,8 @@ class SignInService {
         'phone': phone,
       }),
     );
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       if (phone == '62990344') {
