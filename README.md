@@ -1,6 +1,6 @@
 # Alybaba E-Commerce
 
-Alybaba E-Commerce is a Flutter-based mobile application designed for seamless online shopping. This app is available on both Android and iOS platforms, providing a user-friendly interface and a wide range of features to enhance the shopping experience.
+Alybaba is a virtual marketplace that offers various products for your home, garden, car, clothing, children, and more, all sourced from China. Whether you’re looking to buy in bulk or just a few items, Alybaba provides a seamless shopping experience for both retail and wholesale purchases.
 
 ## Google Play Store
 Download the app from the Google Play Store:
