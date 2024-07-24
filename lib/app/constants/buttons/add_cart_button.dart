@@ -57,9 +57,8 @@ class _AddCartButtonState extends State<AddCartButton> {
     return GestureDetector(
       onTap: () {
         agreeButtonLoading = !agreeButtonLoading;
-        setState(() {});
+        // setState(() {});
         if (agreeButtonLoading == true) {
-          print('Comes herrr____________________________');
           ProductsService().getProductByID(widget.id).then((value) {
             addCartBool = !addCartBool;
             if (value.sizes!.isEmpty && value.colors!.isEmpty) {
@@ -73,14 +72,14 @@ class _AddCartButtonState extends State<AddCartButton> {
                 colorID: 0,
                 airplane: value.airPlane!,
               );
+              agreeButtonLoading = false;
+
               showSnackBar(
                 'added',
                 'addedSubtitle',
                 colorController.mainColor,
               );
             } else {
-              print(value.sizes);
-              print(value.colors);
               if (value.sizes!.isEmpty) {
                 onlyColorsSelect(value);
               } else if (value.colors!.isEmpty) {
@@ -88,6 +87,7 @@ class _AddCartButtonState extends State<AddCartButton> {
               } else {
                 sizeAndColorSelect(value);
               }
+              agreeButtonLoading = false;
             }
           });
         } else {
@@ -325,6 +325,7 @@ class _AddCartButtonState extends State<AddCartButton> {
                   quantity = 1;
                   addCartBool = false;
                 }
+
                 cartController.minusCardElement(widget.id);
                 setState(() {});
               },

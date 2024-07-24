@@ -20,9 +20,9 @@ class HomeController extends GetxController {
   late Future<List<BannerModel>> minibannerFuture;
   late Future<List<ProductModel>> newItemsProducts;
   List parameters = [
-    {'new_in_come': 'true', 'page': '0', 'limit': '15', 'sort_column': 'created_at', 'sort_direction': 'DESC'},
-    {'recomended': 'true', 'page': '0', 'limit': '15', 'sort_column': 'random', 'sort_direction': 'ASC'},
-    {'on_hand': 'true', 'page': '0', 'limit': '15', 'sort_column': 'random', 'sort_direction': 'ASC'},
+    {'new_in_come': 'true', 'page': '0', 'limit': '20', 'sort_column': 'random', 'sort_direction': 'DESC'},
+    {'recomended': 'true', 'page': '0', 'limit': '20', 'sort_column': 'random', 'sort_direction': 'ASC'},
+    {'on_hand': 'true', 'page': '0', 'limit': '20', 'sort_column': 'random', 'sort_direction': 'ASC'},
   ];
 
   //

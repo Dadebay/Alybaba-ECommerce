@@ -90,6 +90,7 @@ class MyTranslations extends Translations {
           'order_status_wait': 'Sargyt edilenler',
           'order': 'Sargyt',
           'orderAdress': 'Eltip bermek üçin salgyňyz',
+          'orderComesThatDaySubtitleDAILY': 'gün aralygynda gelýär',
           'orderComesThatDaySubtitle': 'hepde aralygynda gelýär',
           'orderComesThatDayTitle': 'Zakaz eden harytlaryňyz ',
           'orderProducts': 'Sargyt et',
@@ -258,7 +259,10 @@ class MyTranslations extends Translations {
           'plain': 'Cамолет',
           'train': 'Фура',
           'container': 'Контейнер',
-          'orderComesThatDayTitle': 'Заказанный товар прибудет в течение',
+          'orderComesThatDayTitle': 'Заказанный товар будет доставлен в течение',
+
+          'orderComesThatDaySubtitleDAILY': 'дней',
+
           'orderComesThatDaySubtitle': 'недель',
           'selectColor': 'Выбери цвет!',
           'selectSize': 'Выберите размер!',
@@ -467,6 +471,7 @@ class MyTranslations extends Translations {
           'train': 'Globetrotter',
           'container': 'Container',
           'orderComesThatDayTitle': 'Your ordered goods will arrive within',
+          'orderComesThatDaySubtitleDAILY': 'days',
           'orderComesThatDaySubtitle': 'weeks',
           'selectColor': 'Choose a color!',
           'selectSize': 'Choose a size!',

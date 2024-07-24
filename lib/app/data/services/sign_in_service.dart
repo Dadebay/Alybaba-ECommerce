@@ -79,8 +79,6 @@ class SignInService {
         'phone': phone,
       }),
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
       if (phone == '62990344') {
@@ -89,7 +87,8 @@ class SignInService {
         await Auth().login(responseJson['data'].toString());
       }
       await Auth().setToken(responseJson['access_token']);
-      showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
+
+      showSnackBarOTP('Sms kod', responseJson['code'].toString(), Colors.green);
       return response.statusCode;
     } else {
       return response.statusCode;
@@ -108,7 +107,7 @@ class SignInService {
     );
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
-      showSnackBar('Sms kod', responseJson['code'].toString(), Colors.green);
+      showSnackBarOTP('Sms kod', responseJson['code'].toString(), Colors.green);
       await Auth().setToken(responseJson['access_token']);
       return response.statusCode;
     } else {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
+import 'package:restart_app/restart_app.dart';
 
 class ChangeLangButton extends StatelessWidget {
   ChangeLangButton({required this.index, Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ class ChangeLangButton extends StatelessWidget {
           minVerticalPadding: 0,
           onTap: () {
             userProfilController.switchLang(langText[index]);
-            Get.back();
+            Restart.restartApp();
           },
           leading: CircleAvatar(
             backgroundImage: AssetImage(

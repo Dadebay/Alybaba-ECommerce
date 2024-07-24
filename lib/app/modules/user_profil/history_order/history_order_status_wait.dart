@@ -62,9 +62,9 @@ class HistoryOrderProductProfil extends StatelessWidget {
         future: HistoryOrdersService().getHistoryByID(id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: spinKit());
+            return spinKit();
           } else if (snapshot.hasError) {
-            return const Center(child: Text('Error'));
+            return locationPageError();
           }
           return Column(
             children: [

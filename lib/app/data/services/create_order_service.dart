@@ -93,8 +93,6 @@ class CreateOrderService {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
-    print(response.body);
-    print(response.statusCode);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body);
 

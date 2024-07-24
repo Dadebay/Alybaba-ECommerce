@@ -28,14 +28,14 @@ Future<void> backgroundNotificationHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  await Firebase.initializeApp(
-    options: FirebaseOptions(apiKey: 'AIzaSyCfzBIvElHvwHcsv5hhw-d5B-g9L6tSS10', appId: '1:356389098157:android:e6af87857c717281062c24', messagingSenderId: '356389098157', projectId: 'alybaba-a3ccb'),
-  ).then((value) {});
+
   await GetStorage.init();
   await FCMConfig().requestPermission();
   await FCMConfig().initAwesomeNotification();
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
-
+  await Firebase.initializeApp(
+    options: FirebaseOptions(apiKey: 'AIzaSyCfzBIvElHvwHcsv5hhw-d5B-g9L6tSS10', appId: '1:356389098157:android:e6af87857c717281062c24', messagingSenderId: '356389098157', projectId: 'alybaba-a3ccb'),
+  );
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

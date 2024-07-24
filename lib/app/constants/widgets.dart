@@ -84,6 +84,32 @@ Widget searchField(TextEditingController controller) {
   );
 }
 
+SnackbarController showSnackBarOTP(String title, String subtitle, Color color) {
+  if (SnackbarController.isSnackbarBeingShown) {
+    SnackbarController.cancelAllSnackbars();
+  }
+  return Get.snackbar(
+    title,
+    subtitle,
+    snackStyle: SnackStyle.FLOATING,
+    titleText: title == ''
+        ? const SizedBox.shrink()
+        : Text(
+            title.tr,
+            style: const TextStyle(fontFamily: gilroySemiBold, fontSize: 18, color: Colors.white),
+          ),
+    messageText: Text(
+      subtitle.tr,
+      style: const TextStyle(fontFamily: gilroySemiBold, fontSize: 18, color: Colors.white),
+    ),
+    snackPosition: SnackPosition.TOP,
+    backgroundColor: color,
+    borderRadius: 20.0,
+    duration: const Duration(seconds: 5),
+    margin: const EdgeInsets.all(8),
+  );
+}
+
 SnackbarController showSnackBar(String title, String subtitle, Color color) {
   if (SnackbarController.isSnackbarBeingShown) {
     SnackbarController.cancelAllSnackbars();
@@ -102,6 +128,8 @@ SnackbarController showSnackBar(String title, String subtitle, Color color) {
       subtitle.tr,
       style: const TextStyle(fontFamily: gilroyRegular, fontSize: 16, color: Colors.white),
     ),
+    borderColor: Colors.white,
+    borderWidth: 2,
     snackPosition: SnackPosition.TOP,
     backgroundColor: color,
     borderRadius: 20.0,

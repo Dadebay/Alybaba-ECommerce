@@ -6,6 +6,7 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/constants/custom_app_bar.dart';
 import 'package:nabelli_ecommerce/app/constants/loaders/loader_widgets.dart';
 import 'package:nabelli_ecommerce/app/constants/widgets.dart';
+import 'package:nabelli_ecommerce/app/data/services/abous_us_service.dart';
 import 'package:nabelli_ecommerce/app/data/services/create_order_service.dart';
 
 import '../../../constants/text_fields/custom_text_field.dart';
@@ -40,7 +41,7 @@ class _OrderPageState extends State<OrderPage> {
   late final Future<GetOrderInfoModel> orderModel;
   final FocusNode orderPhoneNumber = FocusNode();
   OrderType orderType = OrderType.train;
-  int orderTypeNum = -1;
+  int orderTypeNum = 1;
   final FocusNode orderUserName = FocusNode();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
@@ -88,11 +89,11 @@ class _OrderPageState extends State<OrderPage> {
             labelName: 'orderAdress',
             controller: addressController,
             focusNode: orderAdressFocusNode,
-            requestfocusNode: orderUserName,
+            requestfocusNode: orderAdressFocusNode,
             isNumber: false,
             borderRadius: true,
             maxline: 4,
-            unFocus: false,
+            unFocus: true,
           ),
         ],
       ),
@@ -100,6 +101,9 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   Widget orderTypeWidget(GetOrderInfoModel model) {
+    final bool showDate = int.parse(model.transports![0].maxWeek.toString()) > 10;
+    final bool showDate1 = int.parse(model.transports![1].maxWeek.toString()) > 10;
+    final bool showDate2 = int.parse(model.transports![2].maxWeek.toString()) > 10;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -110,8 +114,9 @@ class _OrderPageState extends State<OrderPage> {
             style: const TextStyle(color: Colors.black, fontFamily: gilroySemiBold, fontSize: 20),
           ),
         ),
-        widget.airPlane
-            ? RadioListTile<OrderType>(
+        model.transports![0].minWeek == 0 && model.transports![0].maxWeek == 0
+            ? const SizedBox.shrink()
+            : RadioListTile<OrderType>(
                 contentPadding: EdgeInsets.zero,
                 value: OrderType.train,
                 groupValue: orderType,
@@ -127,11 +132,12 @@ class _OrderPageState extends State<OrderPage> {
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
                 ),
                 subtitle: Text(
-                  '${'orderComesThatDayTitle'.tr} ${model.transports!.first.minWeek}-${model.transports!.first.maxWeek} ${'orderComesThatDaySubtitle'.tr}',
+                  showDate
+                      ? '${'orderComesThatDayTitle'.tr} ${model.transports![0].minWeek.toString().substring(0, 1)}-${model.transports![0].maxWeek.toString().substring(0, 1)} ${'orderComesThatDaySubtitleDAILY'.tr}'
+                      : '${'orderComesThatDayTitle'.tr} ${model.transports![0].minWeek}-${model.transports![0].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
                   style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
                 ),
-              )
-            : const SizedBox.shrink(),
+              ),
         model.transports![1].minWeek == 0 && model.transports![1].maxWeek == 0
             ? const SizedBox.shrink()
             : Padding(
@@ -152,7 +158,9 @@ class _OrderPageState extends State<OrderPage> {
                     style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
                   ),
                   subtitle: Text(
-                    '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
+                    showDate1
+                        ? '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek.toString().substring(0, 1)}-${model.transports![1].maxWeek.toString().substring(0, 1)} ${'orderComesThatDaySubtitleDAILY'.tr}'
+                        : '${'orderComesThatDayTitle'.tr} ${model.transports![1].minWeek}-${model.transports![1].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
                     style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
                   ),
                 ),
@@ -175,7 +183,9 @@ class _OrderPageState extends State<OrderPage> {
                   style: const TextStyle(color: Colors.black, fontFamily: gilroyMedium),
                 ),
                 subtitle: Text(
-                  '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
+                  showDate2
+                      ? '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek.toString().substring(0, 1)}-${model.transports![2].maxWeek.toString().substring(0, 1)} ${'orderComesThatDaySubtitleDAILY'.tr}'
+                      : '${'orderComesThatDayTitle'.tr} ${model.transports![2].minWeek}-${model.transports![2].maxWeek} ${'orderComesThatDaySubtitle'.tr}',
                   style: const TextStyle(color: Colors.black54, fontFamily: gilroyRegular),
                 ),
               ),
@@ -270,7 +280,7 @@ class _OrderPageState extends State<OrderPage> {
                       showSnackBar('orderComplete', 'orderCompletedTrue', Colors.green);
                       homeController.agreeButton.value = !homeController.agreeButton.value;
                     } else {
-                      showSnackBar('errorTitle $value', 'error', Colors.red);
+                      showSnackBar('errorTitle'.tr + '$value', 'error', Colors.red);
                       homeController.agreeButton.value = !homeController.agreeButton.value;
                     }
                   });
@@ -296,7 +306,9 @@ class _OrderPageState extends State<OrderPage> {
         } else if (snapshot.hasError) {
           return const Text('Error');
         }
-        return Column(
+        return ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             Container(
               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
@@ -326,6 +338,29 @@ class _OrderPageState extends State<OrderPage> {
                   ),
                 ],
               ),
+            ),
+            FutureBuilder<dynamic>(
+              future: AboutUsService().getRules(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return spinKit();
+                } else if (snapshot.hasError) {
+                  return SizedBox.shrink();
+                } else if (snapshot.data == null) {
+                  return SizedBox.shrink();
+                }
+                String lang = Get.locale!.languageCode;
+                if (lang == 'tr' || lang == 'en') {
+                  lang = 'tm';
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    lang == 'tm' ? snapshot.data!['privacy_tm'] : snapshot.data!['privacy_ru'],
+                    style: const TextStyle(color: Colors.grey, fontFamily: gilroyRegular, fontSize: 18),
+                  ),
+                );
+              },
             ),
           ],
         );

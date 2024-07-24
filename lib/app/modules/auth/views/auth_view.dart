@@ -91,7 +91,6 @@ class AuthView extends StatelessWidget {
   dynamic singUpUser() {
     SignInService().sendCode(phone: phoneNumberController.text).then((value) {
       if (value == 200) {
-        print('SIGN UP BOLDU___________________________________________________________________');
         Get.to(
           () => OtpCheck(
             phoneNumber: phoneNumberController.text,
@@ -114,8 +113,6 @@ class AuthView extends StatelessWidget {
   dynamic loginUser() {
     SignInService().login(phone: phoneNumberController.text).then((value) {
       if (value == 200) {
-        print('___________________________________________________________________LOGIN');
-
         Get.to(() => OtpCheck(phoneNumber: phoneNumberController.text.toString(), register: false, userName: '', referalKod: ''));
         homeController.agreeButton.value = !homeController.agreeButton.value;
       } else if (value == 409) {

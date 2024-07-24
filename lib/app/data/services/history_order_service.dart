@@ -25,8 +25,6 @@ class HistoryOrdersService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body)['rows'];
       for (final Map product in responseJson) {
@@ -53,8 +51,6 @@ class HistoryOrdersService {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       final responseJson = json.decode(response.body)['data'];
       return HistoryOrdersModelByID.fromJson(responseJson);
