@@ -1,0 +1,55 @@
+name: nabelli_ecommerce
+version: 1.0.9+9
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+dependencies:
+  cached_network_image: any
+  carousel_slider: ^4.0.0
+  cupertino_icons: ^1.0.2
+  cloud_firestore:
+  firebase_messaging: ^14.7.10
+  flutter:
+    sdk: flutter
+  flutter_iconly: ^1.0.2
+  awesome_notifications:
+  permission_handler: ^11.0.1
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  http: any
+  lottie: ^3.0.0
+  pull_to_refresh: ^2.0.0
+  share: any
+  restart_app: ^1.2.1
+  url_launcher: ^6.1.11
+  photo_view: ^0.14.0
+  firebase_core_platform_interface:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/lottie/
+    - assets/image/
+
+  fonts:
+    - family: GilroyBold
+      fonts:
+        - asset: assets/fonts/Gilroy-Bold.ttf
+    - family: GilroySemiBold
+      fonts:
+        - asset: assets/fonts/Gilroy-SemiBold.ttf
+    - family: GilroyMedium
+      fonts:
+        - asset: assets/fonts/Gilroy-Medium.ttf
+    - family: GilroyRegular
+      fonts:
+        - asset: assets/fonts/Gilroy-Regular.ttf
+  uses-material-design: true
+  generate: true
