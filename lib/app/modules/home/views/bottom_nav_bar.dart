@@ -28,6 +28,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       bottomNavigationBar: bottomNavBar(),
       bottomSheet: selectedIndex == 2 ? bottomSheetOrderPrice() : SizedBox.shrink(),
       appBar: selectedIndex == 0
@@ -44,32 +45,76 @@ class _BottomNavBarState extends State<BottomNavBar> {
     );
   }
 
-  BottomNavigationBar bottomNavBar() {
-    return BottomNavigationBar(
-      backgroundColor: Colors.white,
-      iconSize: 22,
-      type: BottomNavigationBarType.fixed,
-      showSelectedLabels: true,
-      showUnselectedLabels: true,
-      selectedItemColor: colorController.mainColor,
-      useLegacyColorScheme: true,
-      selectedLabelStyle: const TextStyle(fontFamily: gilroySemiBold, fontSize: 13),
-      unselectedLabelStyle: const TextStyle(fontFamily: gilroyMedium, fontSize: 12),
-      currentIndex: selectedIndex,
-      onTap: (index) async {
-        setState(() {
-          selectedIndex = index;
-        });
-      },
-      items: List.generate(
-        4,
-        (index) => BottomNavigationBarItem(
-          icon: Icon(icons[index]),
-          activeIcon: Icon(iconsBold[index]),
-          label: '${pageTitle[index]}'.tr,
-          tooltip: '${pageTitle[index]}'.tr,
+  Widget bottomNavBar() {
+    return Obx(() {
+      print(cartController.list.length);
+      return BottomNavigationBar(
+        backgroundColor: Colors.white,
+        iconSize: 26,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        selectedItemColor: colorController.mainColor,
+        useLegacyColorScheme: true,
+        selectedLabelStyle: const TextStyle(fontFamily: gilroySemiBold, fontSize: 13),
+        unselectedLabelStyle: const TextStyle(fontFamily: gilroyMedium, fontSize: 12),
+        currentIndex: selectedIndex,
+        onTap: (index) async {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        items: List.generate(
+          4,
+          (index) => BottomNavigationBarItem(
+            icon: cartController.list.length > 0
+                ? index == 2
+                    ? iconWithBadge(index, false)
+                    : Icon(
+                        icons[index],
+                      )
+                : Icon(icons[index]),
+            activeIcon: cartController.list.length > 0
+                ? index == 2
+                    ? iconWithBadge(index, true)
+                    : Icon(
+                        iconsBold[index],
+                      )
+                : Icon(iconsBold[index]),
+            label: '${pageTitle[index]}'.tr,
+            tooltip: '${pageTitle[index]}'.tr,
+          ),
         ),
-      ),
+      );
+    });
+  }
+
+  Stack iconWithBadge(int index, bool active) {
+    return Stack(
+      children: [
+        Icon(
+          active ? iconsBold[index] : icons[index],
+        ),
+        Positioned(
+          right: 0,
+          top: -4,
+          child: Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: Text(
+              cartController.list.length.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontFamily: gilroyBold,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -6,7 +6,9 @@ import 'package:nabelli_ecommerce/app/constants/constants.dart';
 import 'package:nabelli_ecommerce/app/data/models/product_model.dart';
 import 'package:nabelli_ecommerce/app/data/services/product_service.dart';
 import 'package:nabelli_ecommerce/app/modules/cart_page/controllers/cart_page_controller.dart';
+import 'package:nabelli_ecommerce/app/modules/user_profil/controllers/user_profil_controller.dart';
 
+import '../../modules/auth/views/auth_view.dart';
 import '../widgets.dart';
 
 class AddCartButton extends StatefulWidget {
@@ -29,6 +31,7 @@ class _AddCartButtonState extends State<AddCartButton> {
   int quantity = 1;
 
   final CartPageController cartController = Get.put(CartPageController());
+  final UserProfilController userProfilController = Get.put(UserProfilController());
   @override
   void initState() {
     super.initState();
@@ -56,44 +59,49 @@ class _AddCartButtonState extends State<AddCartButton> {
   GestureDetector buttonPart() {
     return GestureDetector(
       onTap: () {
-        agreeButtonLoading = !agreeButtonLoading;
-        // setState(() {});
-        if (agreeButtonLoading == true) {
-          ProductsService().getProductByID(widget.id).then((value) {
-            addCartBool = !addCartBool;
-            if (value.sizes!.isEmpty && value.colors!.isEmpty) {
-              cartController.addToCard(
-                id: widget.id,
-                name: value.name!,
-                image: "$serverURL/${value.images!.first['destination']}-mini.webp",
-                createdAt: value.createdAt!,
-                price: value.price!,
-                sizeID: 0,
-                colorID: 0,
-                airplane: value.airPlane!,
-              );
-              agreeButtonLoading = false;
+        if (userProfilController.userLogin.value == true) {
+          agreeButtonLoading = !agreeButtonLoading;
 
-              showSnackBar(
-                'added',
-                'addedSubtitle',
-                colorController.mainColor,
-              );
-            } else {
-              if (value.sizes!.isEmpty) {
-                onlyColorsSelect(value);
-              } else if (value.colors!.isEmpty) {
-                onlySizesSelect(value);
+          if (agreeButtonLoading == true) {
+            ProductsService().getProductByID(widget.id).then((value) {
+              addCartBool = !addCartBool;
+              if (value.sizes!.isEmpty && value.colors!.isEmpty) {
+                cartController.addToCard(
+                  id: widget.id,
+                  name: value.name!,
+                  image: "$serverURL/${value.images!.first['destination']}-mini.webp",
+                  createdAt: value.createdAt!,
+                  price: value.price!,
+                  sizeID: 0,
+                  colorID: 0,
+                  airplane: value.airPlane!,
+                );
+                agreeButtonLoading = false;
+
+                showSnackBar(
+                  'added',
+                  'addedSubtitle',
+                  colorController.mainColor,
+                );
               } else {
-                sizeAndColorSelect(value);
+                if (value.sizes!.isEmpty) {
+                  onlyColorsSelect(value);
+                } else if (value.colors!.isEmpty) {
+                  onlySizesSelect(value);
+                } else {
+                  sizeAndColorSelect(value);
+                }
+                agreeButtonLoading = false;
               }
-              agreeButtonLoading = false;
-            }
-          });
+            });
+          } else {
+            showSnackBar('waitMyMan', 'waitMyManSubtitle', Colors.red);
+          }
+          setState(() {});
         } else {
-          showSnackBar('waitMyMan', 'waitMyManSubtitle', Colors.red);
+          showSnackBar('loginError', 'loginError1', Colors.red);
+          Get.to(() => AuthView());
         }
-        setState(() {});
       },
       child: Container(
         width: widget.productProfil ? null : Get.size.width,

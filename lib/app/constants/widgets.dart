@@ -240,27 +240,28 @@ void logOut() {
   );
 }
 
-Padding listViewName(String text, bool icon, Size size, Function() onTap) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, right: 15, top: 35, bottom: 10),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text.tr,
-          style: TextStyle(color: Colors.black, fontSize: size.width >= 800 ? 30 : 22, fontFamily: gilroyBold),
-        ),
-        icon
-            ? GestureDetector(
-                onTap: onTap,
-                child: Icon(
+Widget listViewName(String text, bool icon, Size size, Function() onTap) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      color: Colors.white,
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 35, bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            text.tr,
+            style: TextStyle(color: Colors.black, fontSize: size.width >= 800 ? 30 : 22, fontFamily: gilroyBold),
+          ),
+          icon
+              ? Icon(
                   IconlyBroken.arrowRightCircle,
                   color: Colors.black,
                   size: size.width >= 800 ? 35 : 25,
-                ),
-              )
-            : const SizedBox.shrink(),
-      ],
+                )
+              : const SizedBox.shrink(),
+        ],
+      ),
     ),
   );
 }
